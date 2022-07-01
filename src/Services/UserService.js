@@ -242,7 +242,48 @@ let createNewUser = (data) => {
     }
   });
 };
+const updateAccount = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let account = await db.Accounts.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
+      if (account) {
+        account.email = data.email;
+        account.fullName = data.fullName;
+        account.userName = data.userName;
+        account.roleId = data.roleId;
+        // booking.CenterId = data.positionId;
+        // booking.ServiceId = data.gender;
+        // booking.StartTime = data.phonenumber;
+        // booking.EndTime = data.gender;
+        // booking.Status = data.Status;
+        if (data.avatar) account.avatar = data.avatar;
 
+        await account.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Update account is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "account not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 let signUpNewUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -464,6 +505,7 @@ module.exports = {
   handleUserLoginForStaff,
   createNewUser,
   getAllAccount,
+  updateAccount,
   getAllUser,
   getEditUser,
   updateUser,

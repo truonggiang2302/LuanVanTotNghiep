@@ -53,6 +53,11 @@ const handleGetAllAccountForAdmin = async (req, res) => {
     totalPage: Math.ceil(accounts.count / 10),
   });
 };
+const handleUpdateAccount = async (req, res) => {
+  let data = req.body;
+  let message = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
 let handleLoginSocial = async (req, res) => {
   let email = req.body.email;
   let id = req.body.userID;
@@ -151,6 +156,7 @@ module.exports = {
   handleGetAllAccountForAdmin,
   handleCreateNewUser,
   handleLoginForStaff,
+  handleUpdateAccount,
   //   getAllRoles,
 
   //   handleGetAllUser,

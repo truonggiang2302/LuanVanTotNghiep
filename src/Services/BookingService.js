@@ -100,9 +100,53 @@ const getDetailBookingOfPT = (id) => {
     }
   });
 };
+const updateStatusBooking = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.bookingId) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let booking = await db.Booking.findOne({
+        where: { id: data.bookingId },
+        raw: false,
+      });
+      if (booking) {
+        // booking.CustomerId = data.firstName;
+        // booking.PTId = data.lastName;
+        // booking.CustomerName = data.address;
+        // booking.PTName = data.roleId;
+        // booking.CenterId = data.positionId;
+        // booking.ServiceId = data.gender;
+        // booking.StartTime = data.phonenumber;
+        // booking.EndTime = data.gender;
+        booking.Status = data.Status;
+        // if (data.avatar)
+        //     user.image = data.avatar;
+
+        await booking.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Accept booking is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "booking not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllBooking,
   getDetailBookingOfPT,
   getAllBookingOfPT,
   getAllBookingOfCenter,
+  updateStatusBooking,
 };
