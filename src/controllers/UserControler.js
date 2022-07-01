@@ -2,6 +2,27 @@ import Account from "../models/Account";
 import db from "../models/index";
 import UserService from "../Services/UserService";
 
+const handleLoginCustomer = async (req, res) => {
+  // console.log("check data from: ", req.body);
+
+  let email = req.body.email;
+  let password = req.body.password;
+
+  if (!email || !password) {
+    return res.status(500).json({
+      errorCode: 1,
+      message: "Missing inputs parameter!",
+    });
+  }
+  // console.log("check data from: ", req.body);
+  let userData = await UserService.handleUserLoginForCustomer(email, password);
+
+  return res.status(200).json({
+    errorCode: userData.errorCode,
+    message: userData.errMessage,
+    data: userData.user ? userData.user : {},
+  });
+};
 const handleLogin = async (req, res) => {
   console.log("check data from: ", req.body);
 
@@ -24,7 +45,7 @@ const handleLogin = async (req, res) => {
   });
 };
 const handleLoginForStaff = async (req, res) => {
-  console.log("check data from: ", req.body);
+  // console.log("check data from: ", req.body);
 
   let email = req.body.email;
   let password = req.body.password;
@@ -83,7 +104,20 @@ let handleLoginSocial = async (req, res) => {
     errMessage: message.errMessage,
   });
 };
-
+const handleGetAccountByName = async (req, res) => {
+  let email = req.query.email;
+  if (email) {
+    let account = await UserService.getAccountByName(email);
+    return res.status(200).json({
+      account,
+    });
+  } else {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Mising name",
+    });
+  }
+};
 let getAllRoles = async (req, res) => {
   try {
     let data = await UserService.getAllRoles();
@@ -154,9 +188,11 @@ let handleDeleteUser = async (req, res) => {
 module.exports = {
   handleLogin,
   handleGetAllAccountForAdmin,
+  handleLoginCustomer,
   handleCreateNewUser,
   handleLoginForStaff,
   handleUpdateAccount,
+  handleGetAccountByName,
   //   getAllRoles,
 
   //   handleGetAllUser,

@@ -1,6 +1,8 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
+const Sequelize = require("sequelize");
+const op = Sequelize.Op;
 require("dotenv").config();
 var salt = bcrypt.genSaltSync(10);
 var cloudinary = require("cloudinary").v2;
@@ -55,8 +57,27 @@ const getAllCustomerOfCenter = async (req) => {
     }
   });
 };
+let getCustomerByName = (nameInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let customer = await db.Customer.findAll({
+        where: { CustomerName: { [op.iLike]: `%${nameInput}%` } },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
 
+      resolve(customer);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllCustomer,
   getAllCustomerOfCenter,
+  getCustomerByName,
 };

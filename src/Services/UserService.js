@@ -1,6 +1,8 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
+const Sequelize = require("sequelize");
+const op = Sequelize.Op;
 require("dotenv").config();
 var salt = bcrypt.genSaltSync(10);
 var cloudinary = require("cloudinary").v2;
@@ -154,6 +156,54 @@ let handleUserLoginForStaff = async (email, password) => {
     }
   });
 };
+let handleUserLoginForCustomer = async (email, password) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let userData = {};
+      let isExist = await checkUserEmail(email);
+      if (isExist) {
+        let user = await db.Accounts.findOne({
+          where: {
+            email: email,
+            // , roleId: [1]
+          },
+          attributes: [
+            "id",
+            "email",
+            "roleId",
+            "password",
+            "fullName",
+            "avatar",
+          ],
+          raw: true,
+        });
+        if (user) {
+          // compare pass //
+          let check = bcrypt.compareSync(password, user.password);
+          if (check) {
+            userData.errorCode = 0;
+            userData.errMessage = `Ok`;
+
+            delete user.password; // ko lay password cua user //
+            userData.user = user;
+          } else {
+            userData.errorCode = 3;
+            userData.errMessage = `Wrong pass`;
+          }
+        } else {
+          userData.errorCode = 2;
+          userData.errMessage = `User isn't exist`;
+        }
+      } else {
+        userData.errorCode = 1;
+        userData.errMessage = `Your's email isn't exist in our system`;
+      }
+      resolve(userData);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllAccount = async (payloadReq) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -175,6 +225,26 @@ const getAllAccount = async (payloadReq) => {
     }
   });
 };
+let getAccountByName = (nameInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let account = await db.Accounts.findAll({
+        where: { email: { [op.iLike]: `%${nameInput}%` } },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(account);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 let handleUserLoginSocial = async (email, id, name, avatar) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -503,6 +573,8 @@ let deleteUser = (id) => {
 module.exports = {
   getAllRoles,
   handleUserLoginForStaff,
+  handleUserLoginForCustomer,
+  getAccountByName,
   createNewUser,
   getAllAccount,
   updateAccount,

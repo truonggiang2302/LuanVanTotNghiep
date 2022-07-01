@@ -23,7 +23,22 @@ const handleGetServiceDetail = async (req, res) => {
     serviceDetail,
   });
 };
+const handleGetServiceByName = async (req, res) => {
+  let serviceName = req.query.serviceName;
+  if (serviceName) {
+    let service = await ServiceOfCenterService.getServiceByName(serviceName);
+    return res.status(200).json({
+      service,
+    });
+  } else {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Mising name",
+    });
+  }
+};
 module.exports = {
   handleGetAllService,
   handleGetServiceDetail,
+  handleGetServiceByName,
 };

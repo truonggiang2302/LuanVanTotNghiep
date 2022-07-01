@@ -1,6 +1,8 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
+const Sequelize = require("sequelize");
+const op = Sequelize.Op;
 require("dotenv").config();
 var salt = bcrypt.genSaltSync(10);
 var cloudinary = require("cloudinary").v2;
@@ -50,7 +52,27 @@ const getDetailCenter = (id) => {
     }
   });
 };
+let getCenterByName = (nameInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let center = await db.GymCenter.findAll({
+        where: { CenterName: { [op.iLike]: `%${nameInput}%` } },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(center);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllCenter,
   getDetailCenter,
+  getCenterByName,
 };

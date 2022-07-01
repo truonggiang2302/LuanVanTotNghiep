@@ -1,6 +1,8 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
+const Sequelize = require("sequelize");
+const op = Sequelize.Op;
 require("dotenv").config();
 var salt = bcrypt.genSaltSync(10);
 var cloudinary = require("cloudinary").v2;
@@ -98,9 +100,56 @@ const getAllStaffOfCenter = async (req) => {
     }
   });
 };
+
+const getAllPTOfCenter = async (page, CenterId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (page - 1) * 10;
+      let pts = await db.Staffs.findAndCountAll({
+        where: {
+          CenterId: CenterId,
+          RoleId: 3,
+        },
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 10,
+        offset: skip,
+        // include: [{ model: db.Roles, as: "UserRoles" }],
+        raw: true,
+        nest: true,
+      });
+
+      resolve(pts);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let getStaffByName = (nameInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let staff = await db.Staffs.findAll({
+        where: { StaffName: { [op.iLike]: `%${nameInput}%` } },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(staff);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllStaff,
   getDetailPT,
   getAllStaffOfCenter,
   getAllPT,
+  getAllPTOfCenter,
+  getStaffByName,
 };

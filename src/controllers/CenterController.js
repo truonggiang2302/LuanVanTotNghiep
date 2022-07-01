@@ -21,8 +21,22 @@ const handleGetDetailCenter = async (req, res) => {
     centerDetail,
   });
 };
-
+const handleGetCenterByName = async (req, res) => {
+  let centerName = req.query.centerName;
+  if (centerName) {
+    let center = await CenterService.getCenterByName(centerName);
+    return res.status(200).json({
+      center,
+    });
+  } else {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Mising name",
+    });
+  }
+};
 module.exports = {
   handleGetAllCenter,
   handleGetDetailCenter,
+  handleGetCenterByName,
 };

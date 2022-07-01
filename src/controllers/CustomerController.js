@@ -20,7 +20,22 @@ const handleGetAllCustomerOfCenter = async (req, res) => {
     totalPage: Math.ceil(customerOfCenter.count / 10),
   });
 };
+const handleGetCustomerByName = async (req, res) => {
+  let customerName = req.query.customerName;
+  if (customerName) {
+    let customer = await CustomerService.getCustomerByName(customerName);
+    return res.status(200).json({
+      customer,
+    });
+  } else {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Mising name",
+    });
+  }
+};
 module.exports = {
   handleGetAllCustomer,
   handleGetAllCustomerOfCenter,
+  handleGetCustomerByName,
 };

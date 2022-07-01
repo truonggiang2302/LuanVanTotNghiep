@@ -39,9 +39,38 @@ const handleGetAllPT = async (req, res) => {
     totalPage: Math.ceil(pts.count / 10),
   });
 };
+const handleGetAllPTOfCenter = async (req, res) => {
+  // console.log(req.query.page, req.params.CenterId);
+  let ptOfCenter = await StaffService.getAllPTOfCenter(
+    req.query.page,
+    req.params.CenterId
+  );
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all pt of center is success",
+    ptOfCenter,
+    totalPage: Math.ceil(ptOfCenter.count / 10),
+  });
+};
+const handleGetStaffByName = async (req, res) => {
+  let staffName = req.query.staffName;
+  if (staffName) {
+    let staff = await StaffService.getStaffByName(staffName);
+    return res.status(200).json({
+      staff,
+    });
+  } else {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Mising name",
+    });
+  }
+};
 module.exports = {
   handleGetAllStaff,
   handleGetPTDetail,
   handleGetAllStaffOfCenter,
   handleGetAllPT,
+  handleGetStaffByName,
+  handleGetAllPTOfCenter,
 };

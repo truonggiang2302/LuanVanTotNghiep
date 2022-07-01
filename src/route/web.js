@@ -16,7 +16,7 @@ let initWebRoutes = (app) => {
   router.get("/", (req, res) => {
     return res.send("Hello world");
   });
-
+  router.post("/api/user-login", UserController.handleLoginCustomer);
   router.post("/api/admin-login", UserController.handleLogin);
   router.post("/api/staff-login", UserController.handleLoginForStaff);
   //account
@@ -26,6 +26,7 @@ let initWebRoutes = (app) => {
     UserController.handleGetAllAccountForAdmin
   );
   router.put("/api/admin/update-account", UserController.handleUpdateAccount);
+  router.get("/api/get-account-by-name", UserController.handleGetAccountByName);
   //staff
   router.get("/api/get-all-staff", StaffController.handleGetAllStaff);
   router.get("/api/get-detail-pt", StaffController.handleGetPTDetail);
@@ -34,24 +35,37 @@ let initWebRoutes = (app) => {
     StaffController.handleGetAllStaffOfCenter
   );
   router.get("/api/get-all-pt", StaffController.handleGetAllPT);
+  router.get(
+    "/api/:CenterId/get-all-pt-center",
+    StaffController.handleGetAllPTOfCenter
+  );
+  router.get("/api/get-staff-by-name", StaffController.handleGetStaffByName);
+
   //customer
   router.get("/api/get-all-customer", CustomerController.handleGetAllCustomer);
   router.get(
     "/api/merchant/:CenterId/customer-center",
     CustomerController.handleGetAllCustomerOfCenter
   );
-
+  router.get(
+    "/api/get-customer-by-name",
+    CustomerController.handleGetCustomerByName
+  );
   //service
   router.get("/api/get-all-service", ServiceController.handleGetAllService);
   router.get(
     "/api/get-detail-service",
     ServiceController.handleGetServiceDetail
   );
+  router.get(
+    "/api/get-service-by-name",
+    ServiceController.handleGetServiceByName
+  );
 
   //center
   router.get("/api/get-all-center", CenterController.handleGetAllCenter);
   router.get("/api/get-detail-center", CenterController.handleGetDetailCenter);
-
+  router.get("/api/get-center-by-name", CenterController.handleGetCenterByName);
   //booking
   router.get("/api/get-all-booking", BookingController.handleGetAllBooking);
   //get booking follow pi id
