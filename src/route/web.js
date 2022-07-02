@@ -28,6 +28,10 @@ let initWebRoutes = (app) => {
   );
   router.put("/api/admin/update-account", UserController.handleUpdateAccount);
   router.get("/api/get-account-by-name", UserController.handleGetAccountByName);
+  router.delete(
+    "/api/admin/delete-account",
+    UserController.handleDeleteAccount
+  );
   //staff
   router.get("/api/get-all-staff", StaffController.handleGetAllStaff);
   router.get("/api/get-detail-pt", StaffController.handleGetPTDetail);
@@ -41,6 +45,7 @@ let initWebRoutes = (app) => {
     StaffController.handleGetAllPTOfCenter
   );
   router.get("/api/get-staff-by-name", StaffController.handleGetStaffByName);
+  router.post("/api/create-staff", StaffController.handleCreateNewStaff);
 
   //customer
   router.get("/api/get-all-customer", CustomerController.handleGetAllCustomer);
@@ -94,6 +99,7 @@ let initWebRoutes = (app) => {
     "/api/get-all-manager",
     ManagerController.handleGetAllManageCenter
   );
+  // router.post("")
 
   //schedule working
   router.get(

@@ -153,6 +153,76 @@ let getStaffByName = (nameInput) => {
     }
   });
 };
+let checkUserEmail = (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.Staffs.findOne({
+        where: { StaffEmail: email },
+      });
+      if (user) resolve(true);
+      else resolve(false);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let hashUserPassword = (password) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let hashPassword = await bcrypt.hashSync(password, salt);
+      resolve(hashPassword);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let createNewStaff = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // check email //
+      let check = await checkUserEmail(data.email);
+      if (check === true) {
+        resolve({
+          errCode: 1,
+          message: "Email da ton tai",
+        });
+      } else {
+        let hashPass = await hashUserPassword(data.password);
+        let result = {};
+        let avatar = "";
+        if (data.avatar && data.fileName) {
+          // upload cloud //
+          result = await uploadCloud(data.avatar, data.fileName);
+        } else {
+          avatar = "";
+        }
+
+        await db.Staffs.create({
+          StaffName: data.fullName,
+          password: hashPass,
+          StaffImage: result && result.secure_url ? result.secure_url : avatar,
+          StaffPhoneNumber: data.phoneNumber,
+          Gender: data.gender,
+          DayOfBirth: data.dayOfBirth,
+          Address: data.address,
+          roleId: data.roleId,
+          StaffEmail: data.email,
+          CenterId: data.centerId,
+          SalaryId: data.salaryId,
+          // isActive: true,
+          // userName: data.userName,
+        });
+
+        resolve({
+          errCode: 0,
+          errMessage: "OK",
+        }); // return
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllStaff,
   getDetailPT,
@@ -160,4 +230,5 @@ module.exports = {
   getAllPT,
   getAllPTOfCenter,
   getStaffByName,
+  createNewStaff,
 };

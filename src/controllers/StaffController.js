@@ -1,6 +1,7 @@
 import Staff from "../models/Staff";
 import db from "../models/index";
 import StaffService from "../Services/StaffService";
+import UserService from "../Services/UserService";
 
 const handleGetAllStaff = async (req, res) => {
   let staffs = await StaffService.getAllStaff(req.query);
@@ -66,6 +67,15 @@ const handleGetStaffByName = async (req, res) => {
     });
   }
 };
+let handleCreateNewStaff = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await StaffService.createNewStaff(req.body);
+  let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    messageCreateAccount,
+  });
+};
 module.exports = {
   handleGetAllStaff,
   handleGetPTDetail,
@@ -73,4 +83,5 @@ module.exports = {
   handleGetAllPT,
   handleGetStaffByName,
   handleGetAllPTOfCenter,
+  handleCreateNewStaff,
 };

@@ -253,7 +253,33 @@ let getAccountByName = (nameInput) => {
     }
   });
 };
+let deleteAccount = (id) => {
+  return new Promise(async (resolve, reject) => {
+    let user = await db.Accounts.findOne({
+      where: { id: id },
+    });
+    if (!user) {
+      resolve({
+        errCode: 2,
+        errMessage: "Account not found",
+      });
+    }
 
+    // if (user.avatar && user.public_id_image) {
+    //     // Xóa hình cũ //
+    //     await cloudinary.uploader.destroy(user.public_id_image, { invalidate: true, resource_type: "raw" },
+    //         function (err, result) { console.log(result) });
+    // }
+
+    await db.Accounts.destroy({
+      where: { id: id },
+    });
+    resolve({
+      errCode: 0,
+      errMessage: "Delete account is success",
+    });
+  });
+};
 let handleUserLoginSocial = async (email, id, name, avatar) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -584,6 +610,7 @@ module.exports = {
   handleUserLoginForStaff,
   handleUserLoginForCustomer,
   getAccountByName,
+  deleteAccount,
   createNewUser,
   getAllAccount,
   updateAccount,

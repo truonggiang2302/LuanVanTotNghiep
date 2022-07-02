@@ -79,6 +79,16 @@ const handleUpdateAccount = async (req, res) => {
   let message = await UserService.updateAccount(data);
   return res.status(200).json(message);
 };
+let handleDeleteAccount = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json(message);
+};
 let handleLoginSocial = async (req, res) => {
   let email = req.body.email;
   let id = req.body.userID;
@@ -193,6 +203,7 @@ module.exports = {
   handleLoginForStaff,
   handleUpdateAccount,
   handleGetAccountByName,
+  handleDeleteAccount,
   //   getAllRoles,
 
   //   handleGetAllUser,
