@@ -1,6 +1,7 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
+import { Op } from "sequelize";
 const Sequelize = require("sequelize");
 const op = Sequelize.Op;
 require("dotenv").config();
@@ -12,11 +13,19 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const getAllService = async (payloadReq) => {
+const getAllService = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const skip = (payloadReq.page - 1) * 10;
+      const skip = (req.query.page - 1) * 10;
+      const nameInput = req.query.ServiceName;
       let services = await db.Services.findAndCountAll({
+        where: {
+          [Op.and]: [
+            nameInput && {
+              ServiceName: { [op.iLike]: `%${nameInput}%` },
+            },
+          ],
+        },
         // attributes: {
         //   exclude: ["password"],
         // },

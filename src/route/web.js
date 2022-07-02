@@ -9,6 +9,7 @@ import BookingController from "../controllers/BookingController";
 import SalaryController from "../controllers/SalaryController";
 import ManagerController from "../controllers/ManagerController";
 import ScheduleWorkingController from "../controllers/ScheduleWorkingController";
+import PaymentController from "../controllers/PaymentController";
 
 let router = express.Router();
 
@@ -99,6 +100,10 @@ let initWebRoutes = (app) => {
     "/api/:StaffId/get-schedule-working",
     ScheduleWorkingController.handleGetScheduleWorkingOfPT
   );
+
+  //payment
+  //momo
+  app.post("/api/get-momo-payment-link", PaymentController.getMomoPaymentLink);
 
   // router.post('/api/user-login', UserController.handleLogin);
   // router.post('/api/user-login-social', UserController.handleLoginSocial);

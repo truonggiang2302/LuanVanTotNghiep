@@ -66,7 +66,7 @@ const handleLoginForStaff = async (req, res) => {
   });
 };
 const handleGetAllAccountForAdmin = async (req, res) => {
-  let accounts = await UserService.getAllAccount(req.query);
+  let accounts = await UserService.getAllAccount(req);
   return res.status(200).json({
     errCode: 0,
     errMessage: "get all accounts is success",

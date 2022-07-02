@@ -1,6 +1,7 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
+import { Op } from "sequelize";
 const Sequelize = require("sequelize");
 const op = Sequelize.Op;
 require("dotenv").config();
@@ -204,11 +205,19 @@ let handleUserLoginForCustomer = async (email, password) => {
     }
   });
 };
-const getAllAccount = async (payloadReq) => {
+const getAllAccount = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const skip = (payloadReq.page - 1) * 10;
+      const skip = (req.query.page - 1) * 10;
+      const nameInput = req.query.fullName;
       let accounts = await db.Accounts.findAndCountAll({
+        where: {
+          [Op.and]: [
+            nameInput && {
+              fullName: { [op.iLike]: `%${nameInput}%` },
+            },
+          ],
+        },
         attributes: {
           exclude: ["password"],
         },

@@ -12,6 +12,7 @@ const handleGetAllCustomer = async (req, res) => {
   });
 };
 const handleGetAllCustomerOfCenter = async (req, res) => {
+  // console.log(req);
   let customerOfCenter = await CustomerService.getAllCustomerOfCenter(req);
   return res.status(200).json({
     errCode: 0,

@@ -3,7 +3,7 @@ import db from "../models/index";
 import ServiceOfCenterService from "../Services/ServiceOfCenterService";
 
 const handleGetAllService = async (req, res) => {
-  let services = await ServiceOfCenterService.getAllService(req.query);
+  let services = await ServiceOfCenterService.getAllService(req);
   return res.status(200).json({
     errCode: 0,
     errMessage: "get all service is success",

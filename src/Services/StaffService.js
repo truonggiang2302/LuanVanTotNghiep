@@ -1,5 +1,7 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
+import { Op } from "sequelize";
+
 import { raw } from "body-parser";
 const Sequelize = require("sequelize");
 const op = Sequelize.Op;
@@ -80,9 +82,15 @@ const getAllStaffOfCenter = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
       const skip = (req.query.page - 1) * 10;
+      const nameInput = req.query.StaffName;
       let staffs = await db.Staffs.findAndCountAll({
         where: {
           CenterId: req.params.CenterId,
+          [Op.and]: [
+            nameInput && {
+              StaffName: { [op.iLike]: `%${nameInput}%` },
+            },
+          ],
         },
         // attributes: {
         //   exclude: ["password"],
