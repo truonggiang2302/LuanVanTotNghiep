@@ -72,6 +72,7 @@ let handleUserLogin = async (email, password) => {
             email: email,
             // , roleId: [1]
           },
+          include: [{ model: db.Manager, as: "AccountManager" }],
           attributes: [
             "id",
             "email",
@@ -90,6 +91,7 @@ let handleUserLogin = async (email, password) => {
             userData.errMessage = `Ok`;
 
             delete user.password; // ko lay password cua user //
+
             userData.user = user;
           } else {
             userData.errorCode = 3;

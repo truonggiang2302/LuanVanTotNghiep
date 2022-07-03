@@ -1,6 +1,7 @@
 import Customer from "../models/Customer";
 import db from "../models/index";
 import ManagerService from "../Services/ManagerService";
+import UserService from "../Services/UserService";
 
 const handleGetAllManageCenter = async (req, res) => {
   let manager = await ManagerService.getAllManagerOfCenter(req.query);
@@ -11,7 +12,16 @@ const handleGetAllManageCenter = async (req, res) => {
     totalPage: Math.ceil(manager.count / 10),
   });
 };
-
+let handleCreateNewManager = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await ManagerService.createNewManager(req.body);
+  let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    messageCreateAccount,
+  });
+};
 module.exports = {
   handleGetAllManageCenter,
+  handleCreateNewManager,
 };

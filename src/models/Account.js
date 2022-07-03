@@ -9,6 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here//
+      //1 account thuộc về 1 khách hàng
+      Accounts.hasOne(models.Customer, {
+        foreignKey: "CustomerId",
+        as: "AccountCustomer",
+      });
+      //1 account thuộc về 1 nhân viên
+      Accounts.hasOne(models.Staffs, {
+        foreignKey: "StaffId",
+        as: "AccountStaff",
+      });
+      //1 account thuộc về 1 khách hàng
+      Accounts.hasOne(models.Manager, {
+        foreignKey: "ManagerId",
+        as: "AccountManager",
+      });
+
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })
       // Một user có nhiều lịch sử nghe //

@@ -10,6 +10,7 @@ import SalaryController from "../controllers/SalaryController";
 import ManagerController from "../controllers/ManagerController";
 import ScheduleWorkingController from "../controllers/ScheduleWorkingController";
 import PaymentController from "../controllers/PaymentController";
+import OrderController from "../controllers/OrderController";
 
 let router = express.Router();
 
@@ -57,6 +58,10 @@ let initWebRoutes = (app) => {
     "/api/get-customer-by-name",
     CustomerController.handleGetCustomerByName
   );
+  router.post(
+    "/api/create-new-customer",
+    CustomerController.handleCreateNewCustomer
+  );
   //service
   router.get("/api/get-all-service", ServiceController.handleGetAllService);
   router.get(
@@ -87,6 +92,14 @@ let initWebRoutes = (app) => {
     "/api/merchant/:CenterId/get-all-booking-of-center",
     BookingController.handleGetBookingOfCenter
   );
+  router.post(
+    "/api/create-booking/create-new-booking",
+    BookingController.handleCreateNewBooking
+  );
+  router.put(
+    "/api/staff/cancel-booking",
+    BookingController.handleCancelBookingForStaff
+  );
   router.put(
     "/api/staff/accept-booking",
     BookingController.handleAcceptBookingForStaff
@@ -99,14 +112,18 @@ let initWebRoutes = (app) => {
     "/api/get-all-manager",
     ManagerController.handleGetAllManageCenter
   );
-  // router.post("")
+  router.post(
+    "/api/create-new-manager",
+    ManagerController.handleCreateNewManager
+  );
 
   //schedule working
   router.get(
     "/api/:StaffId/get-schedule-working",
     ScheduleWorkingController.handleGetScheduleWorkingOfPT
   );
-
+  //order
+  router.post("/api/create-new-order", OrderController.handleCreateNewOrder);
   //payment
   //momo
   app.post("/api/get-momo-payment-link", PaymentController.getMomoPaymentLink);

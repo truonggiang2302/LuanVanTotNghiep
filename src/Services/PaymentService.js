@@ -7,6 +7,21 @@ require("dotenv").config();
 var salt = bcrypt.genSaltSync(10);
 var cloudinary = require("cloudinary").v2;
 
+const crypto = require("crypto");
+const https = require("https");
+const area = require("./areaJson");
+// const Sequelize = require("sequelize");
+
+//https://developers.momo.vn/#/docs/en/aiov2/?id=payment-method
+//parameters
+var notifyUrl = "https://8272-115-73-215-16.ap.ngrok.io/api/handle-order";
+var partnerCode = "MOMO";
+var accessKey = "F8BBA842ECF85";
+var secretkey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
+var orderInfo = "pay with MoMo";
+var redirectUrl = "http://localhost:3000/";
+var requestType = "captureWallet";
+
 const getMomoPaymentLink = async (req) => {
   var requestId = partnerCode + new Date().getTime();
   var orderId = requestId;

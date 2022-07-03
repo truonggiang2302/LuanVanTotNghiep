@@ -23,15 +23,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init(
     {
+      orderId: DataTypes.INTEGER,
       CustomerId: DataTypes.INTEGER,
-      PTId: DataTypes.INTEGER,
       CustomerName: DataTypes.STRING,
-      PTName: DataTypes.STRING,
-      CenterId: DataTypes.INTEGER,
-      ServiceId: DataTypes.INTEGER,
-      StartTime: DataTypes.STRING,
-      EndTime: DataTypes.STRING,
-      Status: DataTypes.STRING,
+      ReservationId: DataTypes.INTEGER,
+      amount: DataTypes.STRING,
     },
     {
       sequelize,

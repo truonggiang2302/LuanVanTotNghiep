@@ -1,6 +1,7 @@
 import Customer from "../models/Customer";
 import db from "../models/index";
 import BookingService from "../Services/BookingService";
+import OrderService from "../Services/OrderService";
 
 const handleGetAllBooking = async (req, res) => {
   let bookings = await BookingService.getAllBooking(req.query);
@@ -41,13 +42,31 @@ const handleGetBookingOfCenter = async (req, res) => {
 };
 const handleAcceptBookingForStaff = async (req, res) => {
   let data = req.body;
-  let message = await BookingService.updateStatusBooking(data);
-  return res.status(200).json(message)
-}
+  let message = await BookingService.updateStatusBooking(data); //khi bam accept phai truyen vao body {status:SCHEDULED hoac IN_PROCESS(neu đã tới thời gian)+bookingId+CustomerId,CustomerName,bookingId(của booking),amount}
+  let messageCreateOrder = await OrderService.createNewOrder(data);
+  return res.status(200).json({ message, messageCreateOrder });
+};
+const handleCancelBookingForStaff = async (req, res) => {
+  let data = req.body;
+  let message = await BookingService.updateStatusBooking(data); //khi bam accept phai truyen vao body {status:SCHEDULED hoac IN_PROCESS(neu đã tới thời gian)+bookingId}
+
+  return res.status(200).json({ message });
+};
+let handleCreateNewBooking = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await BookingService.createNewBooking(req.body);
+  // let messageCreateOrder = await OrderService.createNewOrder(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateOrder,
+  });
+};
 module.exports = {
   handleGetAllBooking,
   handleGetDetailBookingOfPT,
   handleGetBookingOfPT,
   handleGetBookingOfCenter,
-  handleAcceptBookingForStaff
+  handleAcceptBookingForStaff,
+  handleCreateNewBooking,
+  handleCancelBookingForStaff,
 };

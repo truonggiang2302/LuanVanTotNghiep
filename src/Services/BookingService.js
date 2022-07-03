@@ -130,7 +130,7 @@ const updateStatusBooking = (data) => {
 
         resolve({
           errorCode: 0,
-          message: "Accept booking is success",
+          message: "success",
         });
       } else {
         resolve({
@@ -143,10 +143,34 @@ const updateStatusBooking = (data) => {
     }
   });
 };
+let createNewBooking = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Booking.create({
+        CustomerId: data.CustomerId,
+        PTId: data.PTId,
+        CustomerName: data.CustomerName,
+        PTName: data.PTName,
+        CenterId: data.CenterId,
+        ServiceId: data.ServiceId,
+        StartTime: data.StartTime,
+        EndTime: data.EndTime,
+        Status: "PENDING",
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "create booking is success",
+      }); // return
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllBooking,
   getDetailBookingOfPT,
   getAllBookingOfPT,
   getAllBookingOfCenter,
   updateStatusBooking,
+  createNewBooking,
 };

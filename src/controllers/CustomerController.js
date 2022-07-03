@@ -1,6 +1,7 @@
 import Customer from "../models/Customer";
 import db from "../models/index";
 import CustomerService from "../Services/CustomerService";
+import UserService from "../Services/UserService";
 
 const handleGetAllCustomer = async (req, res) => {
   let customers = await CustomerService.getAllCustomer(req.query);
@@ -35,8 +36,18 @@ const handleGetCustomerByName = async (req, res) => {
     });
   }
 };
+let handleCreateNewCustomer = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await CustomerService.createNewCustomer(req.body);
+  let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    messageCreateAccount,
+  });
+};
 module.exports = {
   handleGetAllCustomer,
   handleGetAllCustomerOfCenter,
   handleGetCustomerByName,
+  handleCreateNewCustomer,
 };
