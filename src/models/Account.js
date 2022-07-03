@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "StaffId",
         as: "AccountStaff",
       });
-      //1 account thuộc về 1 khách hàng
+      //1 account thuộc về 1 quan3 ly1
       Accounts.hasOne(models.Manager, {
         foreignKey: "ManagerId",
         as: "AccountManager",

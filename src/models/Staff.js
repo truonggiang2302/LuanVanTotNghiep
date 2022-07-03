@@ -9,7 +9,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here//
-      Staffs.belongsTo(models.Accounts);
+      Staffs.belongsTo(models.Accounts, {
+        foreignKey: "id",
+        as: "AccountStaff",
+      });
+      //1 staff có 1 mức lương
+      Staffs.belongsTo(models.Salary, {
+        foreignKey: "SalaryId",
+        as: "SalaryStaff",
+      });
+      Staffs.hasOne(models.ScheduleWorking, {
+        foreignKey: "StaffId",
+        as: "ScheduleWorkStaff",
+      });
+      Staffs.hasMany(models.Booking, {
+        foreignKey: "StaffId",
+        as: "StaffBooking",
+      });
 
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })

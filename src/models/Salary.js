@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here//
+      Salary.hasMany(models.Staffs, { foreignKey: "id", as: "SalaryStaff" });
+      Salary.hasMany(models.Manager, { foreignKey: "id", as: "SalaryManager" });
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })
       // Một user có nhiều lịch sử nghe //

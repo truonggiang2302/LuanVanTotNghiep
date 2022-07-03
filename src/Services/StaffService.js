@@ -64,10 +64,10 @@ const getDetailPT = (id) => {
     try {
       let staff = await db.Staffs.findOne({
         where: { StaffId: id },
-        // include: [
-        //     { model: db.Artists, as: 'SongOfArtists' },
-        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
-        // ],
+        include: [
+          { model: db.ScheduleWorking, as: "ScheduleWorkStaff" },
+          { model: db.Booking, as: "StaffBooking" },
+        ],
         raw: false,
         nest: true,
       });

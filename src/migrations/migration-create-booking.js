@@ -9,14 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       CustomerId: {
-        allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      PTId: {
-        allowNull: false,
-        autoIncrement: true,
+      StaffId: {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },

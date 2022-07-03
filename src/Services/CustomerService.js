@@ -157,9 +157,29 @@ let createNewCustomer = (data) => {
     }
   });
 };
+const getDetailCustomer = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let cus = await db.Customer.findOne({
+        where: { CustomerId: id },
+        include: [
+          // { model: db.ScheduleWorking, as: "ScheduleWorkStaff" },
+          { model: db.Booking, as: "CustomerBooking" },
+        ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(cus);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllCustomer,
   getAllCustomerOfCenter,
   getCustomerByName,
   createNewCustomer,
+  getDetailCustomer,
 };

@@ -4,7 +4,7 @@ import ManagerService from "../Services/ManagerService";
 import UserService from "../Services/UserService";
 
 const handleGetAllManageCenter = async (req, res) => {
-  let manager = await ManagerService.getAllManagerOfCenter(req.query);
+  let manager = await ManagerService.getAllManagerOfCenter(req);
   return res.status(200).json({
     errCode: 0,
     errMessage: "get all manage of centers is success",
@@ -21,7 +21,26 @@ let handleCreateNewManager = async (req, res) => {
     messageCreateAccount,
   });
 };
+const handleUpdateManager = async (req, res) => {
+  let data = req.body;
+  let message = await ManagerService.updateManager(data);
+  let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json({ message, messageUpdateAccount });
+};
+let handleDeleteManager = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await ManagerService.deleteManager(req.body.id);
+  let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json({ message, messageDeleteAccount });
+};
 module.exports = {
   handleGetAllManageCenter,
   handleCreateNewManager,
+  handleUpdateManager,
+  handleDeleteManager,
 };

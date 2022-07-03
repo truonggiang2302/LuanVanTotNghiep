@@ -9,6 +9,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here//
+      Booking.belongsTo(models.Staffs, {
+        foreignKey: "StaffId",
+        // targetKey: "id",
+        as: "StaffBooking",
+      });
+      Booking.belongsTo(models.Customer, {
+        foreignKey: "CustomerId",
+        targetKey: "id",
+        as: "CustomerBooking",
+      });
+
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })
       // Một user có nhiều lịch sử nghe //
@@ -24,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
   Booking.init(
     {
       CustomerId: DataTypes.INTEGER,
-      PTId: DataTypes.INTEGER,
+      StaffId: DataTypes.INTEGER,
       CustomerName: DataTypes.STRING,
       PTName: DataTypes.STRING,
       CenterId: DataTypes.INTEGER,

@@ -38,7 +38,7 @@ const getAllBookingOfPT = async (req) => {
       const skip = (req.query.page - 1) * 10;
       let staffs = await db.Booking.findAndCountAll({
         where: {
-          PTId: req.params.PTId,
+          StaffId: req.params.PTId,
         },
         // attributes: {
         //   exclude: ["password"],
@@ -85,7 +85,7 @@ const getDetailBookingOfPT = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
       let bookingOfPT = await db.Booking.findOne({
-        where: { PTId: id },
+        where: { StaffId: id },
         // include: [
         //     { model: db.Artists, as: 'SongOfArtists' },
         //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
@@ -148,7 +148,7 @@ let createNewBooking = (data) => {
     try {
       await db.Booking.create({
         CustomerId: data.CustomerId,
-        PTId: data.PTId,
+        StaffId: data.PTId,
         CustomerName: data.CustomerName,
         PTName: data.PTName,
         CenterId: data.CenterId,

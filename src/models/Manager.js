@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "id",
         as: "AccountManager",
       });
+      Manager.belongsTo(models.Salary, {
+        foreignKey: "SalaryId",
+        as: "SalaryManager",
+      });
 
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })
