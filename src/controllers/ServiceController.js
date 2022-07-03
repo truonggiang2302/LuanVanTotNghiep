@@ -37,8 +37,18 @@ const handleGetServiceByName = async (req, res) => {
     });
   }
 };
+let handleCreateNewService = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await ServiceOfCenterService.createNewService(req.body);
+  // let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateAccount,
+  });
+};
 module.exports = {
   handleGetAllService,
   handleGetServiceDetail,
   handleGetServiceByName,
+  handleCreateNewService,
 };

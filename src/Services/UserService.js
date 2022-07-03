@@ -620,7 +620,7 @@ module.exports = {
   // getEditUser,
   // updateUser,
   // deleteUser,
-  // handleUserLogin,
+  handleUserLogin,
   // signUpNewUser,
   handleUserLoginSocial,
 };

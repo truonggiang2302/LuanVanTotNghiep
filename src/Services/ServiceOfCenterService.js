@@ -80,8 +80,27 @@ let getServiceByName = (nameInput) => {
     }
   });
 };
+let createNewService = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Services.create({
+        ServiceName: data.ServiceName,
+        WorkDuration: data.WorkDuration,
+        Price: data.Price,
+        ServiceImage: data.ServiceImage,
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "create service is success",
+      }); // return
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllService,
   getDetailService,
   getServiceByName,
+  createNewService,
 };

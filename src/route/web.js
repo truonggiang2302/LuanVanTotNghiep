@@ -76,6 +76,11 @@ let initWebRoutes = (app) => {
     "/api/get-service-by-name",
     ServiceController.handleGetServiceByName
   );
+  router.post(
+    "/api/create-new-service",
+    ServiceController.handleCreateNewService
+  );
+  // router.put()
 
   //center
   router.get("/api/get-all-center", CenterController.handleGetAllCenter);
