@@ -37,7 +37,7 @@ const getAllCustomer = async (payloadReq) => {
 const getAllCustomerOfCenter = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // console.log("check req: ", req.query, req.params);
+      console.log("check req: ", req.query, req.params);
       const nameInput = req.query.CustomerName;
       // console.log(nameInput);
       const skip = (req.query.page - 1) * 10;

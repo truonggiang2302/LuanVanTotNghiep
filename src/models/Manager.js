@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   Manager.init(
     {
       // ManagerId: DataTypes.INTEGER,
+      AccountId: DataTypes.INTEGER,
       ManagerName: DataTypes.STRING,
       ManagerEmail: DataTypes.STRING,
       ManagerPhone: DataTypes.STRING,

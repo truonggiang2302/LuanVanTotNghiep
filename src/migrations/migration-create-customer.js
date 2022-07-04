@@ -8,12 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      // CustomerId: {
-      //   allowNull: false,
-      //   autoIncrement: true,
-      //   // primaryKey: true,
-      //   type: Sequelize.INTEGER,
-      // },
+      AccountId: {
+        type: Sequelize.INTEGER,
+      },
       CustomerName: {
         type: Sequelize.STRING,
       },

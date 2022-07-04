@@ -14,6 +14,9 @@ module.exports = {
       //   primaryKey: true,
       //   type: Sequelize.INTEGER,
       // },
+      AccountId: {
+        type: Sequelize.INTEGER,
+      },
       ManagerName: {
         type: Sequelize.STRING,
       },

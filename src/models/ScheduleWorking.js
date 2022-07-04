@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       DayWork: DataTypes.STRING,
       DayOff: DataTypes.STRING,
       StaffId: DataTypes.INTEGER,
+      ManagerId: DataTypes.INTEGER,
       TimeWork: DataTypes.STRING,
     },
     {

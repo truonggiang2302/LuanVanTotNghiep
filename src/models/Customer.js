@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   Customer.init(
     {
       // CustomerId: DataTypes.INTEGER,
+      AccountId: DataTypes.INTEGER,
       CustomerName: DataTypes.STRING,
       Gender: DataTypes.BOOLEAN,
       DayOfBirth: DataTypes.STRING,

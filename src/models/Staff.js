@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "ScheduleWorkStaff",
       });
       Staffs.hasMany(models.Booking, {
-        foreignKey: "id",
+        foreignKey: "StaffId",
         as: "StaffBooking",
       });
 
@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
   Staffs.init(
     {
       // StaffId: DataTypes.INTEGER,
+      AccountId: DataTypes.INTEGER,
       StaffName: DataTypes.STRING,
       StaffImage: DataTypes.STRING,
       StaffPhoneNumber: DataTypes.STRING,

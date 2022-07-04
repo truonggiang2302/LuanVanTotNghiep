@@ -24,6 +24,9 @@ module.exports = {
       StaffId: {
         type: Sequelize.INTEGER,
       },
+      ManagerId: {
+        type: Sequelize.INTEGER,
+      },
       TimeWork: {
         type: Sequelize.STRING,
       },

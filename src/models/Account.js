@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       //1 account thuộc về 1 quan3 ly1
       Accounts.hasOne(models.Manager, {
-        foreignKey: "id",
+        foreignKey: "AccountId",
         as: "AccountManager",
       });
 
