@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here//
       ScheduleWorking.belongsTo(models.Staffs, {
-        foreignKey: "StaffId",
+        foreignKey: "id",
         as: "ScheduleWorkStaff",
       });
       // Một người dùng thuộc 1 role //
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   ScheduleWorking.init(
     {
-      ScheduleId: DataTypes.INTEGER,
+      // ScheduleId: DataTypes.INTEGER,
       DayWork: DataTypes.STRING,
       DayOff: DataTypes.STRING,
       StaffId: DataTypes.INTEGER,

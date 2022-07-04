@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "SalaryStaff",
       });
       Staffs.hasOne(models.ScheduleWorking, {
-        foreignKey: "id",
+        foreignKey: "StaffId",
         as: "ScheduleWorkStaff",
       });
       Staffs.hasMany(models.Booking, {
