@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here//
       Manager.belongsTo(models.Accounts, {
         foreignKey: "id",
+        // targetKey: "id",
         as: "AccountManager",
       });
       Manager.belongsTo(models.Salary, {
@@ -32,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Manager.init(
     {
-      ManagerId: DataTypes.INTEGER,
+      // ManagerId: DataTypes.INTEGER,
       ManagerName: DataTypes.STRING,
       ManagerEmail: DataTypes.STRING,
       ManagerPhone: DataTypes.STRING,

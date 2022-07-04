@@ -72,7 +72,7 @@ let handleUserLogin = async (email, password) => {
             email: email,
             // , roleId: [1]
           },
-          include: [{ model: db.Manager, as: "AccountManager" }],
+          // include: [{ model: db.Manager, as: "AccountManager" }],
           attributes: [
             "id",
             "email",

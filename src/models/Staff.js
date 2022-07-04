@@ -15,15 +15,15 @@ module.exports = (sequelize, DataTypes) => {
       });
       //1 staff có 1 mức lương
       Staffs.belongsTo(models.Salary, {
-        foreignKey: "SalaryId",
+        foreignKey: "id",
         as: "SalaryStaff",
       });
       Staffs.hasOne(models.ScheduleWorking, {
-        foreignKey: "StaffId",
+        foreignKey: "id",
         as: "ScheduleWorkStaff",
       });
       Staffs.hasMany(models.Booking, {
-        foreignKey: "StaffId",
+        foreignKey: "id",
         as: "StaffBooking",
       });
 
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Staffs.init(
     {
-      StaffId: DataTypes.INTEGER,
+      // StaffId: DataTypes.INTEGER,
       StaffName: DataTypes.STRING,
       StaffImage: DataTypes.STRING,
       StaffPhoneNumber: DataTypes.STRING,

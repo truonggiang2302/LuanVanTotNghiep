@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   GymCenter.init(
     {
-      CenterId: DataTypes.INTEGER,
+      // CenterId: DataTypes.INTEGER,
       CenterName: DataTypes.STRING,
       CenterImage: DataTypes.STRING,
       CenterAddress: DataTypes.STRING,

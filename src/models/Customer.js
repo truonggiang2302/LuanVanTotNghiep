@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Customer.init(
     {
-      CustomerId: DataTypes.INTEGER,
+      // CustomerId: DataTypes.INTEGER,
       CustomerName: DataTypes.STRING,
       Gender: DataTypes.BOOLEAN,
       DayOfBirth: DataTypes.STRING,

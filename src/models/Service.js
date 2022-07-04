@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Services.init(
     {
-      ServiceId: DataTypes.INTEGER,
+      // ServiceId: DataTypes.INTEGER,
       ServiceName: DataTypes.STRING,
       WorkDuration: DataTypes.STRING,
       Price: DataTypes.STRING,

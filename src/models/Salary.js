@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Salary.init(
     {
-      SalaryId: DataTypes.INTEGER,
+      // SalaryId: DataTypes.INTEGER,
       Salary: DataTypes.STRING,
     },
     {
