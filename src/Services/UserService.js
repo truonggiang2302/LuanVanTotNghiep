@@ -122,6 +122,7 @@ let handleUserLoginForStaff = async (email, password) => {
             email: email,
             // , roleId: [1]
           },
+          include: [{ model: db.Staffs, as: "AccountStaff" }],
           attributes: [
             "id",
             "email",
@@ -170,6 +171,7 @@ let handleUserLoginForCustomer = async (email, password) => {
             email: email,
             // , roleId: [1]
           },
+          include: [{ model: db.Customer, as: "AccountCustomer" }],
           attributes: [
             "id",
             "email",
