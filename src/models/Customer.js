@@ -14,9 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         as: "AccountCustomer",
       });
       Customer.hasMany(models.Booking, {
-        foreignKey: "CustomerId",
+        foreignKey: "CusId",
         as: "CustomerBooking",
       });
+
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })
       // Một user có nhiều lịch sử nghe //

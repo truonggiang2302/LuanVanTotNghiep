@@ -127,7 +127,7 @@ const updateManager = (data) => {
         });
       }
       let manager = await db.Manager.findOne({
-        where: { ManagerId: data.id },
+        where: { id: data.id },
         raw: false,
       });
       if (manager) {
@@ -174,12 +174,12 @@ const updateManager = (data) => {
 let deleteManager = (id) => {
   return new Promise(async (resolve, reject) => {
     let user = await db.Manager.findOne({
-      where: { ManagerId: id },
+      where: { id: id },
     });
     if (!user) {
       resolve({
         errCode: 2,
-        errMessage: "Account not found",
+        errMessage: "Manager not found",
       });
     }
 
@@ -190,7 +190,7 @@ let deleteManager = (id) => {
     // }
 
     await db.Manager.destroy({
-      where: { ManagerId: id },
+      where: { id: id },
     });
     resolve({
       errCode: 0,

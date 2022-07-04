@@ -80,8 +80,8 @@ let initWebRoutes = (app) => {
     "/api/create-new-service",
     ServiceController.handleCreateNewService
   );
-  // router.put()
-
+  router.put("/api/update-service", ServiceController.handleUpdateService);
+  router.delete("/api/delete-service", ServiceController.handleDeleteService);
   //center
   router.get("/api/get-all-center", CenterController.handleGetAllCenter);
   router.get("/api/get-detail-center", CenterController.handleGetDetailCenter);

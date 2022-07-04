@@ -38,12 +38,12 @@ const handleGetCustomerByName = async (req, res) => {
 };
 const handleGetDetailCustomer = async (req, res) => {
   // console.log("check id: ", req.query);
-  const staffDetail = await CustomerService.getDetailCustomer(req.query.id);
+  const cusDetail = await CustomerService.getDetailCustomer(req.query.id);
 
   return res.status(200).json({
     errCode: 0,
     errMessage: "get detail customer is success",
-    staffDetail,
+    cusDetail,
   });
 };
 let handleCreateNewCustomer = async (req, res) => {

@@ -63,7 +63,7 @@ const getDetailPT = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
       let staff = await db.Staffs.findOne({
-        where: { StaffId: id },
+        where: { id: id },
         include: [
           { model: db.ScheduleWorking, as: "ScheduleWorkStaff" },
           { model: db.Booking, as: "StaffBooking" },

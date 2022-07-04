@@ -160,11 +160,17 @@ let createNewCustomer = (data) => {
 const getDetailCustomer = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
+      // console.log("id: ", id);
+      // console.log("id: ", typeof id);
       let cus = await db.Customer.findOne({
-        where: { CustomerId: id },
+        where: { id: id },
         include: [
           // { model: db.ScheduleWorking, as: "ScheduleWorkStaff" },
-          { model: db.Booking, as: "CustomerBooking" },
+          {
+            model: db.Booking,
+            as: "CustomerBooking",
+            // where: { CustomerId: 41 },
+          },
         ],
         raw: false,
         nest: true,

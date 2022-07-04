@@ -46,9 +46,28 @@ let handleCreateNewService = async (req, res) => {
     // messageCreateAccount,
   });
 };
+const handleUpdateService = async (req, res) => {
+  let data = req.body;
+  let message = await ServiceOfCenterService.updateService(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
+let handleDeleteService = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await ServiceOfCenterService.deleteService(req.body.id);
+  // let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json({ message });
+};
 module.exports = {
   handleGetAllService,
   handleGetServiceDetail,
   handleGetServiceByName,
   handleCreateNewService,
+  handleUpdateService,
+  handleDeleteService,
 };

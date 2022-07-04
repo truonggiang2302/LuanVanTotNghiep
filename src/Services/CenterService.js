@@ -37,7 +37,7 @@ const getDetailCenter = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
       let center = await db.GymCenter.findOne({
-        where: { CenterId: id },
+        where: { id: id },
         // include: [
         //     { model: db.Artists, as: 'SongOfArtists' },
         //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },

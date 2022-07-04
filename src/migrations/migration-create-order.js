@@ -8,12 +8,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      orderId: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
+      // orderId: {
+      //   allowNull: false,
+      //   autoIncrement: true,
+      //   // primaryKey: true,
+      //   type: Sequelize.INTEGER,
+      // },
       CustomerId: {
         type: Sequelize.INTEGER,
       },

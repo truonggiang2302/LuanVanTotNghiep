@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         as: "StaffBooking",
       });
       Booking.belongsTo(models.Customer, {
-        foreignKey: "CustomerId",
-        targetKey: "id",
+        foreignKey: "CusId",
+        targetKey: "CustomerId",
         as: "CustomerBooking",
       });
 
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Booking.init(
     {
-      CustomerId: DataTypes.INTEGER,
+      CusId: DataTypes.INTEGER,
       StaffId: DataTypes.INTEGER,
       CustomerName: DataTypes.STRING,
       PTName: DataTypes.STRING,
