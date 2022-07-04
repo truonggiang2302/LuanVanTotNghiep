@@ -56,7 +56,30 @@ const getAllBookingOfPT = async (req) => {
     }
   });
 };
+const getAllBookingOfCustomer = async (req) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (req.query.page - 1) * 10;
+      let bookingOfCus = await db.Booking.findAndCountAll({
+        where: {
+          CustomerId: req.params.CustomerId,
+        },
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 10,
+        offset: skip,
+        // include: [{ model: db.Roles, as: "UserRoles" }],
+        raw: true,
+        nest: true,
+      });
 
+      resolve(bookingOfCus);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllBookingOfCenter = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -170,6 +193,7 @@ module.exports = {
   getAllBooking,
   getDetailBookingOfPT,
   getAllBookingOfPT,
+  getAllBookingOfCustomer,
   getAllBookingOfCenter,
   updateStatusBooking,
   createNewBooking,

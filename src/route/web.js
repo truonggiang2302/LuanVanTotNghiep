@@ -98,6 +98,10 @@ let initWebRoutes = (app) => {
     BookingController.handleGetBookingOfPT
   );
   router.get(
+    "/api/:CustomerId/get-booking-of-customer",
+    BookingController.handleGetBookingOfCustomer
+  );
+  router.get(
     "/api/merchant/:CenterId/get-all-booking-of-center",
     BookingController.handleGetBookingOfCenter
   );
