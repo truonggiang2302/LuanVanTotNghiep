@@ -66,6 +66,7 @@ let initWebRoutes = (app) => {
     "/api/create-new-customer",
     CustomerController.handleCreateNewCustomer
   );
+  router.put("/api/update-customer", CustomerController.handleUpdateCustomer);
   //service
   router.get("/api/get-all-service", ServiceController.handleGetAllService);
   router.get(

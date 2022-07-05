@@ -127,23 +127,10 @@ const updateManager = (data) => {
         });
       }
       let manager = await db.Manager.findOne({
-        where: { id: data.id },
+        where: { AccountId: data.id },
         raw: false,
       });
       if (manager) {
-        // ManagerName: data.fullName,
-        //   // password: hashPass,
-        //   ManagerEmail: data.email,
-
-        //   ManagerPhone: data.phoneNumber,
-        //   Gender: data.gender,
-        //   // DayOfBirth: data.dayOfBirth,
-        //   ManagerAddress: data.address,
-        //   RoleId: data.roleId,
-        //   ManagerImage:
-        //     result && result.secure_url ? result.secure_url : avatar,
-        //   CenterId: data.centerId,
-        //   SalaryId: data.salaryId,
         manager.ManagerName = data.fullName;
         manager.ManagerEmail = data.email;
         manager.ManagerPhone = data.phoneNumber;

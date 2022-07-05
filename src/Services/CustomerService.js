@@ -157,6 +157,49 @@ let createNewCustomer = (data) => {
     }
   });
 };
+const updateCustomer = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let customer = await db.Customer.findOne({
+        where: { AccountId: data.id },
+        raw: false,
+      });
+      if (customer) {
+        customer.CustomerName = data.fullName;
+        customer.Gender = data.Gender;
+        customer.DayOfBirth = data.DayOfBirth;
+        customer.PhoneNumber = data.phoneNumber;
+        customer.Address = data.address;
+        customer.CustomerEmail = data.email;
+
+        customer.RoleId = data.roleId;
+        customer.CustomerImage = data.avatar;
+        customer.CenterId = data.centerId;
+        // customer.SalaryId = data.salaryId;
+
+        await customer.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Update customer is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "customer not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getDetailCustomer = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -188,4 +231,5 @@ module.exports = {
   getCustomerByName,
   createNewCustomer,
   getDetailCustomer,
+  updateCustomer,
 };

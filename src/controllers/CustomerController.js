@@ -55,10 +55,17 @@ let handleCreateNewCustomer = async (req, res) => {
     messageCreateAccount,
   });
 };
+const handleUpdateCustomer = async (req, res) => {
+  let data = req.body;
+  let message = await CustomerService.updateCustomer(data); //truyen tat ca cac field cua Staff id lấy theo accountId
+  let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json({ message, messageUpdateAccount });
+};
 module.exports = {
   handleGetAllCustomer,
   handleGetAllCustomerOfCenter,
   handleGetCustomerByName,
   handleCreateNewCustomer,
   handleGetDetailCustomer,
+  handleUpdateCustomer,
 };
