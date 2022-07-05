@@ -47,7 +47,7 @@ let initWebRoutes = (app) => {
   );
   router.get("/api/get-staff-by-name", StaffController.handleGetStaffByName);
   router.post("/api/create-staff", StaffController.handleCreateNewStaff);
-  // router.put("/api/update-staff")
+  router.put("/api/update-staff", StaffController.handleUpdateStaff);
   //customer
   router.get("/api/get-all-customer", CustomerController.handleGetAllCustomer);
   router.get(

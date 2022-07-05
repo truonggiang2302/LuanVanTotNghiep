@@ -76,6 +76,12 @@ let handleCreateNewStaff = async (req, res) => {
     messageCreateAccount,
   });
 };
+const handleUpdateStaff = async (req, res) => {
+  let data = req.body;
+  let message = await StaffService.updateStaff(data); //truyen tat ca cac field cua Staff id lấy theo accountId
+  let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json({ message, messageUpdateAccount });
+};
 module.exports = {
   handleGetAllStaff,
   handleGetPTDetail,
@@ -84,4 +90,5 @@ module.exports = {
   handleGetStaffByName,
   handleGetAllPTOfCenter,
   handleCreateNewStaff,
+  handleUpdateStaff,
 };

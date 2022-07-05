@@ -369,11 +369,7 @@ const updateAccount = (data) => {
         account.fullName = data.fullName;
         account.userName = data.userName;
         account.roleId = data.roleId;
-        // booking.CenterId = data.positionId;
-        // booking.ServiceId = data.gender;
-        // booking.StartTime = data.phonenumber;
-        // booking.EndTime = data.gender;
-        // booking.Status = data.Status;
+
         if (data.avatar) account.avatar = data.avatar;
 
         await account.save();

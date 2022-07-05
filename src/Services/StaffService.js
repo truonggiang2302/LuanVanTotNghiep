@@ -223,6 +223,48 @@ let createNewStaff = (data) => {
     }
   });
 };
+const updateStaff = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let staff = await db.Staffs.findOne({
+        where: { AccountId: data.id },
+        raw: false,
+      });
+      if (staff) {
+        staff.StaffName = data.fullName;
+        staff.StaffEmail = data.email;
+        staff.StaffPhoneNumber = data.phoneNumber;
+        staff.Gender = data.Gender;
+        staff.DayOfBirth = data.DayOfBirth;
+        staff.ManagerAddress = data.address;
+        staff.RoleId = data.roleId;
+        staff.StaffImage = data.avatar;
+        staff.CenterId = data.centerId;
+        staff.SalaryId = data.salaryId;
+
+        await staff.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Update staff is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "staff not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllStaff,
   getDetailPT,
@@ -231,4 +273,5 @@ module.exports = {
   getAllPTOfCenter,
   getStaffByName,
   createNewStaff,
+  updateStaff,
 };
