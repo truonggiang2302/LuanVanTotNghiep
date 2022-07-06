@@ -95,6 +95,10 @@ let initWebRoutes = (app) => {
     BookingController.handleGetDetailBookingOfPT
   );
   router.get(
+    "/api/get-booking-detail-center",
+    BookingController.handleGetDetailBookingOfCenter
+  );
+  router.get(
     "/api/:PTId/get-booking-of-pt",
     BookingController.handleGetBookingOfPT
   );

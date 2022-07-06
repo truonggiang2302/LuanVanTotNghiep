@@ -69,7 +69,7 @@ const getAllBookingOfCustomer = async (req) => {
         // },
         limit: 10,
         offset: skip,
-        // include: [{ model: db.Roles, as: "UserRoles" }],
+        include: [{ model: db.Customer, as: "CustomerBooking" }],
         raw: true,
         nest: true,
       });
@@ -93,7 +93,10 @@ const getAllBookingOfCenter = async (req) => {
         // },
         limit: 10,
         offset: skip,
-        // include: [{ model: db.Roles, as: "UserRoles" }],
+        include: [
+          { model: db.Staffs, as: "StaffBooking" },
+          { model: db.Customer, as: "CustomerBooking" },
+        ],
         raw: true,
         nest: true,
       });
@@ -109,6 +112,25 @@ const getDetailBookingOfPT = (id) => {
     try {
       let bookingOfPT = await db.Booking.findOne({
         where: { StaffId: id },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(bookingOfPT);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+const getDetailBookingOfCenter = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let bookingOfPT = await db.Booking.findOne({
+        where: { CenterId: id },
         // include: [
         //     { model: db.Artists, as: 'SongOfArtists' },
         //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
@@ -192,6 +214,7 @@ let createNewBooking = (data) => {
 module.exports = {
   getAllBooking,
   getDetailBookingOfPT,
+  getDetailBookingOfCenter,
   getAllBookingOfPT,
   getAllBookingOfCustomer,
   getAllBookingOfCenter,
