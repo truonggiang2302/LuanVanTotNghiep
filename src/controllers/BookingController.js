@@ -55,6 +55,7 @@ const handleAcceptBookingForStaff = async (req, res) => {
   let messageCreateOrder = await OrderService.createNewOrder(data);
   return res.status(200).json({ message, messageCreateOrder });
 };
+
 const handleCancelBookingForStaff = async (req, res) => {
   let data = req.body;
   let message = await BookingService.updateStatusBooking(data); //khi bam accept phai truyen vao body {status:SCHEDULED hoac IN_PROCESS(neu đã tới thời gian)+bookingId}
