@@ -35,7 +35,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
-
+      ExternalId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE,

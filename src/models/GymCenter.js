@@ -25,9 +25,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       // CenterId: DataTypes.INTEGER,
       CenterName: DataTypes.STRING,
-      CenterImage: DataTypes.STRING,
+      CenterImage: DataTypes.TEXT,
+      public_id_image: DataTypes.STRING,
       CenterAddress: DataTypes.STRING,
       CenterPhoneNumber: DataTypes.STRING,
+      ManagerId: DataTypes.STRING,
     },
     {
       sequelize,

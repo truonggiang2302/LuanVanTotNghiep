@@ -41,9 +41,11 @@ module.exports = (sequelize, DataTypes) => {
       Gender: DataTypes.BOOLEAN,
       ManagerAddress: DataTypes.STRING,
       RoleId: DataTypes.INTEGER,
-      ManagerImage: DataTypes.STRING,
+      ManagerImage: DataTypes.TEXT,
+      public_id_image: DataTypes.STRING,
       CenterId: DataTypes.INTEGER,
       SalaryId: DataTypes.INTEGER,
+      ExternalId: DataTypes.INTEGER,
     },
     {
       sequelize,

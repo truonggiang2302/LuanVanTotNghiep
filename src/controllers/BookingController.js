@@ -61,6 +61,16 @@ const handleGetBookingOfCenter = async (req, res) => {
     totalPage: Math.ceil(bookingOfCenter.count / 10),
   });
 };
+
+const handleGetBookingOfCenterIn7Day = async (req, res) => {
+  const bookingOfCenter = await BookingService.getAllBookingOfCenterIn7Day(req);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all booking of center in 7 day is success",
+    bookingOfCenter,
+    totalPage: Math.ceil(bookingOfCenter.count / 10),
+  });
+};
 const handleAcceptBookingForStaff = async (req, res) => {
   let data = req.body;
   let message = await BookingService.updateStatusBooking(data); //khi bam accept phai truyen vao body {status:SCHEDULED hoac IN_PROCESS(neu đã tới thời gian)+bookingId+CustomerId,CustomerName,bookingId(của booking),amount}
@@ -83,6 +93,7 @@ let handleCreateNewBooking = async (req, res) => {
     // messageCreateOrder,
   });
 };
+
 module.exports = {
   handleGetAllBooking,
   handleGetDetailBookingOfPT,
@@ -93,4 +104,5 @@ module.exports = {
   handleCancelBookingForStaff,
   handleGetBookingOfCustomer,
   handleGetDetailBookingOfCenter,
+  handleGetBookingOfCenterIn7Day,
 };

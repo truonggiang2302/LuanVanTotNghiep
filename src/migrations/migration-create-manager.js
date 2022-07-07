@@ -36,13 +36,21 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       ManagerImage: {
-        allowNull: false,
+        allowNull: true,
+        type: Sequelize.TEXT,
+      },
+      public_id_image: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       CenterId: {
         type: Sequelize.INTEGER,
       },
       SalaryId: {
+        type: Sequelize.INTEGER,
+      },
+      ExternalId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
       createdAt: {

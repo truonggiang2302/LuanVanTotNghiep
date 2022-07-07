@@ -1,6 +1,9 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
+import { Op } from "sequelize";
+import moment from "moment";
+
 require("dotenv").config();
 var salt = bcrypt.genSaltSync(10);
 var cloudinary = require("cloudinary").v2;
@@ -97,6 +100,44 @@ const getAllBookingOfCenter = async (req) => {
           { model: db.Staffs, as: "StaffBooking" },
           { model: db.Customer, as: "CustomerBooking" },
         ],
+        raw: true,
+        nest: true,
+      });
+
+      resolve(bookings);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+// shops.findAndCountAll({
+//   where: {
+//     createdAt: {
+//       [Op.gte]: moment().subtract(7, 'days').toDate()
+//     }
+//   }
+// })
+const getAllBookingOfCenterIn7Day = async (req) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (req.query.page - 1) * 10;
+      let bookings = await db.Booking.findAndCountAll({
+        where: {
+          CenterId: req.params.CenterId,
+          createdAt: {
+            [Op.gte]: moment().subtract(7, "days").toDate(),
+          },
+        },
+        group: ["id", "createdAt"],
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 10,
+        offset: skip,
+        // include: [
+        //   { model: db.Staffs, as: "StaffBooking" },
+        //   { model: db.Customer, as: "CustomerBooking" },
+        // ],
         raw: true,
         nest: true,
       });
@@ -220,4 +261,5 @@ module.exports = {
   getAllBookingOfCenter,
   updateStatusBooking,
   createNewBooking,
+  getAllBookingOfCenterIn7Day,
 };

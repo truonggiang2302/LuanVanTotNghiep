@@ -21,7 +21,7 @@ let uploadCloud = (image, fName) => {
         image,
         {
           resource_type: "raw",
-          public_id: `image/avatar/${fName}`,
+          public_id: `image/GhGym/${fName}`,
         },
         // Send cloudinary response or catch error
         (err, result) => {
@@ -257,10 +257,11 @@ let getAccountByName = (nameInput) => {
     }
   });
 };
-let deleteAccount = (id) => {
+let deleteAccount = (data) => {
   return new Promise(async (resolve, reject) => {
+    console.log("check data delete: ", data);
     let user = await db.Accounts.findOne({
-      where: { id: id },
+      where: { ExternalId: data.ExternalId },
     });
     if (!user) {
       resolve({
@@ -276,8 +277,24 @@ let deleteAccount = (id) => {
     // }
 
     await db.Accounts.destroy({
-      where: { id: id },
+      where: { ExternalId: data.ExternalId },
     });
+    if (data.roleId === 1 || data.roleId === 2) {
+      console.log("data roleId ", data.roleId);
+      await db.Manager.destroy({
+        where: { ExternalId: data.ExternalId },
+      });
+    }
+    if (data.roleId === "3" || data.roleId === "4") {
+      await db.Staffs.destroy({
+        where: { ExternalId: data.ExternalId },
+      });
+    }
+    if (data.roleId === "5") {
+      await db.Customer.destroy({
+        where: { ExternalId: data.ExternalId },
+      });
+    }
     resolve({
       errCode: 0,
       errMessage: "Delete account is success",
@@ -332,6 +349,7 @@ let createNewUser = (data) => {
         }
 
         await db.Accounts.create({
+          id: data.id,
           email: data.email,
           password: hashPass,
           fullName: data.fullName,
@@ -339,11 +357,70 @@ let createNewUser = (data) => {
           isActive: true,
           userName: data.userName,
           roleId: data.roleId,
+          ExternalId: data.ExternalId,
         });
+        if (data.roleId === "1" || data.roleId === "2") {
+          await db.Manager.create({
+            id: data.id,
+            ManagerName: data.fullName,
+            // password: hashPass,
+            ManagerEmail: data.email,
+
+            ManagerPhone: data.phoneNumber,
+            Gender: data.gender,
+            // DayOfBirth: data.dayOfBirth,
+            ManagerAddress: data.address,
+            RoleId: data.roleId,
+            ManagerImage:
+              result && result.secure_url ? result.secure_url : avatar,
+            public_id_image: data.fileName,
+            CenterId: data.centerId,
+            SalaryId: data.salaryId,
+            ExternalId: data.ExternalId,
+            // isActive: true,
+            // userName: data.userName,
+          });
+        } else if (data.roleId === "3" || data.roleId === "4") {
+          await db.Staffs.create({
+            StaffName: data.fullName,
+            password: hashPass,
+            StaffImage:
+              result && result.secure_url ? result.secure_url : avatar,
+            StaffPhoneNumber: data.phoneNumber,
+            Gender: data.gender,
+            DayOfBirth: data.dayOfBirth,
+            Address: data.address,
+            roleId: data.roleId,
+            StaffEmail: data.email,
+            CenterId: data.centerId,
+            SalaryId: data.salaryId,
+            ExternalId: data.ExternalId,
+            // isActive: true,
+            // userName: data.userName,
+          });
+        } else if (data.roleId === "5") {
+          await db.Customer.create({
+            CustomerName: data.fullName,
+            Gender: data.gender,
+            DayOfBirth: data.dayOfBirth,
+            PhoneNumber: data.phoneNumber,
+            Address: data.address,
+            RoleId: data.roleId,
+            // password: hashPass,
+            CustomerImage:
+              result && result.secure_url ? result.secure_url : avatar,
+            CustomerEmail: data.email,
+            CenterId: data.centerId,
+            ExternalId: data.ExternalId,
+            // SalaryId: data.salaryId,
+            // isActive: true,
+            // userName: data.userName,
+          });
+        }
 
         resolve({
           errCode: 0,
-          errMessage: "OK",
+          errMessage: "create user is success",
         }); // return
       }
     } catch (e) {
@@ -354,29 +431,61 @@ let createNewUser = (data) => {
 const updateAccount = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.id) {
+      if (!data.ExternalId) {
         resolve({
           errorCode: 2,
-          errMessage: "Missing id",
+          errMessage: "Missing external id",
         });
       }
       let account = await db.Accounts.findOne({
-        where: { id: data.id },
+        where: { ExternalId: data.ExternalId },
         raw: false,
       });
+      let result = {};
+      let avatar = "";
+      if (data.avatar && data.fileName) {
+        // upload cloud //
+        result = await uploadCloud(data.avatar, data.fileName);
+      } else {
+        avatar = "";
+      }
       if (account) {
         account.email = data.email;
         account.fullName = data.fullName;
         account.userName = data.userName;
         account.roleId = data.roleId;
 
-        if (data.avatar) account.avatar = data.avatar;
+        account.avatar =
+          result && result.secure_url ? result.secure_url : avatar;
 
         await account.save();
 
+        if (data.roleId === "1" || data.roleId === "2") {
+          let manager = await db.Manager.findOne({
+            where: { ExternalId: data.ExternalId },
+            raw: false,
+          });
+          console.log("manager: ", manager);
+
+          if (manager) {
+            manager.ManagerName = data.fullName;
+            manager.ManagerEmail = data.email;
+            manager.ManagerPhone = data.phoneNumber;
+            manager.Gender = data.Gender;
+            manager.ManagerAddress = data.address;
+            manager.RoleId = data.roleId;
+            manager.ManagerImage =
+              result && result.secure_url ? result.secure_url : avatar;
+            manager.public_id_image = data.fileName;
+            manager.CenterId = data.centerId;
+            manager.SalaryId = data.salaryId;
+
+            await manager.save();
+          }
+        }
         resolve({
           errorCode: 0,
-          message: "Update account is success",
+          message: "Update user is success",
         });
       } else {
         resolve({

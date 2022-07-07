@@ -122,6 +122,10 @@ let initWebRoutes = (app) => {
     "/api/staff/accept-booking",
     BookingController.handleAcceptBookingForStaff
   );
+  router.get(
+    "/api/:CenterId/get-booking-in-week",
+    BookingController.handleGetBookingOfCenterIn7Day
+  );
   //salary
   router.get("/api/get-all-salary", SalaryController.handleGetAllSalary);
 

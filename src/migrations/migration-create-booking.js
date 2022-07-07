@@ -30,13 +30,16 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       StartTime: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       EndTime: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       Status: {
         type: Sequelize.STRING,
+      },
+      idDiscount: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: true,

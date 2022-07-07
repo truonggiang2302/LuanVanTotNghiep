@@ -44,7 +44,8 @@ module.exports = (sequelize, DataTypes) => {
       // StaffId: DataTypes.INTEGER,
       AccountId: DataTypes.INTEGER,
       StaffName: DataTypes.STRING,
-      StaffImage: DataTypes.STRING,
+      StaffImage: DataTypes.TEXT,
+      public_id_image: DataTypes.STRING,
       StaffPhoneNumber: DataTypes.STRING,
       Gender: DataTypes.BOOLEAN,
       DayOfBirth: DataTypes.STRING,
@@ -53,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       StaffEmail: DataTypes.STRING,
       CenterId: DataTypes.INTEGER,
       SalaryId: DataTypes.INTEGER,
+      ExternalId: DataTypes.INTEGER,
     },
     {
       sequelize,

@@ -16,6 +16,28 @@ cloudinary.config({
 });
 const op = Sequelize.Op;
 
+let uploadCloud = (image, fName) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await cloudinary.uploader.upload(
+        image,
+        {
+          resource_type: "raw",
+          public_id: `image/GhGym/${fName}`,
+        },
+        // Send cloudinary response or catch error
+        (err, result) => {
+          if (err) console.log(err);
+          if (result) {
+            resolve(result);
+          }
+        }
+      );
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllManagerOfCenter = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -79,17 +101,22 @@ let createNewManager = (data) => {
           message: "Email da ton tai",
         });
       } else {
+        // console.log("first");
         let hashPass = await hashUserPassword(data.password);
         let result = {};
         let avatar = "";
+
         if (data.avatar && data.fileName) {
           // upload cloud //
+
           result = await uploadCloud(data.avatar, data.fileName);
+          console.log("check image: ", result);
         } else {
           avatar = "";
         }
 
         await db.Manager.create({
+          id: data.id,
           ManagerName: data.fullName,
           // password: hashPass,
           ManagerEmail: data.email,
@@ -101,8 +128,10 @@ let createNewManager = (data) => {
           RoleId: data.roleId,
           ManagerImage:
             result && result.secure_url ? result.secure_url : avatar,
+          public_id_image: data.fileName,
           CenterId: data.centerId,
           SalaryId: data.salaryId,
+
           // isActive: true,
           // userName: data.userName,
         });
@@ -130,6 +159,16 @@ const updateManager = (data) => {
         where: { AccountId: data.id },
         raw: false,
       });
+      let result = {};
+      let avatar = "";
+      if (data.avatar && data.fileName) {
+        // upload cloud //
+
+        result = await uploadCloud(data.avatar, data.fileName);
+        console.log("check image: ", result);
+      } else {
+        avatar = "";
+      }
       if (manager) {
         manager.ManagerName = data.fullName;
         manager.ManagerEmail = data.email;
@@ -137,7 +176,9 @@ const updateManager = (data) => {
         manager.Gender = data.Gender;
         manager.ManagerAddress = data.address;
         manager.RoleId = data.roleId;
-        manager.ManagerImage = data.avatar;
+        manager.ManagerImage =
+          result && result.secure_url ? result.secure_url : avatar;
+        manager.public_id_image = data.fileName;
         manager.CenterId = data.centerId;
         manager.SalaryId = data.salaryId;
 

@@ -18,16 +18,19 @@ module.exports = {
         type: Sequelize.STRING,
       },
       WorkDuration: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       Price: {
         type: Sequelize.STRING,
       },
       ServiceImage: {
         allowNull: false,
+        type: Sequelize.TEXT,
+      },
+      public_id_image: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
-
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE,

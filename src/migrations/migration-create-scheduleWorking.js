@@ -16,10 +16,10 @@ module.exports = {
       // },
 
       DayWork: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       DayOff: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       StaffId: {
         type: Sequelize.INTEGER,
@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       TimeWork: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: true,

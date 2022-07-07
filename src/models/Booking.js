@@ -40,9 +40,10 @@ module.exports = (sequelize, DataTypes) => {
       PTName: DataTypes.STRING,
       CenterId: DataTypes.INTEGER,
       ServiceId: DataTypes.INTEGER,
-      StartTime: DataTypes.STRING,
-      EndTime: DataTypes.STRING,
+      StartTime: DataTypes.DATE,
+      EndTime: DataTypes.DATE,
       Status: DataTypes.STRING,
+      idDiscount: DataTypes.INTEGER,
     },
     {
       sequelize,

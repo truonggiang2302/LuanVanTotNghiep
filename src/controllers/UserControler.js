@@ -80,13 +80,14 @@ const handleUpdateAccount = async (req, res) => {
   return res.status(200).json(message);
 };
 let handleDeleteAccount = async (req, res) => {
-  if (!req.body.id) {
+  console.log("check data delete", req.body);
+  if (!req.body.ExternalId) {
     return res.status(200).json({
       errCode: 1,
       errMessage: "Missing id",
     });
   }
-  let message = await UserService.deleteAccount(req.body.id);
+  let message = await UserService.deleteAccount(req.body);
   return res.status(200).json(message);
 };
 let handleLoginSocial = async (req, res) => {

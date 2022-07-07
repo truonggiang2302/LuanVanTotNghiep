@@ -33,10 +33,18 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
+      public_id_image: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       CustomerEmail: {
         type: Sequelize.STRING,
       },
       CenterId: {
+        type: Sequelize.INTEGER,
+      },
+      ExternalId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
       createdAt: {

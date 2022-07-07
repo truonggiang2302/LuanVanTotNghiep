@@ -28,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
   ScheduleWorking.init(
     {
       // ScheduleId: DataTypes.INTEGER,
-      DayWork: DataTypes.STRING,
-      DayOff: DataTypes.STRING,
+      DayWork: DataTypes.DATE,
+      DayOff: DataTypes.DATE,
       StaffId: DataTypes.INTEGER,
       ManagerId: DataTypes.INTEGER,
-      TimeWork: DataTypes.STRING,
+      TimeWork: DataTypes.DATE,
     },
     {
       sequelize,

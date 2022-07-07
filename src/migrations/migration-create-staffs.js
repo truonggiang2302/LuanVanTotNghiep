@@ -16,6 +16,10 @@ module.exports = {
       },
       StaffImage: {
         allowNull: false,
+        type: Sequelize.TEXT,
+      },
+      public_id_image: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       StaffPhoneNumber: {
@@ -40,6 +44,10 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       SalaryId: {
+        type: Sequelize.INTEGER,
+      },
+      ExternalId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
       createdAt: {

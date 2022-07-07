@@ -17,10 +17,6 @@ module.exports = {
       CustomerId: {
         type: Sequelize.INTEGER,
       },
-
-      CustomerName: {
-        type: Sequelize.STRING,
-      },
       ReservationId: {
         type: Sequelize.INTEGER,
       },
