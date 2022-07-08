@@ -58,6 +58,24 @@ const getAllScheduleWorkOfPT = async (req) => {
   });
 };
 
+let createNewSchedule = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.ScheduleWorking.create({
+        DayWork: data.DayWork,
+        StaffId: data.StaffId,
+        TimeId: data.TimeId,
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "create schedule is success",
+      }); // return
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllScheduleWorkOfPT,
+  createNewSchedule,
 };

@@ -12,6 +12,15 @@ const handleGetAllBooking = async (req, res) => {
   });
 };
 
+let handleCreateScheduleWorking = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await ScheduleWorkingService.createNewSchedule(req.body);
+  // let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateAccount,
+  });
+};
 const handleGetScheduleWorkingOfPT = async (req, res) => {
   const ScheduleWorking = await ScheduleWorkingService.getAllScheduleWorkOfPT(
     req
@@ -25,4 +34,5 @@ const handleGetScheduleWorkingOfPT = async (req, res) => {
 };
 module.exports = {
   handleGetScheduleWorkingOfPT,
+  handleCreateScheduleWorking,
 };

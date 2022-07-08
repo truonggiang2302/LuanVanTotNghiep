@@ -150,7 +150,10 @@ let initWebRoutes = (app) => {
     "/api/:StaffId/get-schedule-working",
     ScheduleWorkingController.handleGetScheduleWorkingOfPT
   );
-  // router.post("")
+  router.post(
+    "/api/create-schedule-working",
+    ScheduleWorkingController.handleCreateScheduleWorking
+  );
   //rating and review
   router.get(
     "/api/admin/get-review-of-center",
