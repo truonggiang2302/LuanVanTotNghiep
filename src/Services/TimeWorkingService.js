@@ -10,11 +10,11 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const getAllSchedule = async (payloadReq) => {
+const getAllTimeWorking = async (payloadReq) => {
   return new Promise(async (resolve, reject) => {
     try {
       const skip = (payloadReq.page - 1) * 10;
-      let schedule = await db.ScheduleWorking.findAndCountAll({
+      let time = await db.TimeWorking.findAndCountAll({
         // attributes: {
         //   exclude: ["password"],
         // },
@@ -25,36 +25,13 @@ const getAllSchedule = async (payloadReq) => {
         nest: true,
       });
 
-      resolve(schedule);
+      resolve(time);
     } catch (e) {
       reject(e);
     }
   });
 };
-const getAllScheduleWorkOfStaff = async (req) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const skip = (req.query.page - 1) * 10;
-      let scheduleWork = await db.ScheduleWorking.findAndCountAll({
-        where: {
-          StaffId: req.params.StaffId,
-        },
-        // attributes: {
-        //   exclude: ["password"],
-        // },
-        limit: 10,
-        offset: skip,
-        // include: [{ model: db.Roles, as: "UserRoles" }],
-        raw: true,
-        nest: true,
-      });
 
-      resolve(scheduleWork);
-    } catch (e) {
-      reject(e);
-    }
-  });
-};
 const getAllScheduleWorkOfPT = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -99,8 +76,5 @@ let createNewSchedule = (data) => {
   });
 };
 module.exports = {
-  getAllSchedule,
-  getAllScheduleWorkOfPT,
-  createNewSchedule,
-  getAllScheduleWorkOfStaff,
+  getAllTimeWorking,
 };

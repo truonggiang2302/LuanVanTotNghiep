@@ -1,14 +1,14 @@
 import Customer from "../models/Customer";
 import db from "../models/index";
-import ScheduleWorkingService from "../Services/ScheduleWorkingService";
+import TimeWorkingService from "../Services/TimeWorkingService";
 
-const handleGetAllSchedule = async (req, res) => {
-  let schedule = await ScheduleWorkingService.getAllSchedule(req.query);
+const handleGetAllTimeWorking = async (req, res) => {
+  let time = await TimeWorkingService.getAllTimeWorking(req.query);
   return res.status(200).json({
     errCode: 0,
-    errMessage: "get all schedule working is success",
-    schedule,
-    totalPage: Math.ceil(schedule.count / 10),
+    errMessage: "get all time working is success",
+    time,
+    totalPage: Math.ceil(time.count / 10),
   });
 };
 
@@ -32,19 +32,6 @@ const handleGetScheduleWorkingOfPT = async (req, res) => {
     totalPage: Math.ceil(ScheduleWorking.count / 10),
   });
 };
-const handleGetScheduleWorkingOfStaff = async (req, res) => {
-  const ScheduleWorking =
-    await ScheduleWorkingService.getAllScheduleWorkOfStaff(req);
-  return res.status(200).json({
-    errCode: 0,
-    errMessage: "get all schedule working of staff is success",
-    ScheduleWorking,
-    totalPage: Math.ceil(ScheduleWorking.count / 10),
-  });
-};
 module.exports = {
-  handleGetAllSchedule,
-  handleGetScheduleWorkingOfPT,
-  handleCreateScheduleWorking,
-  handleGetScheduleWorkingOfStaff,
+  handleGetAllTimeWorking,
 };

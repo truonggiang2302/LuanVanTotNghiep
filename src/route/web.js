@@ -12,6 +12,7 @@ import ScheduleWorkingController from "../controllers/ScheduleWorkingController"
 import PaymentController from "../controllers/PaymentController";
 import OrderController from "../controllers/OrderController";
 import ReviewController from "../controllers/ReviewController";
+import TimeWorkingController from "../controllers/TimeWorkingController";
 
 let router = express.Router();
 
@@ -127,6 +128,10 @@ let initWebRoutes = (app) => {
     "/api/:CenterId/get-booking-in-week",
     BookingController.handleGetBookingOfCenterIn7Day
   );
+  router.get(
+    "/api/get-booking-in-month",
+    BookingController.handleGetBookingOfCenterIn30Day
+  );
   //salary
   router.get("/api/get-all-salary", SalaryController.handleGetAllSalary);
 
@@ -147,12 +152,25 @@ let initWebRoutes = (app) => {
   router.delete("/api/delete-manager", ManagerController.handleDeleteManager);
   //schedule working
   router.get(
+    "/api/get-all-schedule",
+    ScheduleWorkingController.handleGetAllSchedule
+  );
+  router.get(
     "/api/:StaffId/get-schedule-working",
     ScheduleWorkingController.handleGetScheduleWorkingOfPT
+  );
+  router.get(
+    "/api/:StaffId/get-schedule-working-of-staff",
+    ScheduleWorkingController.handleGetScheduleWorkingOfStaff
   );
   router.post(
     "/api/create-schedule-working",
     ScheduleWorkingController.handleCreateScheduleWorking
+  );
+  //time working
+  router.get(
+    "/api/get-all-time-working",
+    TimeWorkingController.handleGetAllTimeWorking
   );
   //rating and review
   router.get(

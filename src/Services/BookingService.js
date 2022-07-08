@@ -117,6 +117,37 @@ const getAllBookingOfCenter = async (req) => {
 //     }
 //   }
 // })
+const getAllBookingOfCenterIn30Day = async (req) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (req.query.page - 1) * 10;
+      let bookings = await db.Booking.findAndCountAll({
+        where: {
+          // CenterId: req.params.CenterId,
+          createdAt: {
+            [Op.gte]: moment().subtract(30, "days").toDate(),
+          },
+        },
+        group: ["id", "createdAt"],
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 10,
+        offset: skip,
+        // include: [
+        //   { model: db.Staffs, as: "StaffBooking" },
+        //   { model: db.Customer, as: "CustomerBooking" },
+        // ],
+        raw: true,
+        nest: true,
+      });
+      console.log(bookings);
+      resolve(bookings);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllBookingOfCenterIn7Day = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -279,4 +310,5 @@ module.exports = {
   updateStatusBooking,
   createNewBooking,
   getAllBookingOfCenterIn7Day,
+  getAllBookingOfCenterIn30Day,
 };
