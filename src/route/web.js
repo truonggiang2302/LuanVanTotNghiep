@@ -13,6 +13,7 @@ import PaymentController from "../controllers/PaymentController";
 import OrderController from "../controllers/OrderController";
 import ReviewController from "../controllers/ReviewController";
 import TimeWorkingController from "../controllers/TimeWorkingController";
+import BlogController from "../controllers/BlogController";
 
 let router = express.Router();
 
@@ -177,6 +178,12 @@ let initWebRoutes = (app) => {
     "/api/admin/get-review-of-center",
     ReviewController.handleGetReviewOfCenter
   );
+  router.post(
+    "/api/admin/create-new-review",
+    ReviewController.handleCreateNewReview
+  );
+  //blog
+  router.get("/api/admin/get-all-blog", BlogController.handleGetAllBlog);
   //order
   router.post("/api/create-new-order", OrderController.handleCreateNewOrder);
   //payment

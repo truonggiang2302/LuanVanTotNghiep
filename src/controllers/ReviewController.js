@@ -12,7 +12,16 @@ const handleGetReviewOfCenter = async (req, res) => {
     totalPage: Math.ceil(reviewOfCenter.count / 10),
   });
 };
-
+let handleCreateNewReview = async (req, res) => {
+  // console.log("check body: ", req.body);
+  let message = await ReviewService.createNewReview(req.body);
+  // let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateAccount,
+  });
+};
 module.exports = {
   handleGetReviewOfCenter,
+  handleCreateNewReview,
 };

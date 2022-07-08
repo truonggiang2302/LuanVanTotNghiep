@@ -14,14 +14,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const getAllReviewOfCenter = async (req) => {
+const getAllBlog = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
       const skip = (req.query.page - 1) * 10;
-      let bookings = await db.rateAndReview.findAndCountAll({
-        where: {
-          CenterId: req.query.CenterId,
-        },
+      let blogs = await db.Blog.findAndCountAll({
+        // where: {
+        //   CenterId: req.query.CenterId,
+        // },
         // attributes: {
         //   exclude: ["password"],
         // },
@@ -32,31 +32,13 @@ const getAllReviewOfCenter = async (req) => {
         nest: true,
       });
 
-      resolve(bookings);
+      resolve(blogs);
     } catch (e) {
       reject(e);
     }
   });
 };
-let createNewReview = (data) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await db.rateAndReview.create({
-        ratingPoint: data.ratingPoint,
-        reviewContent: data.reviewContent,
-        CustomerId: data.CustomerId,
-        CenterId: data.CenterId,
-      });
-      resolve({
-        errCode: 0,
-        errMessage: "create review is success",
-      }); // return
-    } catch (e) {
-      reject(e);
-    }
-  });
-};
+
 module.exports = {
-  getAllReviewOfCenter,
-  createNewReview,
+  getAllBlog,
 };
