@@ -11,6 +11,7 @@ import ManagerController from "../controllers/ManagerController";
 import ScheduleWorkingController from "../controllers/ScheduleWorkingController";
 import PaymentController from "../controllers/PaymentController";
 import OrderController from "../controllers/OrderController";
+import ReviewController from "../controllers/ReviewController";
 
 let router = express.Router();
 
@@ -134,6 +135,10 @@ let initWebRoutes = (app) => {
     "/api/get-all-manager",
     ManagerController.handleGetAllManageCenter
   );
+  router.get(
+    "/api/get-detail-manager",
+    ManagerController.handleGetDetailManager
+  );
   router.post(
     "/api/create-new-manager",
     ManagerController.handleCreateNewManager
@@ -144,6 +149,11 @@ let initWebRoutes = (app) => {
   router.get(
     "/api/:StaffId/get-schedule-working",
     ScheduleWorkingController.handleGetScheduleWorkingOfPT
+  );
+  //rating and review
+  router.get(
+    "/api/admin/get-review-of-center",
+    ReviewController.handleGetReviewOfCenter
   );
   //order
   router.post("/api/create-new-order", OrderController.handleCreateNewOrder);

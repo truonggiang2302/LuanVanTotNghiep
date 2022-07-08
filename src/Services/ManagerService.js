@@ -226,9 +226,35 @@ let deleteManager = (id) => {
     });
   });
 };
+const getDetailManager = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // console.log("id: ", id);
+      // console.log("id: ", typeof id);
+      let manager = await db.Manager.findOne({
+        where: { id: id },
+        // include: [
+        //   // { model: db.ScheduleWorking, as: "ScheduleWorkStaff" },
+        //   // {
+        //   //   model: db.Booking,
+        //   //   as: "CustomerBooking",
+        //   //   // where: { CustomerId: 41 },
+        //   // },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(manager);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllManagerOfCenter,
   createNewManager,
   updateManager,
   deleteManager,
+  getDetailManager,
 };

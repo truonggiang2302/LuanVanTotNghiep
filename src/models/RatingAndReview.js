@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Staffs extends Model {
+  class rateAndReview extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,24 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here//
-      Staffs.belongsTo(models.Accounts, {
-        foreignKey: "ExternalId",
-        as: "AccountStaff",
-      });
-      //1 staff có 1 mức lương
-      Staffs.belongsTo(models.Salary, {
-        foreignKey: "id",
-        as: "SalaryStaff",
-      });
-      Staffs.hasOne(models.ScheduleWorking, {
-        foreignKey: "StaffId",
-        as: "ScheduleWorkStaff",
-      });
-      Staffs.hasMany(models.Booking, {
-        foreignKey: "id",
-        as: "StaffBooking",
-      });
-
+      // Manager.belongsTo(models.Accounts, {
+      //   foreignKey: "ExternalId",
+      //   // targetKey: "id",
+      //   as: "AccountManager",
+      // });
+      // Manager.belongsTo(models.Salary, {
+      //   foreignKey: "SalaryId",
+      //   as: "SalaryManager",
+      // });
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })
       // Một user có nhiều lịch sử nghe //
@@ -39,28 +30,19 @@ module.exports = (sequelize, DataTypes) => {
       // Users.belongsToMany(models.Songs, { as: 'SongOfUser', through: models.LikeSong, foreignKey: 'userId' });
     }
   }
-  Staffs.init(
+  rateAndReview.init(
     {
-      // StaffId: DataTypes.INTEGER,
-      AccountId: DataTypes.INTEGER,
-      StaffName: DataTypes.STRING,
-      StaffImage: DataTypes.TEXT,
-      public_id_image: DataTypes.STRING,
-      StaffPhoneNumber: DataTypes.STRING,
-      Gender: DataTypes.BOOLEAN,
-      DayOfBirth: DataTypes.STRING,
-      Address: DataTypes.STRING,
-      RoleId: DataTypes.INTEGER,
-      StaffEmail: DataTypes.STRING,
+      // ManagerId: DataTypes.INTEGER,
+      ratingPoint: DataTypes.INTEGER,
+      reviewContent: DataTypes.TEXT,
+      CustomerId: DataTypes.INTEGER,
       CenterId: DataTypes.INTEGER,
-      SalaryId: DataTypes.INTEGER,
-      ExternalId: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "Staffs",
+      modelName: "rateAndReview",
       freezeTableName: true,
     }
   );
-  return Staffs;
+  return rateAndReview;
 };

@@ -11,17 +11,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here//
       //1 account thuộc về 1 khách hàng
       Accounts.hasOne(models.Customer, {
-        foreignKey: "AccountId",
+        foreignKey: "ExternalId",
         as: "AccountCustomer",
       });
       //1 account thuộc về 1 nhân viên
       Accounts.hasOne(models.Staffs, {
-        foreignKey: "AccountId",
+        foreignKey: "ExternalId",
         as: "AccountStaff",
       });
       //1 account thuộc về 1 quan3 ly1
       Accounts.hasOne(models.Manager, {
-        foreignKey: "AccountId",
+        foreignKey: "ExternalId",
         as: "AccountManager",
       });
 

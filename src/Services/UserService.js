@@ -386,11 +386,12 @@ let createNewUser = (data) => {
             password: hashPass,
             StaffImage:
               result && result.secure_url ? result.secure_url : avatar,
+            public_id_image: data.fileName,
             StaffPhoneNumber: data.phoneNumber,
             Gender: data.gender,
-            DayOfBirth: data.dayOfBirth,
+            DayOfBirth: data.dob,
             Address: data.address,
-            roleId: data.roleId,
+            RoleId: data.roleId,
             StaffEmail: data.email,
             CenterId: data.centerId,
             SalaryId: data.salaryId,
@@ -481,6 +482,31 @@ const updateAccount = (data) => {
             manager.SalaryId = data.salaryId;
 
             await manager.save();
+          }
+        }
+        if (data.roleId === "3" || data.roleId === "4") {
+          console.log("check update staff");
+          let staff = await db.Staffs.findOne({
+            where: { ExternalId: data.ExternalId },
+            raw: false,
+          });
+          // console.log("staff: ", manager);
+
+          if (staff) {
+            staff.StaffName = data.fullName;
+            staff.StaffEmail = data.email;
+            staff.StaffImage =
+              result && result.secure_url ? result.secure_url : avatar;
+            staff.public_id_image = data.fileName;
+            staff.ManagerPhone = data.phoneNumber;
+            staff.Gender = data.Gender;
+            staff.ManagerAddress = data.address;
+            staff.RoleId = data.roleId;
+            staff.DayOfBirth = data.dob;
+            staff.CenterId = data.centerId;
+            staff.SalaryId = data.salaryId;
+
+            await staff.save();
           }
         }
         resolve({

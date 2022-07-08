@@ -29,6 +29,12 @@ module.exports = {
       ServiceId: {
         type: Sequelize.INTEGER,
       },
+      idDiscount: {
+        type: Sequelize.INTEGER,
+      },
+      Price: {
+        type: Sequelize.INTEGER,
+      },
       StartTime: {
         type: Sequelize.DATE,
       },

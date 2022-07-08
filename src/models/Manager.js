@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here//
       Manager.belongsTo(models.Accounts, {
-        foreignKey: "id",
+        foreignKey: "ExternalId",
         // targetKey: "id",
         as: "AccountManager",
       });

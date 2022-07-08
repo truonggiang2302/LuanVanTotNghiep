@@ -1,37 +1,29 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Services", {
+    await queryInterface.createTable("rateAndReview", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      // ServiceId: {
+      // orderId: {
       //   allowNull: false,
       //   autoIncrement: true,
-      //   primaryKey: true,
+      //   // primaryKey: true,
       //   type: Sequelize.INTEGER,
       // },
-      ServiceName: {
-        type: Sequelize.STRING,
-      },
-      WorkDuration: {
+      ratingPoint: {
         type: Sequelize.INTEGER,
       },
-      Price: {
-        type: Sequelize.INTEGER,
-      },
-      ServiceImage: {
-        allowNull: false,
+      reviewContent: {
         type: Sequelize.TEXT,
       },
-      public_id_image: {
-        allowNull: false,
-        type: Sequelize.STRING,
+      CustomerId: {
+        type: Sequelize.INTEGER,
       },
-      idDiscount: {
+      CenterId: {
         type: Sequelize.INTEGER,
       },
       createdAt: {
@@ -45,6 +37,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Services");
+    await queryInterface.dropTable("rateAndReview");
   },
 };
