@@ -141,7 +141,7 @@ const getAllBookingOfCenterIn7Day = async (req) => {
         raw: true,
         nest: true,
       });
-
+      console.log(bookings);
       resolve(bookings);
     } catch (e) {
       reject(e);
@@ -209,11 +209,25 @@ const updateStatusBooking = (data) => {
         // booking.StartTime = data.phonenumber;
         // booking.EndTime = data.gender;
         booking.Status = data.Status;
+
         // if (data.avatar)
         //     user.image = data.avatar;
 
         await booking.save();
-
+        if (data.Status === "SCHEDULED") {
+          let scheduleWork = await db.ScheduleWorking.findOne({
+            where: { id: data.ScheduleId },
+          });
+          if (!scheduleWork) {
+            resolve({
+              errCode: 2,
+              errMessage: "Schedule Work not found",
+            });
+          }
+          await db.ScheduleWorking.destroy({
+            where: { id: data.ScheduleId },
+          });
+        }
         resolve({
           errorCode: 0,
           message: "success",
@@ -242,6 +256,9 @@ let createNewBooking = (data) => {
         StartTime: data.StartTime,
         EndTime: data.EndTime,
         Status: "PENDING",
+        idDiscount: data.IdDisCount,
+        price: data.Price,
+        ScheduleId: data.ScheduleId,
       });
       resolve({
         errCode: 0,

@@ -232,7 +232,7 @@ const getDetailManager = (id) => {
       // console.log("id: ", id);
       // console.log("id: ", typeof id);
       let manager = await db.Manager.findOne({
-        where: { id: id },
+        where: { ExternalId: id },
         // include: [
         //   // { model: db.ScheduleWorking, as: "ScheduleWorkStaff" },
         //   // {

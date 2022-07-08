@@ -39,6 +39,7 @@ const getAllScheduleWorkOfPT = async (req) => {
       let scheduleWork = await db.ScheduleWorking.findAndCountAll({
         where: {
           StaffId: req.params.StaffId,
+          DayWork: req.query.DayWork,
         },
         // attributes: {
         //   exclude: ["password"],

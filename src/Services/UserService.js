@@ -80,6 +80,7 @@ let handleUserLogin = async (email, password) => {
             "password",
             "fullName",
             "avatar",
+            "ExternalId",
           ],
           raw: true,
         });

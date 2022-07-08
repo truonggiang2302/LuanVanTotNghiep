@@ -44,6 +44,8 @@ module.exports = (sequelize, DataTypes) => {
       EndTime: DataTypes.DATE,
       Status: DataTypes.STRING,
       idDiscount: DataTypes.INTEGER,
+      price: DataTypes.INTEGER,
+      ScheduleId: DataTypes.INTEGER,
     },
     {
       sequelize,
