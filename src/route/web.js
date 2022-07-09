@@ -14,7 +14,9 @@ import OrderController from "../controllers/OrderController";
 import ReviewController from "../controllers/ReviewController";
 import TimeWorkingController from "../controllers/TimeWorkingController";
 import BlogController from "../controllers/BlogController";
-
+import DiscountController from "../controllers/DiscountController";
+import emailController from "../controllers/emailController";
+const QRCode = require("qrcode");
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -181,6 +183,11 @@ let initWebRoutes = (app) => {
     "/api/create-schedule-working",
     ScheduleWorkingController.handleCreateScheduleWorking
   );
+  //discount
+  router.get(
+    "/api/get-discount-detail",
+    DiscountController.handleGetDetailDiscount
+  );
   //time working
   router.get(
     "/api/get-all-time-working",
@@ -199,6 +206,15 @@ let initWebRoutes = (app) => {
   router.get("/api/admin/get-all-blog", BlogController.handleGetAllBlog);
   //order
   router.post("/api/create-new-order", OrderController.handleCreateNewOrder);
+  //QR code
+  router.get("/api/get-QR-code", async (req, res) => {
+    let img = "";
+    let qr = await QRCode.toDataURL("I am Giang!");
+    console.log(qr);
+    img = `<image src= " ` + qr + `" />`;
+    return res.send(img);
+  });
+  router.post("/send-email", emailController.sendMail);
   //payment
   //momo
   app.post("/api/get-momo-payment-link", PaymentController.getMomoPaymentLink);

@@ -196,23 +196,19 @@ let deleteService = (id) => {
     });
     if (serviceInBooking) {
       resolve({
-        errCode,
+        errCode: 10,
+        errMessage: "Service đang thuộc 1 booking. Không thể xoá",
       });
     }
-
-    // if (user.avatar && user.public_id_image) {
-    //     // Xóa hình cũ //
-    //     await cloudinary.uploader.destroy(user.public_id_image, { invalidate: true, resource_type: "raw" },
-    //         function (err, result) { console.log(result) });
-    // }
-
-    await db.Services.destroy({
-      where: { id: id },
-    });
-    resolve({
-      errCode: 0,
-      errMessage: "Delete service is success",
-    });
+    if (!serviceInBooking) {
+      await db.Services.destroy({
+        where: { id: id },
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "Delete service is success",
+      });
+    }
   });
 };
 module.exports = {
