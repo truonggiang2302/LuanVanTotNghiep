@@ -102,6 +102,19 @@ let initWebRoutes = (app) => {
     BookingController.handleGetDetailBookingOfCenter
   );
   router.get(
+    "/api/get-booking-pending",
+    BookingController.handleGetBookingPending
+  );
+  router.get(
+    "/api/get-booking-cancel",
+    BookingController.handleGetBookingCancel
+  );
+  router.get(
+    "/api/get-booking-schedule",
+    BookingController.handleGetBookingSchedule
+  );
+
+  router.get(
     "/api/:PTId/get-booking-of-pt",
     BookingController.handleGetBookingOfPT
   );

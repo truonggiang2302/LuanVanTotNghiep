@@ -217,6 +217,25 @@ const getDetailBookingOfCenter = (id) => {
     }
   });
 };
+const getBookingPending = (query) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let bookingOfStatus = await db.Booking.findOne({
+        where: { Status: query.Status },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(bookingOfStatus);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const updateStatusBooking = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -311,4 +330,5 @@ module.exports = {
   createNewBooking,
   getAllBookingOfCenterIn7Day,
   getAllBookingOfCenterIn30Day,
+  getBookingPending,
 };

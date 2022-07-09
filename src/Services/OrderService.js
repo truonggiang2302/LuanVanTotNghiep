@@ -101,7 +101,7 @@ let createNewOrder = (data) => {
         CustomerId: data.CustomerId,
         CustomerName: data.CustomerName,
         ReservationId: data.bookingId,
-        amount: data.amount,
+        amount: data.Price,
       });
       resolve({
         errCode: 0,

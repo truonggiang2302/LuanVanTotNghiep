@@ -34,6 +34,36 @@ const handleGetDetailBookingOfCenter = async (req, res) => {
     bookingDetail,
   });
 };
+const handleGetBookingPending = async (req, res) => {
+  // console.log("check id: ", req.query);
+  const bookingPending = await BookingService.getBookingPending(req.query);
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get booking pending of system is success",
+    bookingPending,
+  });
+};
+const handleGetBookingCancel = async (req, res) => {
+  // console.log("check id: ", req.query);
+  const bookingPending = await BookingService.getBookingPending(req.query);
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get booking cancel of system is success",
+    bookingPending,
+  });
+};
+const handleGetBookingSchedule = async (req, res) => {
+  // console.log("check id: ", req.query);
+  const bookingPending = await BookingService.getBookingPending(req.query);
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get booking schedule of system is success",
+    bookingPending,
+  });
+};
 const handleGetBookingOfPT = async (req, res) => {
   const bookingOfPT = await BookingService.getAllBookingOfPT(req);
   return res.status(200).json({
@@ -117,4 +147,7 @@ module.exports = {
   handleGetDetailBookingOfCenter,
   handleGetBookingOfCenterIn7Day,
   handleGetBookingOfCenterIn30Day,
+  handleGetBookingPending,
+  handleGetBookingCancel,
+  handleGetBookingSchedule,
 };

@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Blog extends Model {
+  class Discount extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,14 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here//
-      // Manager.belongsTo(models.Accounts, {
-      //   foreignKey: "ExternalId",
-      //   // targetKey: "id",
-      //   as: "AccountManager",
-      // });
-      // Manager.belongsTo(models.Salary, {
-      //   foreignKey: "SalaryId",
-      //   as: "SalaryManager",
+      // ScheduleWorking.belongsTo(models.Staffs, {
+      //   foreignKey: "id",
+      //   as: "ScheduleWorkStaff",
       // });
       // Một người dùng thuộc 1 role //
       // Users.belongsTo(models.Roles, { foreignKey: 'roleId', targetKey: 'id', as: 'UserRoles' })
@@ -30,20 +25,16 @@ module.exports = (sequelize, DataTypes) => {
       // Users.belongsToMany(models.Songs, { as: 'SongOfUser', through: models.LikeSong, foreignKey: 'userId' });
     }
   }
-  Blog.init(
+  Discount.init(
     {
-      // ManagerId: DataTypes.INTEGER,
-      Title: DataTypes.STRING,
-      Content: DataTypes.TEXT,
-      ManagerId: DataTypes.INTEGER,
-      CenterId: DataTypes.INTEGER,
-      // CenterId: DataTypes.INTEGER,
+      // ScheduleId: DataTypes.INTEGER,
+      DiscountRate: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "Blog",
+      modelName: "Discount",
       freezeTableName: true,
     }
   );
-  return Blog;
+  return Discount;
 };
