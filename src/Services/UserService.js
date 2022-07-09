@@ -411,6 +411,7 @@ let createNewUser = (data) => {
             // password: hashPass,
             CustomerImage:
               result && result.secure_url ? result.secure_url : avatar,
+            public_id_image: data.fileName,
             CustomerEmail: data.email,
             CenterId: data.centerId,
             ExternalId: data.ExternalId,

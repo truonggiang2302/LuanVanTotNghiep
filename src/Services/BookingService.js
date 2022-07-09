@@ -220,7 +220,7 @@ const getDetailBookingOfCenter = (id) => {
 const getBookingPending = (query) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let bookingOfStatus = await db.Booking.findOne({
+      let bookingOfStatus = await db.Booking.findAndCountAll({
         where: { Status: query.Status },
         // include: [
         //     { model: db.Artists, as: 'SongOfArtists' },

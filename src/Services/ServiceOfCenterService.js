@@ -191,6 +191,14 @@ let deleteService = (id) => {
         errMessage: "Service not found",
       });
     }
+    let serviceInBooking = await db.Booking.findOne({
+      where: { ServiceId: id },
+    });
+    if (serviceInBooking) {
+      resolve({
+        errCode,
+      });
+    }
 
     // if (user.avatar && user.public_id_image) {
     //     // Xóa hình cũ //
