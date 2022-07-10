@@ -21,17 +21,16 @@ let handleCreateScheduleWorking = async (req, res) => {
     // messageCreateAccount,
   });
 };
-const handleGetScheduleWorkingOfPT = async (req, res) => {
-  const ScheduleWorking = await ScheduleWorkingService.getAllScheduleWorkOfPT(
-    req
-  );
+const handleGetTimeWorkingById = async (req, res) => {
+  const time = await TimeWorkingService.getTimeWorkingById(req.query.id);
   return res.status(200).json({
     errCode: 0,
-    errMessage: "get all schedule working of pt is success",
-    ScheduleWorking,
-    totalPage: Math.ceil(ScheduleWorking.count / 10),
+    errMessage: "get time working of id is success",
+    time,
+    // totalPage: Math.ceil(ScheduleWorking.count / 10),
   });
 };
 module.exports = {
   handleGetAllTimeWorking,
+  handleGetTimeWorkingById,
 };

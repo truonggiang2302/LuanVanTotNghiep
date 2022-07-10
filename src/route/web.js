@@ -201,6 +201,10 @@ let initWebRoutes = (app) => {
     "/api/get-all-time-working",
     TimeWorkingController.handleGetAllTimeWorking
   );
+  router.get(
+    "/api/get-time-working-by-id",
+    TimeWorkingController.handleGetTimeWorkingById
+  );
   //rating and review
   router.get(
     "/api/admin/get-review-of-center",

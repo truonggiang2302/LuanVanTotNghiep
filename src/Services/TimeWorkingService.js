@@ -32,26 +32,25 @@ const getAllTimeWorking = async (payloadReq) => {
   });
 };
 
-const getAllScheduleWorkOfPT = async (req) => {
+const getTimeWorkingById = async (id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const skip = (req.query.page - 1) * 10;
-      let scheduleWork = await db.ScheduleWorking.findAndCountAll({
+      // const skip = (req.query.page - 1) * 10;
+      let time = await db.TimeWorking.findOne({
         where: {
-          StaffId: req.params.StaffId,
-          DayWork: req.query.DayWork,
+          id: id,
         },
         // attributes: {
         //   exclude: ["password"],
         // },
-        limit: 10,
-        offset: skip,
+        // limit: 10,
+        // offset: skip,
         // include: [{ model: db.Roles, as: "UserRoles" }],
         raw: true,
         nest: true,
       });
 
-      resolve(scheduleWork);
+      resolve(time);
     } catch (e) {
       reject(e);
     }
@@ -77,4 +76,5 @@ let createNewSchedule = (data) => {
 };
 module.exports = {
   getAllTimeWorking,
+  getTimeWorkingById,
 };
