@@ -286,16 +286,25 @@ const updateStatusBooking = (data) => {
         if (data.Status === "SCHEDULED") {
           let scheduleWork = await db.ScheduleWorking.findOne({
             where: { id: data.ScheduleId },
+            raw: false,
           });
-          if (!scheduleWork) {
-            resolve({
-              errCode: 2,
-              errMessage: "Schedule Work not found",
-            });
+          if (scheduleWork) {
+            // console.log("first");
+            scheduleWork.Status = 0;
+            scheduleWork.save();
           }
-          await db.ScheduleWorking.destroy({
+        }
+        if (data.Status === "CANCELED") {
+          let scheduleWork = await db.ScheduleWorking.findOne({
             where: { id: data.ScheduleId },
           });
+          if (scheduleWork) {
+            scheduleWork.Status = 1;
+            scheduleWork.save();
+          }
+          // await db.ScheduleWorking.destroy({
+          //   where: { id: data.ScheduleId },
+          // });
         }
         resolve({
           errorCode: 0,
