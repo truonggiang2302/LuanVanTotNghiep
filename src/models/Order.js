@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 
       ReservationId: DataTypes.INTEGER,
       amount: DataTypes.STRING,
+      Status: DataTypes.INTEGER,
     },
     {
       sequelize,

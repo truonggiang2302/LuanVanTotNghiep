@@ -23,6 +23,9 @@ module.exports = {
       amount: {
         type: Sequelize.STRING,
       },
+      Status: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE,

@@ -511,6 +511,30 @@ const updateAccount = (data) => {
             await staff.save();
           }
         }
+        if (data.roleId === "5") {
+          console.log("check update staff");
+          let customer = await db.Customer.findOne({
+            where: { ExternalId: data.ExternalId },
+            raw: false,
+          });
+
+          if (customer) {
+            customer.CustomerName = data.fullName;
+            customer.CustomerEmail = data.email;
+            customer.CustomerImage =
+              result && result.secure_url ? result.secure_url : avatar;
+            customer.public_id_image = data.fileName;
+            customer.PhoneNumber = data.phoneNumber;
+            customer.Gender = data.Gender;
+            customer.Address = data.address;
+            customer.RoleId = data.roleId;
+            customer.DayOfBirth = data.dob;
+            customer.CenterId = data.centerId;
+            // customer.SalaryId = data.salaryId;
+
+            await customer.save();
+          }
+        }
         resolve({
           errorCode: 0,
           message: "Update user is success",
