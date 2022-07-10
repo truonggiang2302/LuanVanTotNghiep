@@ -68,6 +68,8 @@ const sendMail = async (to, subject, htmlContent, orderId) => {
       ",",
       order.dataValues.amount.toString(),
       ",",
+      order.dataValues.Status === 0 ? "PAID" : "UNPAID",
+      ",",
       order.dataValues.createdAt.toString(),
       ".",
     ]);

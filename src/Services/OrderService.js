@@ -99,9 +99,10 @@ let createNewOrder = (data) => {
     try {
       await db.Order.create({
         CustomerId: data.CustomerId,
-        CustomerName: data.CustomerName,
+        // CustomerName: data.CustomerName,
         ReservationId: data.bookingId,
         amount: data.Price,
+        Status: 0,
       });
       resolve({
         errCode: 0,
