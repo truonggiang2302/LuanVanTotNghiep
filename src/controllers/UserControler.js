@@ -90,6 +90,14 @@ let handleDeleteAccount = async (req, res) => {
   let message = await UserService.deleteAccount(req.body);
   return res.status(200).json(message);
 };
+const handleChangePassword = async (req, res) => {
+  if (!req.body) {
+    return res.send(404).json("Missing input paramater");
+  }
+  let data = req.body;
+  let message = await UserService.changePassword(data);
+  return res.send(200).json(message);
+};
 let handleLoginSocial = async (req, res) => {
   let email = req.body.email;
   let id = req.body.userID;
@@ -205,6 +213,7 @@ module.exports = {
   handleUpdateAccount,
   handleGetAccountByName,
   handleDeleteAccount,
+  handleChangePassword,
   //   getAllRoles,
 
   //   handleGetAllUser,

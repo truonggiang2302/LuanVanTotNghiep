@@ -198,6 +198,25 @@ const getDetailBookingOfPT = (id) => {
     }
   });
 };
+const getDetailBookingOfCustomer = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let bookingOfCus = await db.Booking.findOne({
+        where: { CustomerId: id },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(bookingOfCus);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getDetailBookingOfCenter = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -331,4 +350,5 @@ module.exports = {
   getAllBookingOfCenterIn7Day,
   getAllBookingOfCenterIn30Day,
   getBookingPending,
+  getDetailBookingOfCustomer,
 };

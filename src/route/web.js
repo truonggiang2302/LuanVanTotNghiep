@@ -17,6 +17,9 @@ import BlogController from "../controllers/BlogController";
 import DiscountController from "../controllers/DiscountController";
 import emailController from "../controllers/emailController";
 const QRCode = require("qrcode");
+const stripe = require("stripe")(
+  "sk_test_51LJw5FAZSrSS1g1Fhq8H6BOYjWfFaT8O1cUwI2sbkaZcYI9pkfwsVG4E4BK725MWt0zMAikW7nfGL7GaLiV83MgY00UVCedTgI"
+);
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -26,6 +29,7 @@ let initWebRoutes = (app) => {
   router.post("/api/user-login", UserController.handleLoginCustomer);
   router.post("/api/admin-login", UserController.handleLogin);
   router.post("/api/staff-login", UserController.handleLoginForStaff);
+  router.put("/api/change-password", UserController.handleChangePassword);
   //account
   router.post("/api/create-new-user", UserController.handleCreateNewUser);
   router.get(
@@ -125,6 +129,10 @@ let initWebRoutes = (app) => {
     BookingController.handleGetBookingOfCustomer
   );
   router.get(
+    "/api/:CustomerId/get-detail-booking-of-customer",
+    BookingController.handleGetDetailBookingOfCustomer
+  );
+  router.get(
     "/api/merchant/:CenterId/get-all-booking-of-center",
     BookingController.handleGetBookingOfCenter
   );
@@ -205,7 +213,25 @@ let initWebRoutes = (app) => {
   //blog
   router.get("/api/admin/get-all-blog", BlogController.handleGetAllBlog);
   //order
+  router.get("/api/admin/get-all-order", OrderController.handleGetAllOrder);
   router.post("/api/create-new-order", OrderController.handleCreateNewOrder);
+  //stripe
+  router.post("/payment-stripe", (req, res) => {
+    stripe.charges.create(
+      {
+        source: req.body.tokenId,
+        amount: req.body.amount,
+        currency: "VND",
+      },
+      (stripeErr, stripeRes) => {
+        if (stripeErr) {
+          res.status(500).json(stripeErr);
+        } else {
+          res.status(200).json({ stripeRes });
+        }
+      }
+    );
+  });
   //QR code
   router.get("/api/get-QR-code", async (req, res) => {
     let img = "";

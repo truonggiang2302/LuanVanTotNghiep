@@ -14,11 +14,25 @@ const handleGetAllBooking = async (req, res) => {
 };
 const handleGetDetailBookingOfPT = async (req, res) => {
   // console.log("check id: ", req.query);
-  const bookingDetail = await BookingService.getDetailBookingOfPT(req.query.id);
+  const bookingDetail = await BookingService.getDetailBookingOfPT(
+    req.params.PTId
+  );
 
   return res.status(200).json({
     errCode: 0,
     errMessage: "get detail booking of PT is success",
+    bookingDetail,
+  });
+};
+const handleGetDetailBookingOfCustomer = async (req, res) => {
+  console.log("check id: ", req.params);
+  const bookingDetail = await BookingService.getDetailBookingOfCustomer(
+    req.params.CustomerId
+  );
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get detail booking of cutomer is success",
     bookingDetail,
   });
 };
@@ -150,4 +164,5 @@ module.exports = {
   handleGetBookingPending,
   handleGetBookingCancel,
   handleGetBookingSchedule,
+  handleGetDetailBookingOfCustomer,
 };

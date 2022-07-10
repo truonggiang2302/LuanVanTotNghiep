@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       StaffId: DataTypes.INTEGER,
 
       TimeId: DataTypes.INTEGER,
+      Status: DataTypes.INTEGER,
     },
     {
       sequelize,

@@ -26,6 +26,9 @@ module.exports = {
       TimeId: {
         type: Sequelize.INTEGER,
       },
+      Status: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE,

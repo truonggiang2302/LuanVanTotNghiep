@@ -10,15 +10,17 @@ let handleCreateNewOrder = async (req, res) => {
     messageCreateOrder,
   });
 };
-// const handleGetAllBooking = async (req, res) => {
-//   let bookings = await BookingService.getAllBooking(req.query);
-//   return res.status(200).json({
-//     errCode: 0,
-//     errMessage: "get all bookings is success",
-//     bookings,
-//     totalPage: Math.ceil(bookings.count / 10),
-//   });
-// };
+
+const handleGetAllOrder = async (req, res) => {
+  let order = await OrderService.getAllOrder(req.query);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all orders is success",
+    order,
+    totalPage: Math.ceil(order.count / 10),
+  });
+};
+
 // const handleGetDetailBookingOfPT = async (req, res) => {
 //   // console.log("check id: ", req.query);
 //   const bookingDetail = await BookingService.getDetailBookingOfPT(req.query.id);
@@ -54,4 +56,5 @@ let handleCreateNewOrder = async (req, res) => {
 // }
 module.exports = {
   handleCreateNewOrder,
+  handleGetAllOrder,
 };

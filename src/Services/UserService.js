@@ -462,8 +462,13 @@ const updateAccount = (data) => {
           result && result.secure_url ? result.secure_url : avatar;
 
         await account.save();
-
-        if (data.roleId === "1" || data.roleId === "2") {
+        console.log("data role id: ",data.roleId)
+        if (
+          data.roleId === "1" ||
+          data.roleId === "2" ||
+          data.roleId === 1 ||
+          data.roleId === 2
+        ) {
           let manager = await db.Manager.findOne({
             where: { ExternalId: data.ExternalId },
             raw: false,
@@ -544,6 +549,46 @@ const updateAccount = (data) => {
           errorCode: 1,
           errMessage: "account not found",
         });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+const changePassword = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // check email //
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      } else {
+        let account = await db.Accounts.findOne({
+          where: { id: data.id },
+          raw: false,
+        });
+        if (account) {
+          let oldPassword = data.oldPassword;
+          let check = bcrypt.compareSync(oldPassword, account.password);
+          if (check) {
+            if (data.newPassword === data.confirmPassword) {
+              let hashPass = await hashUserPassword(data.newPassword);
+              account.password = hashPass;
+              account.save();
+              resolve({
+                errorCode: 0,
+                errMessage: "new password is changed",
+              });
+            } else if (data.newPassword !== data.confirmPassword) {
+              resolve({
+                errorCode: 4,
+                errMessage: "new password and confirm password is not correct",
+              });
+            }
+          }
+        }
       }
     } catch (e) {
       reject(e);
@@ -782,4 +827,5 @@ module.exports = {
   handleUserLogin,
   // signUpNewUser,
   handleUserLoginSocial,
+  changePassword,
 };

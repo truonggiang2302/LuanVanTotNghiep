@@ -10,11 +10,11 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const getAllBooking = async (payloadReq) => {
+const getAllOrder = async (payloadReq) => {
   return new Promise(async (resolve, reject) => {
     try {
       const skip = (payloadReq.page - 1) * 10;
-      let booking = await db.Booking.findAndCountAll({
+      let order = await db.Order.findAndCountAll({
         // attributes: {
         //   exclude: ["password"],
         // },
@@ -25,7 +25,7 @@ const getAllBooking = async (payloadReq) => {
         nest: true,
       });
 
-      resolve(booking);
+      resolve(order);
     } catch (e) {
       reject(e);
     }
@@ -115,4 +115,5 @@ let createNewOrder = (data) => {
 };
 module.exports = {
   createNewOrder,
+  getAllOrder,
 };
