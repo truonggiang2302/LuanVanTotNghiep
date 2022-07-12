@@ -152,7 +152,7 @@ const updateService = (data) => {
         console.log("first");
         result = await uploadCloud(data.ServiceImage, data.fileName);
       } else {
-        avatar = "";
+        avatar = service.ServiceImage;
       }
       if (service) {
         console.log("check result: ", result);

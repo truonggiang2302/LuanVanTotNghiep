@@ -32,25 +32,22 @@ const getAllOrder = async (payloadReq) => {
   });
 };
 
-// const getDetailBookingOfPT = (id) => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       let bookingOfPT = await db.Booking.findOne({
-//         where: { PTId: id },
-//         // include: [
-//         //     { model: db.Artists, as: 'SongOfArtists' },
-//         //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
-//         // ],
-//         raw: false,
-//         nest: true,
-//       });
+const getDetailOrder = (bookingId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let order = await db.Order.findOne({
+        where: { ReservationId: bookingId },
 
-//       resolve(bookingOfPT);
-//     } catch (e) {
-//       reject(e);
-//     }
-//   });
-// };
+        raw: false,
+        nest: true,
+      });
+
+      resolve(order);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 // const updateStatusBooking = (data) => {
 //   return new Promise(async (resolve, reject) => {
 //     try {
@@ -116,4 +113,5 @@ let createNewOrder = (data) => {
 module.exports = {
   createNewOrder,
   getAllOrder,
+  getDetailOrder,
 };

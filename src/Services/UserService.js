@@ -180,6 +180,7 @@ let handleUserLoginForCustomer = async (email, password) => {
             "password",
             "fullName",
             "avatar",
+            "ExternalId",
           ],
           raw: true,
         });
@@ -263,7 +264,55 @@ let deleteAccount = (data) => {
     console.log("check data delete: ", data);
     let user = await db.Accounts.findOne({
       where: { ExternalId: data.ExternalId },
+      raw: false,
     });
+    console.log("check user found: ", user.dataValues);
+    if (user) {
+      console.log("check user found: ", user.dataValues);
+      if (data.roleId === 1 || data.roleId === 2) {
+        console.log("data roleId ", data.roleId);
+        await db.Manager.destroy({
+          where: { ExternalId: data.ExternalId },
+        });
+      }
+      if (
+        data.roleId === "3" ||
+        data.roleId === "4" ||
+        data.roleId === 3 ||
+        data.roleId === 4
+      ) {
+        let staff = await db.Staffs.findOne({
+          where: { ExternalId: data.ExternalId },
+        });
+        console.log("check staff found", staff.id);
+        if (staff) {
+          let booking = await db.Booking.findOne({
+            where: { StaffId: staff.id },
+          });
+          console.log("check booking found: ", booking);
+          if (booking) {
+            resolve({
+              errCode: 0,
+              errMessage: "Staff have schedule in Booking",
+            });
+          }
+          if (!booking) {
+            await db.Staffs.destroy({
+              where: { ExternalId: data.ExternalId },
+            });
+          }
+        }
+      }
+      if (data.roleId === "5" || data.roleId === 5) {
+        await db.Customer.destroy({
+          where: { ExternalId: data.ExternalId },
+        });
+      }
+      resolve({
+        errCode: 0,
+        errMessage: "Delete account is success",
+      });
+    }
     if (!user) {
       resolve({
         errCode: 2,
@@ -277,29 +326,10 @@ let deleteAccount = (data) => {
     //         function (err, result) { console.log(result) });
     // }
 
-    await db.Accounts.destroy({
-      where: { ExternalId: data.ExternalId },
-    });
-    if (data.roleId === 1 || data.roleId === 2) {
-      console.log("data roleId ", data.roleId);
-      await db.Manager.destroy({
-        where: { ExternalId: data.ExternalId },
-      });
-    }
-    if (data.roleId === "3" || data.roleId === "4") {
-      await db.Staffs.destroy({
-        where: { ExternalId: data.ExternalId },
-      });
-    }
-    if (data.roleId === "5") {
-      await db.Customer.destroy({
-        where: { ExternalId: data.ExternalId },
-      });
-    }
-    resolve({
-      errCode: 0,
-      errMessage: "Delete account is success",
-    });
+    // await db.Accounts.destroy({
+    //   where: { ExternalId: data.ExternalId },
+
+    // });
   });
 };
 let handleUserLoginSocial = async (email, id, name, avatar) => {
@@ -360,7 +390,12 @@ let createNewUser = (data) => {
           roleId: data.roleId,
           ExternalId: data.ExternalId,
         });
-        if (data.roleId === "1" || data.roleId === "2") {
+        if (
+          data.roleId === "1" ||
+          data.roleId === "2" ||
+          data.roleId === 1 ||
+          data.roleId === 2
+        ) {
           await db.Manager.create({
             id: data.id,
             ManagerName: data.fullName,
@@ -381,7 +416,12 @@ let createNewUser = (data) => {
             // isActive: true,
             // userName: data.userName,
           });
-        } else if (data.roleId === "3" || data.roleId === "4") {
+        } else if (
+          data.roleId === "3" ||
+          data.roleId === "4" ||
+          data.roleId === 3 ||
+          data.roleId === 4
+        ) {
           await db.Staffs.create({
             StaffName: data.fullName,
             password: hashPass,
@@ -400,11 +440,11 @@ let createNewUser = (data) => {
             // isActive: true,
             // userName: data.userName,
           });
-        } else if (data.roleId === "5") {
+        } else if (data.roleId === "5" || data.roleId === 5) {
           await db.Customer.create({
             CustomerName: data.fullName,
             Gender: data.gender,
-            DayOfBirth: data.dayOfBirth,
+            DayOfBirth: data.dob,
             PhoneNumber: data.phoneNumber,
             Address: data.address,
             RoleId: data.roleId,
@@ -450,7 +490,7 @@ const updateAccount = (data) => {
         // upload cloud //
         result = await uploadCloud(data.avatar, data.fileName);
       } else {
-        avatar = "";
+        avatar = account.avatar;
       }
       if (account) {
         account.email = data.email;
@@ -462,7 +502,7 @@ const updateAccount = (data) => {
           result && result.secure_url ? result.secure_url : avatar;
 
         await account.save();
-        console.log("data role id: ",data.roleId)
+        console.log("data role id: ", data.roleId);
         if (
           data.roleId === "1" ||
           data.roleId === "2" ||

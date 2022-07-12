@@ -225,11 +225,29 @@ const getDetailCustomer = (id) => {
     }
   });
 };
+const getDetailCustomerByExternalId = (ExternalId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // console.log("id: ", id);
+      // console.log("id: ", typeof id);
+      let cus = await db.Customer.findOne({
+        where: { ExternalId: ExternalId },
+        raw: false,
+        nest: true,
+      });
+      // console.log("check cus: ", cus);
+      resolve(cus);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllCustomer,
   getAllCustomerOfCenter,
   getCustomerByName,
   createNewCustomer,
   getDetailCustomer,
+  getDetailCustomerByExternalId,
   updateCustomer,
 };

@@ -56,7 +56,67 @@ let createNewReview = (data) => {
     }
   });
 };
+const updateReview = (data) => {
+  return new Promise(async (resolve, reject) => {
+    // console.log(data);
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let review = await db.rateAndReview.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
+
+      if (review) {
+        // console.log("check result: ", result);
+        review.ratingPoint = data.ratingPoint;
+        review.reviewContent = data.reviewContent;
+
+        // service.fileName = data.fileName;
+        await review.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Update review is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "service not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let deleteReview = (id) => {
+  return new Promise(async (resolve, reject) => {
+    let review = await db.rateAndReview.findOne({
+      where: { id: id },
+    });
+    if (!review) {
+      resolve({
+        errCode: 2,
+        errMessage: "review not found",
+      });
+    }
+    await db.rateAndReview.destroy({
+      where: { id: id },
+    });
+    resolve({
+      errCode: 0,
+      errMessage: "Delete service is success",
+    });
+  });
+};
 module.exports = {
   getAllReviewOfCenter,
   createNewReview,
+  updateReview,
+  deleteReview,
 };

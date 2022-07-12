@@ -21,11 +21,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       CenterImage: {
-        allowNull: false,
         type: Sequelize.TEXT,
       },
       public_id_image: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       CenterAddress: {
@@ -35,6 +33,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       ManagerId: {
+        type: Sequelize.INTEGER,
+      },
+      Status: {
         type: Sequelize.INTEGER,
       },
       createdAt: {

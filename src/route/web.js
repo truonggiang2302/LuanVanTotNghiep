@@ -16,6 +16,8 @@ import TimeWorkingController from "../controllers/TimeWorkingController";
 import BlogController from "../controllers/BlogController";
 import DiscountController from "../controllers/DiscountController";
 import emailController from "../controllers/emailController";
+const mailer = require("../utils/mailer");
+
 const QRCode = require("qrcode");
 const stripe = require("stripe")(
   "sk_test_51LJw5FAZSrSS1g1Fhq8H6BOYjWfFaT8O1cUwI2sbkaZcYI9pkfwsVG4E4BK725MWt0zMAikW7nfGL7GaLiV83MgY00UVCedTgI"
@@ -64,6 +66,10 @@ let initWebRoutes = (app) => {
     CustomerController.handleGetDetailCustomer
   );
   router.get(
+    "/api/get-detail-customer-by-externalId",
+    CustomerController.handleGetDetailCustomerByExternalId
+  );
+  router.get(
     "/api/merchant/:CenterId/customer-center",
     CustomerController.handleGetAllCustomerOfCenter
   );
@@ -96,6 +102,12 @@ let initWebRoutes = (app) => {
   router.get("/api/get-all-center", CenterController.handleGetAllCenter);
   router.get("/api/get-detail-center", CenterController.handleGetDetailCenter);
   router.get("/api/get-center-by-name", CenterController.handleGetCenterByName);
+  router.post("/api/create-center", CenterController.handleCreateNewCenter);
+  router.put("/api/admin/update-center", CenterController.handleUpdateCenter);
+  router.put(
+    "/api/admin/de-active-center",
+    CenterController.handleDeactiveCenter
+  );
   //booking
   router.get("/api/get-all-booking", BookingController.handleGetAllBooking);
   //get booking follow pi id
@@ -214,10 +226,16 @@ let initWebRoutes = (app) => {
     "/api/admin/create-new-review",
     ReviewController.handleCreateNewReview
   );
+  router.put("/api/admin/update-review", ReviewController.handleUpdateReview);
+  router.delete(
+    "/api/admin-delete-review",
+    ReviewController.handleDeleteReview
+  );
   //blog
   router.get("/api/admin/get-all-blog", BlogController.handleGetAllBlog);
   //order
   router.get("/api/admin/get-all-order", OrderController.handleGetAllOrder);
+  router.get("/api/get-detail-order", OrderController.handleGetDetailOrder);
   router.post("/api/create-new-order", OrderController.handleCreateNewOrder);
   //stripe
   router.post("/payment-stripe", (req, res) => {
@@ -231,6 +249,12 @@ let initWebRoutes = (app) => {
         if (stripeErr) {
           res.status(500).json(stripeErr);
         } else {
+          mailer.sendMail(
+            req.body.to,
+            req.body.subject,
+            req.body.htmlContent,
+            req.body.orderId
+          );
           res.status(200).json({ stripeRes });
         }
       }

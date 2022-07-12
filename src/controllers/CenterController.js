@@ -21,6 +21,39 @@ const handleGetDetailCenter = async (req, res) => {
     centerDetail,
   });
 };
+let handleCreateNewCenter = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await CenterService.createNewCenter(req.body);
+  // let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateAccount,
+  });
+};
+const handleUpdateCenter = async (req, res) => {
+  let data = req.body;
+  let message = await CenterService.updateCenter(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
+
+const handleDeactiveCenter = async (req, res) => {
+  let data = req.body;
+  let message = await CenterService.updateCenter(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
+let handleDeleteCenter = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await CenterService.deleteCenter(req.body.id);
+  // let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json({ message });
+};
 const handleGetCenterByName = async (req, res) => {
   let centerName = req.query.centerName;
   if (centerName) {
@@ -39,4 +72,8 @@ module.exports = {
   handleGetAllCenter,
   handleGetDetailCenter,
   handleGetCenterByName,
+  handleCreateNewCenter,
+  handleUpdateCenter,
+  handleDeleteCenter,
+  handleDeactiveCenter,
 };

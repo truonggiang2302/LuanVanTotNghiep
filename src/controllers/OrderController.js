@@ -20,6 +20,14 @@ const handleGetAllOrder = async (req, res) => {
     totalPage: Math.ceil(order.count / 10),
   });
 };
+const handleGetDetailOrder = async (req, res) => {
+  let order = await OrderService.getDetailOrder(req.query.bookingId);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get detail order is success",
+    order,
+  });
+};
 
 // const handleGetDetailBookingOfPT = async (req, res) => {
 //   // console.log("check id: ", req.query);
@@ -57,4 +65,5 @@ const handleGetAllOrder = async (req, res) => {
 module.exports = {
   handleCreateNewOrder,
   handleGetAllOrder,
+  handleGetDetailOrder,
 };

@@ -46,6 +46,18 @@ const handleGetDetailCustomer = async (req, res) => {
     cusDetail,
   });
 };
+const handleGetDetailCustomerByExternalId = async (req, res) => {
+  // console.log("check id: ", req.query);
+  const cusDetail = await CustomerService.getDetailCustomerByExternalId(
+    req.query.ExternalId
+  );
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get detail customer is success",
+    cusDetail,
+  });
+};
 let handleCreateNewCustomer = async (req, res) => {
   console.log("check body: ", req.body);
   let message = await CustomerService.createNewCustomer(req.body);
@@ -68,4 +80,5 @@ module.exports = {
   handleCreateNewCustomer,
   handleGetDetailCustomer,
   handleUpdateCustomer,
+  handleGetDetailCustomerByExternalId,
 };

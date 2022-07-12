@@ -21,7 +21,26 @@ let handleCreateNewReview = async (req, res) => {
     // messageCreateAccount,
   });
 };
+const handleUpdateReview = async (req, res) => {
+  let data = req.body;
+  let message = await ReviewService.updateReview(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
+let handleDeleteReview = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await ReviewService.deleteReview(req.body.id);
+  // let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json({ message });
+};
 module.exports = {
   handleGetReviewOfCenter,
   handleCreateNewReview,
+  handleUpdateReview,
+  handleDeleteReview,
 };

@@ -2,6 +2,8 @@ import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
 import { Op } from "sequelize";
+const Sequelize = require("sequelize");
+const op = Sequelize.Op;
 import moment from "moment";
 
 require("dotenv").config();
@@ -87,9 +89,17 @@ const getAllBookingOfCenter = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
       const skip = (req.query.page - 1) * 10;
+      const nameInput = req.query.name;
       let bookings = await db.Booking.findAndCountAll({
         where: {
           CenterId: req.params.CenterId,
+          [Op.and]: [
+            nameInput && {
+              CustomerName: { [op.iLike]: `%${nameInput}%` },
+              PTName: { [op.iLike]: `%${nameInput}%` },
+              // Status: { [op.iLike]: `%${nameInput}%` },
+            },
+          ],
         },
         // attributes: {
         //   exclude: ["password"],
