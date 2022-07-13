@@ -34,7 +34,7 @@ const handleAuthEmailExist = async (req, res) => {
   let userData = await UserService.handleAuthEmailExist(email);
 
   return res.status(200).json({
-    errorCode: userData.errorCode,
+    errorCode: userData.errCode,
     message: userData.errMessage,
     // data: userData.user ? userData.user : {},
   });
