@@ -214,7 +214,7 @@ const QRtemplate = `
                           border-radius: 2px;
                           font-size: 18px;
                         "
-                        >GH GHYM</span
+                        >GH GYM</span
                       >
                     </td>
                   </tr>

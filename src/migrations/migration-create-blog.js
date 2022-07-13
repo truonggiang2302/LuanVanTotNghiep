@@ -9,6 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       Title: {
+        type: Sequelize.TEXT,
+      },
+      BlogImage: {
+        type: Sequelize.TEXT,
+      },
+      public_id_image: {
         type: Sequelize.STRING,
       },
       Content: {

@@ -33,7 +33,9 @@ module.exports = (sequelize, DataTypes) => {
   Blog.init(
     {
       // ManagerId: DataTypes.INTEGER,
-      Title: DataTypes.STRING,
+      Title: DataTypes.TEXT,
+      BlogImage: DataTypes.TEXT,
+      public_id_image: DataTypes.STRING,
       Content: DataTypes.TEXT,
       ManagerId: DataTypes.INTEGER,
       CenterId: DataTypes.INTEGER,

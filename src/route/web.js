@@ -32,6 +32,12 @@ let initWebRoutes = (app) => {
   router.post("/api/admin-login", UserController.handleLogin);
   router.post("/api/staff-login", UserController.handleLoginForStaff);
   router.put("/api/change-password", UserController.handleChangePassword);
+  router.post("/api/auth-email-in-db", UserController.handleAuthEmailExist);
+  router.put(
+    "/api/change-password-when-auth",
+    UserController.handleChangePasswordWhenAuth
+  );
+
   //account
   router.post("/api/create-new-user", UserController.handleCreateNewUser);
   router.get(
@@ -233,6 +239,7 @@ let initWebRoutes = (app) => {
   );
   //blog
   router.get("/api/admin/get-all-blog", BlogController.handleGetAllBlog);
+  router.post("/api/admin/create-new-blog", BlogController.handleCreateNewBlog);
   //order
   router.get("/api/admin/get-all-order", OrderController.handleGetAllOrder);
   router.get("/api/get-detail-order", OrderController.handleGetDetailOrder);

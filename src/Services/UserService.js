@@ -131,6 +131,7 @@ let handleUserLoginForStaff = async (email, password) => {
             "password",
             "fullName",
             "avatar",
+            "ExternalId",
           ],
           raw: true,
         });
@@ -207,6 +208,24 @@ let handleUserLoginForCustomer = async (email, password) => {
       }
       resolve(userData);
     } catch (e) {
+      reject(e);
+    }
+  });
+};
+const handleAuthEmailExist = async (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let userData = {};
+      let exist = checkUserEmail(email);
+      if (exist) {
+        userData.errCode = 0;
+        userData.errMessage = "Email is exist ";
+      } else {
+        userData.errCode = 0;
+        userData.errMessage = "Email isn't exist ";
+      }
+      resolve(userData);
+    } catch (error) {
       reject(e);
     }
   });
@@ -595,6 +614,34 @@ const updateAccount = (data) => {
     }
   });
 };
+const changePasswordWhenAuth = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      } else {
+        let account = await db.Accounts.findOne({
+          where: { id: data.id },
+          raw: false,
+        });
+        if (account) {
+          let hashPass = await hashUserPassword(data.newPassword);
+          account.password = hashPass;
+          account.save();
+          resolve({
+            errorCode: 0,
+            errMessage: "new password is changed",
+          });
+        }
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 const changePassword = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -868,4 +915,6 @@ module.exports = {
   // signUpNewUser,
   handleUserLoginSocial,
   changePassword,
+  handleAuthEmailExist,
+  changePasswordWhenAuth,
 };
