@@ -617,14 +617,14 @@ const updateAccount = (data) => {
 const changePasswordWhenAuth = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.id) {
+      if (!data.email) {
         resolve({
           errorCode: 2,
-          errMessage: "Missing id",
+          errMessage: "Missing email",
         });
       } else {
         let account = await db.Accounts.findOne({
-          where: { id: data.id },
+          where: { email: data.email },
           raw: false,
         });
         if (account) {
