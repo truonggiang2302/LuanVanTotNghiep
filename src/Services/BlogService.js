@@ -88,7 +88,7 @@ let createNewBlog = (data) => {
     }
   });
 };
-const updateService = (data) => {
+const updateBlog = (data) => {
   return new Promise(async (resolve, reject) => {
     // console.log(data);
     try {
@@ -98,38 +98,37 @@ const updateService = (data) => {
           errMessage: "Missing id",
         });
       }
-      let service = await db.Services.findOne({
+      let blog = await db.Blog.findOne({
         where: { id: data.id },
         raw: false,
       });
       let result = {};
       let avatar = "";
-      if (data.ServiceImage && data.fileName) {
+      if (data.BlogImage && data.fileName) {
         // upload cloud //
-        console.log("first");
-        result = await uploadCloud(data.ServiceImage, data.fileName);
+        // console.log("first");
+        result = await uploadCloud(data.BlogImage, data.fileName);
       } else {
-        avatar = service.ServiceImage;
+        avatar = blog.BlogImage;
       }
-      if (service) {
-        console.log("check result: ", result);
-        service.ServiceName = data.ServiceName;
-        service.WorkDuration = data.WorkDuration;
-        service.Price = data.Price;
-        service.ServiceImage =
+      if (blog) {
+        // console.log("check result: ", result);
+        blog.Title = data.ServiceName;
+        blog.BlogImage =
           result && result.secure_url ? result.secure_url : avatar;
-        service.public_id_image = data.fileName;
-        // service.fileName = data.fileName;
-        await service.save();
+        blog.public_id_image = data.fileName;
+        blog.Content = data.Content;
+        blog.CenterId = data.CenterId;
+        await blog.save();
 
         resolve({
           errorCode: 0,
-          message: "Update service is success",
+          message: "Update blog is success",
         });
       } else {
         resolve({
           errorCode: 1,
-          errMessage: "service not found",
+          errMessage: "blog not found",
         });
       }
     } catch (e) {
@@ -137,8 +136,29 @@ const updateService = (data) => {
     }
   });
 };
-
+let deleteBlog = (id) => {
+  return new Promise(async (resolve, reject) => {
+    let blog = await db.Blog.findOne({
+      where: { id: id },
+    });
+    if (!blog) {
+      resolve({
+        errCode: 2,
+        errMessage: "blog not found",
+      });
+    }
+    await db.Blog.destroy({
+      where: { id: id },
+    });
+    resolve({
+      errCode: 0,
+      errMessage: "Delete blog is success",
+    });
+  });
+};
 module.exports = {
   getAllBlog,
   createNewBlog,
+  deleteBlog,
+  updateBlog,
 };

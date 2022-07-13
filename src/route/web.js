@@ -186,6 +186,10 @@ let initWebRoutes = (app) => {
     "/api/get-detail-manager",
     ManagerController.handleGetDetailManager
   );
+  // router.get(
+  //   "/api/admin/get-detail-manager-by-external",
+  //   ManagerController.handleGetDetailManagerByExternal
+  // );
   router.post(
     "/api/create-new-manager",
     ManagerController.handleCreateNewManager
@@ -240,6 +244,8 @@ let initWebRoutes = (app) => {
   //blog
   router.get("/api/admin/get-all-blog", BlogController.handleGetAllBlog);
   router.post("/api/admin/create-new-blog", BlogController.handleCreateNewBlog);
+  router.put("/api/admin/update-blog", BlogController.handleUpdateBlog);
+  router.delete("/api/admin/delete-blog", BlogController.handleDeleteBlog);
   //order
   router.get("/api/admin/get-all-order", OrderController.handleGetAllOrder);
   router.get("/api/get-detail-order", OrderController.handleGetDetailOrder);

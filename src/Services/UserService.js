@@ -50,8 +50,10 @@ let hashUserPassword = (password) => {
 let checkUserEmail = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
+      console.log("cehc email: ", email);
       let user = await db.Accounts.findOne({
         where: { email: email },
+        raw: false,
       });
       if (user) resolve(true);
       else resolve(false);
@@ -216,12 +218,16 @@ const handleAuthEmailExist = async (email) => {
   return new Promise(async (resolve, reject) => {
     try {
       let userData = {};
-      let exist = checkUserEmail(email);
+      // console.log("check email input: ", email);
+      let exist = await checkUserEmail(email);
+      // console.log("check exist: ", exist);
+
       if (exist) {
+        // console.log("first");
         userData.errCode = 0;
         userData.errMessage = "Email is exist ";
       } else {
-        userData.errCode = 0;
+        userData.errCode = 1;
         userData.errMessage = "Email isn't exist ";
       }
       resolve(userData);

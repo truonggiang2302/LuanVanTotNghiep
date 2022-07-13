@@ -22,7 +22,26 @@ let handleCreateNewBlog = async (req, res) => {
     // messageCreateAccount,
   });
 };
+let handleDeleteBlog = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await BlogService.deleteBlog(req.body.id);
+  // let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json({ message });
+};
+const handleUpdateBlog = async (req, res) => {
+  let data = req.body;
+  let message = await BlogService.updateBlog(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
 module.exports = {
   handleGetAllBlog,
   handleCreateNewBlog,
+  handleDeleteBlog,
+  handleUpdateBlog,
 };

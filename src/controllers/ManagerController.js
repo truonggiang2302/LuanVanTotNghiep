@@ -14,7 +14,21 @@ const handleGetAllManageCenter = async (req, res) => {
 };
 const handleGetDetailManager = async (req, res) => {
   // console.log("check id: ", req.query);
-  const managerDetail = await ManagerService.getDetailManager(req.query.id);
+  const managerDetail = await ManagerService.getDetailManager(
+    req.query.ExternalId
+  );
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get detail manager is success",
+    managerDetail,
+  });
+};
+const handleGetDetailManagerByExternal = async (req, res) => {
+  // console.log("check id: ", req.query);
+  const managerDetail = await ManagerService.getDetailManagerByExternal(
+    req.query.ExternalId
+  );
 
   return res.status(200).json({
     errCode: 0,
@@ -54,4 +68,5 @@ module.exports = {
   handleUpdateManager,
   handleDeleteManager,
   handleGetDetailManager,
+  // handleGetDetailManagerByExternal,
 };
