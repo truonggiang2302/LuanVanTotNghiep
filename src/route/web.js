@@ -237,6 +237,8 @@ let initWebRoutes = (app) => {
     ReviewController.handleCreateNewReview
   );
   router.put("/api/admin/update-review", ReviewController.handleUpdateReview);
+  router.put("/api/admin/hide-review", ReviewController.handleHideReview);
+  router.put("/api/admin/show-review", ReviewController.handleHideReview);
   router.delete(
     "/api/admin-delete-review",
     ReviewController.handleDeleteReview

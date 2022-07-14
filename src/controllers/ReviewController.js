@@ -27,6 +27,11 @@ const handleUpdateReview = async (req, res) => {
   // let messageUpdateAccount = await UserService.updateAccount(data);
   return res.status(200).json(message);
 };
+const handleHideReview = async (req, res) => {
+  let data = req.body;
+  let message = await ReviewService.hideShowReview(data);
+  return res.status(200).json(message);
+};
 let handleDeleteReview = async (req, res) => {
   if (!req.body.id) {
     return res.status(200).json({
@@ -43,4 +48,5 @@ module.exports = {
   handleCreateNewReview,
   handleUpdateReview,
   handleDeleteReview,
+  handleHideReview,
 };

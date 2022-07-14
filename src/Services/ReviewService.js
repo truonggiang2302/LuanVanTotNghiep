@@ -94,6 +94,44 @@ const updateReview = (data) => {
     }
   });
 };
+const hideShowReview = (data) => {
+  return new Promise(async (resolve, reject) => {
+    // console.log(data);
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let review = await db.rateAndReview.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
+
+      if (review) {
+        // console.log("check result: ", result);
+        review.Status = data.Status;
+        // review.reviewContent = data.reviewContent;
+
+        // service.fileName = data.fileName;
+        await review.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Hide review is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "service not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 let deleteReview = (id) => {
   return new Promise(async (resolve, reject) => {
     let review = await db.rateAndReview.findOne({
@@ -119,4 +157,5 @@ module.exports = {
   createNewReview,
   updateReview,
   deleteReview,
+  hideShowReview,
 };

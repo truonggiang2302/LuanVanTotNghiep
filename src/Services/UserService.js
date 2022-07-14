@@ -294,9 +294,17 @@ let deleteAccount = (data) => {
     console.log("check user found: ", user.dataValues);
     if (user) {
       console.log("check user found: ", user.dataValues);
-      if (data.roleId === 1 || data.roleId === 2) {
+      if (
+        data.roleId === 1 ||
+        data.roleId === 2 ||
+        data.roleId === "1" ||
+        data.roleId === "2"
+      ) {
         console.log("data roleId ", data.roleId);
         await db.Manager.destroy({
+          where: { ExternalId: data.ExternalId },
+        });
+        await db.Accounts.destroy({
           where: { ExternalId: data.ExternalId },
         });
       }
@@ -325,11 +333,17 @@ let deleteAccount = (data) => {
             await db.Staffs.destroy({
               where: { ExternalId: data.ExternalId },
             });
+            await db.Accounts.destroy({
+              where: { ExternalId: data.ExternalId },
+            });
           }
         }
       }
       if (data.roleId === "5" || data.roleId === 5) {
         await db.Customer.destroy({
+          where: { ExternalId: data.ExternalId },
+        });
+        await db.Accounts.destroy({
           where: { ExternalId: data.ExternalId },
         });
       }
@@ -344,17 +358,6 @@ let deleteAccount = (data) => {
         errMessage: "Account not found",
       });
     }
-
-    // if (user.avatar && user.public_id_image) {
-    //     // Xóa hình cũ //
-    //     await cloudinary.uploader.destroy(user.public_id_image, { invalidate: true, resource_type: "raw" },
-    //         function (err, result) { console.log(result) });
-    // }
-
-    // await db.Accounts.destroy({
-    //   where: { ExternalId: data.ExternalId },
-
-    // });
   });
 };
 let handleUserLoginSocial = async (email, id, name, avatar) => {

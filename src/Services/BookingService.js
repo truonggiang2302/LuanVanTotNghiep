@@ -93,11 +93,14 @@ const getAllBookingOfCenter = async (req) => {
       let bookings = await db.Booking.findAndCountAll({
         where: {
           CenterId: req.params.CenterId,
-          [Op.and]: [
+          [Op.or]: [
             nameInput && {
               CustomerName: { [op.iLike]: `%${nameInput}%` },
-              PTName: { [op.iLike]: `%${nameInput}%` },
+              // PTName: { [op.iLike]: `%${nameInput}%` },
               // Status: { [op.iLike]: `%${nameInput}%` },
+            },
+            {
+              PTName: { [op.iLike]: `%${nameInput}%` },
             },
           ],
         },
