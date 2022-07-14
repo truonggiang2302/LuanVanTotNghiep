@@ -483,9 +483,6 @@ let createNewUser = (data) => {
             CustomerEmail: data.email,
             CenterId: data.centerId,
             ExternalId: data.ExternalId,
-            // SalaryId: data.salaryId,
-            // isActive: true,
-            // userName: data.userName,
           });
         }
 
