@@ -7,9 +7,13 @@ import PaymentService from "../Services/PaymentService";
 const getMomoPaymentLink = async (req, res) => {
   try {
     const result = await PaymentService.getMomoPaymentLink(req);
-    return res
-      .status(200)
-      .json(jsonFormat.dataSuccess("Get Link successfully", result));
+    console.log("check result req: ", result);
+    return res.status(200).json({
+      result,
+    });
+    // return res
+    //   .status(200)
+    //   .json(jsonFormat.dataSuccess("Get Link successfully", result));
   } catch (e) {
     return res
       .status(400)

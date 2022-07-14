@@ -284,7 +284,10 @@ let initWebRoutes = (app) => {
   router.post("/send-email", emailController.sendMail);
   //payment
   //momo
-  app.post("/api/get-momo-payment-link", PaymentController.getMomoPaymentLink);
+  router.post(
+    "/api/get-momo-payment-link",
+    PaymentController.getMomoPaymentLink
+  );
 
   // router.post('/api/user-login', UserController.handleLogin);
   // router.post('/api/user-login-social', UserController.handleLoginSocial);

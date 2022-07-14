@@ -113,7 +113,7 @@ const updateBlog = (data) => {
       }
       if (blog) {
         // console.log("check result: ", result);
-        blog.Title = data.ServiceName;
+        blog.Title = data.title;
         blog.BlogImage =
           result && result.secure_url ? result.secure_url : avatar;
         blog.public_id_image = data.fileName;

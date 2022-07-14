@@ -636,7 +636,7 @@ const changePasswordWhenAuth = (data) => {
         if (account) {
           let hashPass = await hashUserPassword(data.newPassword);
           account.password = hashPass;
-          account.save();
+          await account.save();
           resolve({
             errorCode: 0,
             errMessage: "new password is changed",
