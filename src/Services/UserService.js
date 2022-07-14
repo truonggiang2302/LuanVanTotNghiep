@@ -556,7 +556,12 @@ const updateAccount = (data) => {
             await manager.save();
           }
         }
-        if (data.roleId === "3" || data.roleId === "4") {
+        if (
+          data.roleId === "3" ||
+          data.roleId === "4" ||
+          data.roleId === 3 ||
+          data.roleId === 4
+        ) {
           console.log("check update staff");
           let staff = await db.Staffs.findOne({
             where: { ExternalId: data.ExternalId },
