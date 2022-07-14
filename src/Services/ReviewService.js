@@ -1,4 +1,4 @@
-import db from "../models/index";
+import db, { sequelize } from "../models/index";
 import bcrypt from "bcryptjs";
 import { raw } from "body-parser";
 import { Op } from "sequelize";
@@ -28,6 +28,30 @@ const getAllReviewOfCenter = async (req) => {
         limit: 10,
         offset: skip,
 
+        raw: true,
+        nest: true,
+      });
+
+      resolve(bookings);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+const get5ReviewOfCenter = async (req) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // const skip = (req.query.page - 1) * 10;
+      let bookings = await db.rateAndReview.findAndCountAll({
+        where: {
+          CenterId: req.query.CenterId,
+        },
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 5,
+        // offset: skip,
+        order: [["createdAt", "DESC"]],
         raw: true,
         nest: true,
       });
@@ -158,4 +182,5 @@ module.exports = {
   updateReview,
   deleteReview,
   hideShowReview,
+  get5ReviewOfCenter,
 };

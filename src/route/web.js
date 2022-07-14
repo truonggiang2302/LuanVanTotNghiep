@@ -232,6 +232,10 @@ let initWebRoutes = (app) => {
     "/api/admin/get-review-of-center",
     ReviewController.handleGetReviewOfCenter
   );
+  router.get(
+    "/api/admin/get-5-review-newest",
+    ReviewController.handleGet5ReviewNewest
+  );
   router.post(
     "/api/admin/create-new-review",
     ReviewController.handleCreateNewReview

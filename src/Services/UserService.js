@@ -575,9 +575,9 @@ const updateAccount = (data) => {
             staff.StaffImage =
               result && result.secure_url ? result.secure_url : avatar;
             staff.public_id_image = data.fileName;
-            staff.ManagerPhone = data.phoneNumber;
+            staff.StaffPhoneNumber = data.phoneNumber;
             staff.Gender = data.Gender;
-            staff.ManagerAddress = data.address;
+            staff.Address = data.address;
             staff.RoleId = data.roleId;
             staff.DayOfBirth = data.dob;
             staff.CenterId = data.centerId;

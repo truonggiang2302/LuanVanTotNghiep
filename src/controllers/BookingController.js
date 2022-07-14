@@ -39,7 +39,7 @@ const handleGetDetailBookingOfCustomer = async (req, res) => {
 const handleGetDetailBookingOfCenter = async (req, res) => {
   // console.log("check id: ", req.query);
   const bookingDetail = await BookingService.getDetailBookingOfCenter(
-    req.query.id
+    req.query
   );
 
   return res.status(200).json({

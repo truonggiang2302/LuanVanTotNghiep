@@ -230,11 +230,11 @@ const getDetailBookingOfCustomer = (id) => {
     }
   });
 };
-const getDetailBookingOfCenter = (id) => {
+const getDetailBookingOfCenter = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       let bookingOfPT = await db.Booking.findOne({
-        where: { CenterId: id },
+        where: { id: data.id, CenterId: data.CenterId },
         // include: [
         //     { model: db.Artists, as: 'SongOfArtists' },
         //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
