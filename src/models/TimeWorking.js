@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
   TimeWorking.init(
     {
       // ScheduleId: DataTypes.INTEGER,
-      TimeWork: DataTypes.STRING,
+      StartTime: DataTypes.TIME,
+      EndTime: DataTypes.TIME,
     },
     {
       sequelize,
