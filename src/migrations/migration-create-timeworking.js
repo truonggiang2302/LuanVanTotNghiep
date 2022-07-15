@@ -9,8 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
 
-      TimeWork: {
-        type: Sequelize.STRING,
+      StartTime: {
+        type: Sequelize.TIME,
+      },
+      EndTime: {
+        type: Sequelize.TIME,
       },
       createdAt: {
         allowNull: true,
