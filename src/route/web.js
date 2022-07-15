@@ -196,6 +196,11 @@ let initWebRoutes = (app) => {
   );
   router.put("/api/update-manager", ManagerController.handleUpdateManager);
   router.delete("/api/delete-manager", ManagerController.handleDeleteManager);
+  //staff-service
+  router.get(
+    "/api/get-staff-by-service",
+    StaffController.handleGetStaffByService
+  );
   //schedule working
   router.get(
     "/api/get-all-schedule",
@@ -252,6 +257,7 @@ let initWebRoutes = (app) => {
   router.post("/api/admin/create-new-blog", BlogController.handleCreateNewBlog);
   router.put("/api/admin/update-blog", BlogController.handleUpdateBlog);
   router.delete("/api/admin/delete-blog", BlogController.handleDeleteBlog);
+  router.get("/api/get-detail-blog", BlogController.handleGetDetailBlog);
   //order
   router.get("/api/admin/get-all-order", OrderController.handleGetAllOrder);
   router.get("/api/get-detail-order", OrderController.handleGetDetailOrder);

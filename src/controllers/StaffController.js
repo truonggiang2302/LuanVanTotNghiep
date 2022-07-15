@@ -22,6 +22,15 @@ const handleGetPTDetail = async (req, res) => {
     staffDetail,
   });
 };
+const handleGetStaffByService = async (req, res) => {
+  let staffOfService = await StaffService.getAllPTOfService(req);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all staff of center is success",
+    staffOfService,
+    totalPage: Math.ceil(staffOfService.count / 10),
+  });
+};
 const handleGetAllStaffOfCenter = async (req, res) => {
   let staffOfCenter = await StaffService.getAllStaffOfCenter(req);
   return res.status(200).json({
@@ -91,4 +100,5 @@ module.exports = {
   handleGetAllPTOfCenter,
   handleCreateNewStaff,
   handleUpdateStaff,
+  handleGetStaffByService,
 };

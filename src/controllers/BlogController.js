@@ -13,6 +13,14 @@ const handleGetAllBlog = async (req, res) => {
     totalPage: Math.ceil(blog.count / 10),
   });
 };
+const handleGetDetailBlog = async (req, res) => {
+  const blog = await BlogService.getDetailBlog(req.query.id);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get blog detail of system is success",
+    blog,
+  });
+};
 let handleCreateNewBlog = async (req, res) => {
   // console.log("check body: ", req.body);
   let message = await BlogService.createNewBlog(req.body);
@@ -44,4 +52,5 @@ module.exports = {
   handleCreateNewBlog,
   handleDeleteBlog,
   handleUpdateBlog,
+  handleGetDetailBlog,
 };

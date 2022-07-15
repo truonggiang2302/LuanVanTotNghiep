@@ -109,6 +109,30 @@ const getAllStaffOfCenter = async (req) => {
   });
 };
 
+const getAllPTOfService = async (req) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (req.query.page - 1) * 10;
+      let pts = await db.StaffService.findAndCountAll({
+        where: {
+          ServiceId: req.query.ServiceId,
+        },
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 10,
+        offset: skip,
+        // include: [{ model: db.Roles, as: "UserRoles" }],
+        raw: true,
+        nest: true,
+      });
+
+      resolve(pts);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllPTOfCenter = async (page, CenterId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -274,4 +298,5 @@ module.exports = {
   getStaffByName,
   createNewStaff,
   updateStaff,
+  getAllPTOfService,
 };

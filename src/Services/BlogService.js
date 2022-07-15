@@ -35,6 +35,28 @@ let uploadCloud = (image, fName) => {
     }
   });
 };
+const getDetailBlog = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // const skip = (req.query.page - 1) * 10;
+      let blog = await db.Blog.findOne({
+        where: {
+          id: id,
+        },
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+
+        raw: true,
+        nest: true,
+      });
+
+      resolve(blog);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllBlog = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -161,4 +183,5 @@ module.exports = {
   createNewBlog,
   deleteBlog,
   updateBlog,
+  getDetailBlog,
 };

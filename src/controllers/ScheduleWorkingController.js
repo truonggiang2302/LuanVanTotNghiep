@@ -8,7 +8,7 @@ const handleGetAllSchedule = async (req, res) => {
     errCode: 0,
     errMessage: "get all schedule working is success",
     schedule,
-    totalPage: Math.ceil(schedule.count / 10),
+    // totalPage: Math.ceil(schedule.count / 10),
   });
 };
 
