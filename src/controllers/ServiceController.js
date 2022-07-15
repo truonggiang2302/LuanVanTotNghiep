@@ -11,6 +11,15 @@ const handleGetAllService = async (req, res) => {
     totalPage: Math.ceil(services.count / 10),
   });
 };
+const handleGetServiceByStaff = async (req, res) => {
+  let services = await ServiceOfCenterService.getServiceByStaff(req);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all service is success",
+    services,
+    totalPage: Math.ceil(services.count / 10),
+  });
+};
 const handleGetServiceDetail = async (req, res) => {
   // console.log("check id: ", req.query);
   const serviceDetail = await ServiceOfCenterService.getDetailService(
@@ -70,4 +79,5 @@ module.exports = {
   handleCreateNewService,
   handleUpdateService,
   handleDeleteService,
+  handleGetServiceByStaff,
 };

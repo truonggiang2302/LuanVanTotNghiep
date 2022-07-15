@@ -201,6 +201,10 @@ let initWebRoutes = (app) => {
     "/api/get-staff-by-service",
     StaffController.handleGetStaffByService
   );
+  router.get(
+    "/api/get-service-by-staff",
+    ServiceController.handleGetServiceByStaff
+  );
   //schedule working
   router.get(
     "/api/get-all-schedule",

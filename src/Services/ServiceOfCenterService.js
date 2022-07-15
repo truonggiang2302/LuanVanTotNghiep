@@ -36,6 +36,37 @@ let uploadCloud = (image, fName) => {
     }
   });
 };
+
+const getServiceByStaff = async (req) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (req.query.page - 1) * 10;
+      const staffId = req.query.StaffId;
+      let services = await db.StaffService.findAndCountAll({
+        where: {
+          StaffId: staffId,
+          // [Op.and]: [
+          //   nameInput && {
+          //     ServiceName: { [op.iLike]: `%${nameInput}%` },
+          //   },
+          // ],
+        },
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 10,
+        offset: skip,
+        // include: [{ model: db.Roles, as: "UserRoles" }],
+        raw: true,
+        nest: true,
+      });
+
+      resolve(services);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllService = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -218,4 +249,5 @@ module.exports = {
   createNewService,
   updateService,
   deleteService,
+  getServiceByStaff,
 };
