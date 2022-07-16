@@ -310,6 +310,7 @@ const updateStatusBooking = (data) => {
         if (data.Status === "CANCELED") {
           let scheduleWork = await db.ScheduleWorking.findOne({
             where: { id: data.ScheduleId },
+            raw: false,
           });
           if (scheduleWork) {
             scheduleWork.Status = 1;

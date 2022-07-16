@@ -13,12 +13,12 @@ cloudinary.config({
 const getAllTimeWorking = async (payloadReq) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const skip = (payloadReq.page - 1) * 10;
+      const skip = (payloadReq.page - 1) * 20;
       let time = await db.TimeWorking.findAndCountAll({
         // attributes: {
         //   exclude: ["password"],
         // },
-        limit: 10,
+        limit: 20,
         offset: skip,
         // include: [{ model: db.Roles, as: "UserRoles" }],
         raw: true,

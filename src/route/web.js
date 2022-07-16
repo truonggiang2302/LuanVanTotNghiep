@@ -211,6 +211,10 @@ let initWebRoutes = (app) => {
     ScheduleWorkingController.handleGetAllSchedule
   );
   router.get(
+    "/api/get-all-schedule-by-week",
+    ScheduleWorkingController.handleGetAllScheduleByWeek
+  );
+  router.get(
     "/api/:StaffId/get-schedule-working",
     ScheduleWorkingController.handleGetScheduleWorkingOfPT
   );

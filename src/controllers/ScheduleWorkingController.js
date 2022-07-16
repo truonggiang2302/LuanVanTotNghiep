@@ -11,6 +11,15 @@ const handleGetAllSchedule = async (req, res) => {
     // totalPage: Math.ceil(schedule.count / 10),
   });
 };
+const handleGetAllScheduleByWeek = async (req, res) => {
+  let schedule = await ScheduleWorkingService.getAllScheduleByWeek(req.query);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all schedule working is success",
+    schedule,
+    // totalPage: Math.ceil(schedule.count / 10),
+  });
+};
 
 let handleCreateScheduleWorking = async (req, res) => {
   console.log("check body: ", req.body);
@@ -47,4 +56,5 @@ module.exports = {
   handleGetScheduleWorkingOfPT,
   handleCreateScheduleWorking,
   handleGetScheduleWorkingOfStaff,
+  handleGetAllScheduleByWeek,
 };
