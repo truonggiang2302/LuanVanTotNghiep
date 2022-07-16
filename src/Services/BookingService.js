@@ -305,6 +305,10 @@ const updateStatusBooking = (data) => {
             // console.log("first");
             scheduleWork.Status = 0;
             scheduleWork.save();
+            resolve({
+              errorCode: 0,
+              message: "change status work success",
+            });
           }
         }
         if (data.Status === "CANCELED") {

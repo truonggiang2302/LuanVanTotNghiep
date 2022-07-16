@@ -54,6 +54,10 @@ let initWebRoutes = (app) => {
   router.get("/api/get-all-staff", StaffController.handleGetAllStaff);
   router.get("/api/get-detail-pt", StaffController.handleGetPTDetail);
   router.get(
+    "/api/get-detail-staff-by-external",
+    StaffController.handleGetStaffDetailByExternal
+  );
+  router.get(
     "/api/merchant/:CenterId/staff-center",
     StaffController.handleGetAllStaffOfCenter
   );

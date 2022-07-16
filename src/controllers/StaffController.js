@@ -12,6 +12,18 @@ const handleGetAllStaff = async (req, res) => {
     totalPage: Math.ceil(staffs.count / 10),
   });
 };
+const handleGetStaffDetailByExternal = async (req, res) => {
+  // console.log("check id: ", req.query);
+  const staffDetail = await StaffService.getDetailStaffByExternal(
+    req.query.ExternalId
+  );
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get detail staff is success",
+    staffDetail,
+  });
+};
 const handleGetPTDetail = async (req, res) => {
   // console.log("check id: ", req.query);
   const staffDetail = await StaffService.getDetailPT(req.query.id);
@@ -100,5 +112,6 @@ module.exports = {
   handleGetAllPTOfCenter,
   handleCreateNewStaff,
   handleUpdateStaff,
+  handleGetStaffDetailByExternal,
   handleGetStaffByService,
 };

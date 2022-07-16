@@ -59,6 +59,26 @@ const getAllPT = async (payloadReq) => {
     }
   });
 };
+
+const getDetailStaffByExternal = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let staff = await db.Staffs.findOne({
+        where: { ExternalId: id },
+        // include: [
+        //   { model: db.ScheduleWorking, as: "ScheduleWorkStaff" },
+        //   { model: db.Booking, as: "StaffBooking" },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(staff);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getDetailPT = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -299,4 +319,5 @@ module.exports = {
   createNewStaff,
   updateStaff,
   getAllPTOfService,
+  getDetailStaffByExternal,
 };
