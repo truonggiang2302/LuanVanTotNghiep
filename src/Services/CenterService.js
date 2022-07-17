@@ -173,6 +173,32 @@ const getAllCenter = async (data) => {
     }
   });
 };
+const getAllCenterActive = async (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (data.page - 1) * 10;
+      const nameInput = data.CenterName;
+      let center = await db.GymCenter.findAndCountAll({
+        where: {
+          Status: 1,
+          [Op.and]: [
+            nameInput && {
+              CenterName: { [op.iLike]: `%${nameInput}%` },
+            },
+          ],
+        },
+        limit: 10,
+        offset: skip,
+        raw: true,
+        nest: true,
+      });
+
+      resolve(center);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getDetailCenter = async (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -214,4 +240,5 @@ module.exports = {
   getCenterByName,
   createNewCenter,
   updateCenter,
+  getAllCenterActive,
 };

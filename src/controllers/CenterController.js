@@ -11,6 +11,15 @@ const handleGetAllCenter = async (req, res) => {
     totalPage: Math.ceil(centers.count / 10),
   });
 };
+const handleGetAllCenterActive = async (req, res) => {
+  let centers = await CenterService.getAllCenterActive(req.query);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all centers is success",
+    centers,
+    totalPage: Math.ceil(centers.count / 10),
+  });
+};
 const handleGetDetailCenter = async (req, res) => {
   // console.log("check id: ", req.query);
   const centerDetail = await CenterService.getDetailCenter(req.query.id);
@@ -76,4 +85,5 @@ module.exports = {
   handleUpdateCenter,
   handleDeleteCenter,
   handleDeactiveCenter,
+  handleGetAllCenterActive,
 };

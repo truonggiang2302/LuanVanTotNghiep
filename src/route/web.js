@@ -110,6 +110,10 @@ let initWebRoutes = (app) => {
   router.delete("/api/delete-service", ServiceController.handleDeleteService);
   //center
   router.get("/api/get-all-center", CenterController.handleGetAllCenter);
+  router.get(
+    "/api/get-all-center-active",
+    CenterController.handleGetAllCenterActive
+  );
   router.get("/api/get-detail-center", CenterController.handleGetDetailCenter);
   router.get("/api/get-center-by-name", CenterController.handleGetCenterByName);
   router.post("/api/create-center", CenterController.handleCreateNewCenter);
@@ -243,6 +247,18 @@ let initWebRoutes = (app) => {
   router.get(
     "/api/get-time-working-by-id",
     TimeWorkingController.handleGetTimeWorkingById
+  );
+  router.post(
+    "/api/admin/create-new-time-working",
+    TimeWorkingController.handleCreateTimeWorking
+  );
+  router.put(
+    "/api/update-time-working",
+    TimeWorkingController.handleUpdateTimeWorking
+  );
+  router.delete(
+    "/api/delete-time-working",
+    TimeWorkingController.handleDeleteTimeWorking
   );
   //rating and review
   router.get(

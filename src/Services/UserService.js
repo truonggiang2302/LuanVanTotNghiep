@@ -325,7 +325,7 @@ let deleteAccount = (data) => {
           console.log("check booking found: ", booking);
           if (booking) {
             resolve({
-              errCode: 0,
+              errCode: 10,
               errMessage: "Staff have schedule in Booking",
             });
           }
@@ -335,6 +335,10 @@ let deleteAccount = (data) => {
             });
             await db.Accounts.destroy({
               where: { ExternalId: data.ExternalId },
+            });
+            resolve({
+              errCode: 0,
+              errMessage: "delete staff is success",
             });
           }
         }

@@ -8,7 +8,7 @@ const handleLoginCustomer = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
 
-  if (!email || !password) {
+  if (!email) {
     return res.status(500).json({
       errorCode: 1,
       message: "Missing inputs parameter!",

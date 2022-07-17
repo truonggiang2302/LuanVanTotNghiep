@@ -57,24 +57,96 @@ const getTimeWorkingById = async (id) => {
   });
 };
 
-let createNewSchedule = (data) => {
+let createNewTimeWorking = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.ScheduleWorking.create({
-        DayWork: data.DayWork,
-        StaffId: data.StaffId,
-        TimeId: data.TimeId,
+      await db.TimeWorking.create({
+        StartTime: data.StartTime,
+        EndTime: data.EndTime,
+        // TimeId: data.TimeId,
       });
       resolve({
         errCode: 0,
-        errMessage: "create schedule is success",
+        errMessage: "create time working is success",
       }); // return
     } catch (e) {
       reject(e);
     }
   });
 };
+const updateTimeWorking = (data) => {
+  return new Promise(async (resolve, reject) => {
+    // console.log(data);
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let time = await db.TimeWorking.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
+
+      if (time) {
+        // console.log("check result: ", result);
+        time.StartTime = data.StartTime;
+        time.EndTime = data.EndTime;
+
+        // service.fileName = data.fileName;
+        await time.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Update time working is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "time working not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let deleteTimeWorking = (id) => {
+  return new Promise(async (resolve, reject) => {
+    let time = await db.TimeWorking.findOne({
+      where: { id: id },
+    });
+    if (!time) {
+      resolve({
+        errCode: 2,
+        errMessage: "Time working not found",
+      });
+    }
+    let timeInSchedule = await db.ScheduleWorking.findOne({
+      where: { TimeId: id },
+    });
+    if (timeInSchedule) {
+      resolve({
+        errCode: 10,
+        errMessage: "Time working đang thuộc 1 schedule working. Không thể xoá",
+      });
+    }
+    if (!timeInSchedule) {
+      await db.TimeWorking.destroy({
+        where: { id: id },
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "Delete time working is success",
+      });
+    }
+  });
+};
 module.exports = {
   getAllTimeWorking,
   getTimeWorkingById,
+  createNewTimeWorking,
+  updateTimeWorking,
+  deleteTimeWorking,
 };

@@ -110,6 +110,7 @@ let createNewOrder = (data) => {
     }
   });
 };
+const updateStatusPaidOrder = (id) => {};
 module.exports = {
   createNewOrder,
   getAllOrder,

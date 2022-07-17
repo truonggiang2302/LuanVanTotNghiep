@@ -30,7 +30,39 @@ const handleGetTimeWorkingById = async (req, res) => {
     // totalPage: Math.ceil(ScheduleWorking.count / 10),
   });
 };
+
+let handleCreateTimeWorking = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await TimeWorkingService.createNewTimeWorking(req.body);
+  // let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateAccount,
+  });
+};
+
+const handleUpdateTimeWorking = async (req, res) => {
+  let data = req.body;
+  let message = await TimeWorkingService.updateTimeWorking(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
+
+let handleDeleteTimeWorking = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await TimeWorkingService.deleteTimeWorking(req.body.id);
+  // let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json({ message });
+};
 module.exports = {
   handleGetAllTimeWorking,
   handleGetTimeWorkingById,
+  handleCreateTimeWorking,
+  handleUpdateTimeWorking,
+  handleDeleteTimeWorking,
 };
