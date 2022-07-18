@@ -28,7 +28,12 @@ const handleGetDetailOrder = async (req, res) => {
     order,
   });
 };
-
+const handleUpdateOrder = async (req, res) => {
+  let data = req.body;
+  let message = await OrderService.updateStatusPaidOrder(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
 // const handleGetDetailBookingOfPT = async (req, res) => {
 //   // console.log("check id: ", req.query);
 //   const bookingDetail = await BookingService.getDetailBookingOfPT(req.query.id);
@@ -66,4 +71,5 @@ module.exports = {
   handleCreateNewOrder,
   handleGetAllOrder,
   handleGetDetailOrder,
+  handleUpdateOrder,
 };

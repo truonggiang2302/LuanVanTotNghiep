@@ -16,6 +16,7 @@ import TimeWorkingController from "../controllers/TimeWorkingController";
 import BlogController from "../controllers/BlogController";
 import DiscountController from "../controllers/DiscountController";
 import emailController from "../controllers/emailController";
+import OrderService from "../Services/OrderService";
 const mailer = require("../utils/mailer");
 
 const QRCode = require("qrcode");
@@ -236,6 +237,10 @@ let initWebRoutes = (app) => {
   );
   //discount
   router.get(
+    "/api/admin/get-all-discount",
+    DiscountController.handleGetAllDiscount
+  );
+  router.get(
     "/api/get-discount-detail",
     DiscountController.handleGetDetailDiscount
   );
@@ -308,6 +313,8 @@ let initWebRoutes = (app) => {
             req.body.htmlContent,
             req.body.orderId
           );
+          let id = req.body.orderId;
+          OrderService.updateStatusPaidOrder(id);
           res.status(200).json({ stripeRes });
         }
       }

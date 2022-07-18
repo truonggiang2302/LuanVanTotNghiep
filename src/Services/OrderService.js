@@ -110,9 +110,40 @@ let createNewOrder = (data) => {
     }
   });
 };
-const updateStatusPaidOrder = (id) => {};
+const updateStatusPaidOrder = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!id) {
+        resolve({
+          errCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let order = await db.Order.findOne({
+        where: { id: id },
+        raw: false,
+      });
+      if (order) {
+        order.Status = 1;
+        await order.save();
+        resolve({
+          errorCode: 0,
+          message: "Update order status payment is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          message: "Order not found",
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   createNewOrder,
   getAllOrder,
   getDetailOrder,
+  updateStatusPaidOrder,
 };
