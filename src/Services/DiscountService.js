@@ -65,8 +65,92 @@ const getDetailDiscount = async (id) => {
     }
   });
 };
+let createNewDiscount = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Discount.create({
+        DiscountRate: data.DiscountRate,
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "create discount is success",
+      }); // return
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+const updateDiscount = (data) => {
+  return new Promise(async (resolve, reject) => {
+    // console.log(data);
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let discount = await db.Discount.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
 
+      if (discount) {
+        // console.log("check result: ", result);
+        discount.DiscountRate = data.DiscountRate;
+
+        await discount.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Update discount is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "discount not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let deleteDiscount = (id) => {
+  return new Promise(async (resolve, reject) => {
+    let discount = await db.Discount.findOne({
+      where: { id: id },
+    });
+    if (!discount) {
+      resolve({
+        errCode: 2,
+        errMessage: "Discount not found",
+      });
+    }
+    let discountInBooking = await db.Services.findOne({
+      where: { idDiscount: id },
+    });
+    if (discountInBooking) {
+      resolve({
+        errCode: 10,
+        errMessage: "Discount đang thuộc 1 Service. Không thể xoá",
+      });
+    }
+    if (!discountInBooking) {
+      await db.Discount.destroy({
+        where: { id: id },
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "Delete discount is success",
+      });
+    }
+  });
+};
 module.exports = {
   getDetailDiscount,
   getAllDiscount,
+  createNewDiscount,
+  updateDiscount,
+  deleteDiscount,
 };

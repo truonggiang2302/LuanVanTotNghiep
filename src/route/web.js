@@ -185,6 +185,18 @@ let initWebRoutes = (app) => {
   );
   //salary
   router.get("/api/get-all-salary", SalaryController.handleGetAllSalary);
+  router.post(
+    "/api/admin/create-new-salary",
+    SalaryController.handleCreateNewSalary
+  );
+  router.put(
+    "/api/admin/update-salary-rate",
+    SalaryController.handleUpdateSalary
+  );
+  router.delete(
+    "/api/admin/delete-salary",
+    SalaryController.handleDeleteSalary
+  );
 
   //manager
   router.get(
@@ -243,6 +255,18 @@ let initWebRoutes = (app) => {
   router.get(
     "/api/get-discount-detail",
     DiscountController.handleGetDetailDiscount
+  );
+  router.post(
+    "/api/admin/create-new-discount-rate",
+    DiscountController.handleCreateNewDiscount
+  );
+  router.put(
+    "/api/admin-update-discount",
+    DiscountController.handleUpdateDiscount
+  );
+  router.delete(
+    "/api/admin-delete-discount",
+    DiscountController.handleDeleteDiscount
   );
   //time working
   router.get(

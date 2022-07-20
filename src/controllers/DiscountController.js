@@ -20,8 +20,37 @@ const handleGetDetailDiscount = async (req, res) => {
     // totalPage: Math.ceil(schedule.count / 10),
   });
 };
+let handleCreateNewDiscount = async (req, res) => {
+  // console.log("check body: ", req.body);
+  let message = await DiscountService.createNewDiscount(req.body);
+  // let messageCreateAccount = await UserService.createNewUser(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateAccount,
+  });
+};
+const handleUpdateDiscount = async (req, res) => {
+  let data = req.body;
+  let message = await DiscountService.updateDiscount(data);
+  // let messageUpdateAccount = await UserService.updateAccount(data);
+  return res.status(200).json(message);
+};
+let handleDeleteDiscount = async (req, res) => {
+  if (!req.body.id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "Missing id",
+    });
+  }
+  let message = await DiscountService.deleteDiscount(req.body.id);
+  // let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
+  return res.status(200).json({ message });
+};
 
 module.exports = {
   handleGetDetailDiscount,
   handleGetAllDiscount,
+  handleCreateNewDiscount,
+  handleUpdateDiscount,
+  handleDeleteDiscount,
 };

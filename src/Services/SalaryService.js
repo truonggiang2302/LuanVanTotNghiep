@@ -31,7 +31,91 @@ const getAllSalary = async (payloadReq) => {
     }
   });
 };
+let createNewSalary = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Salary.create({
+        Salary: data.Salary,
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "create salary is success",
+      }); // return
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+const updateSalary = (data) => {
+  return new Promise(async (resolve, reject) => {
+    // console.log(data);
+    try {
+      if (!data.id) {
+        resolve({
+          errorCode: 2,
+          errMessage: "Missing id",
+        });
+      }
+      let salary = await db.Salary.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
 
+      if (salary) {
+        // console.log("check result: ", result);
+        salary.Salary = data.Salary;
+
+        await salary.save();
+
+        resolve({
+          errorCode: 0,
+          message: "Update salary is success",
+        });
+      } else {
+        resolve({
+          errorCode: 1,
+          errMessage: "salary not found",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let deleteSalary = (id) => {
+  return new Promise(async (resolve, reject) => {
+    let salary = await db.Salary.findOne({
+      where: { id: id },
+    });
+    if (!salary) {
+      resolve({
+        errCode: 2,
+        errMessage: "Salary not found",
+      });
+    }
+    let salaryInStaff = await db.Staffs.findOne({
+      where: { SalaryId: id },
+    });
+    if (salaryInStaff) {
+      resolve({
+        errCode: 10,
+        errMessage: "Mức lương đang áp dụng cho nhân viên. Không thể xoá",
+      });
+    }
+    if (!salaryInStaff) {
+      await db.Salary.destroy({
+        where: { id: id },
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "Delete salary is success",
+      });
+    }
+  });
+};
 module.exports = {
   getAllSalary,
+  createNewSalary,
+  updateSalary,
+  deleteSalary,
 };
