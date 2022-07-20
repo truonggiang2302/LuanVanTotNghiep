@@ -19,7 +19,7 @@ var partnerCode = "MOMO";
 var accessKey = "F8BBA842ECF85";
 var secretkey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
 var orderInfo = "pay with MoMo";
-var redirectUrl = "http://localhost:3000/";
+var redirectUrl = "https://localhost:3000/";
 var requestType = "captureWallet";
 
 const getMomoPaymentLink = async (req) => {
