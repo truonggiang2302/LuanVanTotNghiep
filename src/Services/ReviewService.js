@@ -70,6 +70,7 @@ let createNewReview = (data) => {
         reviewContent: data.reviewContent,
         CustomerId: data.CustomerId,
         CenterId: data.CenterId,
+        Status: data.Status,
       });
       resolve({
         errCode: 0,
