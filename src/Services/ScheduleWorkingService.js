@@ -186,6 +186,25 @@ const getAllScheduleWorkOfStaff = async (req) => {
     }
   });
 };
+const getDetailScheduleById = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // const skip = (req.query.page - 1) * 10;
+      let scheduleWork = await db.ScheduleWorking.findOne({
+        where: {
+          id: id,
+        },
+
+        raw: true,
+        nest: true,
+      });
+
+      resolve(scheduleWork);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getAllScheduleWorkOfPT = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -235,4 +254,5 @@ module.exports = {
   createNewSchedule,
   getAllScheduleWorkOfStaff,
   getAllScheduleByWeek,
+  getDetailScheduleById,
 };

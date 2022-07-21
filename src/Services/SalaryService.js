@@ -31,6 +31,25 @@ const getAllSalary = async (payloadReq) => {
     }
   });
 };
+const getDetailSalary = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let salary = await db.Salary.findOne({
+        where: { id: id },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(salary);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 let createNewSalary = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -115,6 +134,7 @@ let deleteSalary = (id) => {
 };
 module.exports = {
   getAllSalary,
+  getDetailSalary,
   createNewSalary,
   updateSalary,
   deleteSalary,

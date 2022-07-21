@@ -3,11 +3,18 @@ import db from "../models/index";
 const jsonFormat = require("../jsonHelper/jsonFormat");
 
 import PaymentService from "../Services/PaymentService";
+import mailer from "../utils/mailer";
 
 const getMomoPaymentLink = async (req, res) => {
   try {
     const result = await PaymentService.getMomoPaymentLink(req);
     console.log("check result req: ", result);
+    // mailer.sendMail(
+    //   req.body.to,
+    //   req.body.subject,
+    //   req.body.htmlContent,
+    //   req.body.orderId
+    // );
     return res.status(200).json({
       result,
     });

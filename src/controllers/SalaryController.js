@@ -11,6 +11,15 @@ const handleGetAllSalary = async (req, res) => {
     totalPage: Math.ceil(salary.count / 10),
   });
 };
+
+const handleGetDetailSalary = async (req, res) => {
+  let salary = await SalaryService.getDetailSalary(req.query.id);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all salary is success",
+    salary,
+  });
+};
 let handleCreateNewSalary = async (req, res) => {
   // console.log("check body: ", req.body);
   let message = await SalaryService.createNewSalary(req.body);
@@ -42,4 +51,5 @@ module.exports = {
   handleCreateNewSalary,
   handleUpdateSalary,
   handleDeleteSalary,
+  handleGetDetailSalary,
 };

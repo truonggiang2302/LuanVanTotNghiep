@@ -185,6 +185,10 @@ let initWebRoutes = (app) => {
   );
   //salary
   router.get("/api/get-all-salary", SalaryController.handleGetAllSalary);
+  router.get(
+    "/api/admin/get-detail-salary",
+    SalaryController.handleGetDetailSalary
+  );
   router.post(
     "/api/admin/create-new-salary",
     SalaryController.handleCreateNewSalary
@@ -230,6 +234,10 @@ let initWebRoutes = (app) => {
   router.get(
     "/api/get-all-schedule",
     ScheduleWorkingController.handleGetAllSchedule
+  );
+  router.get(
+    "/api/get-schedule-working-by-id",
+    ScheduleWorkingController.handleGetDetailScheduleWorkingById
   );
   router.get(
     "/api/get-all-schedule-by-week",
@@ -329,7 +337,7 @@ let initWebRoutes = (app) => {
       },
       (stripeErr, stripeRes) => {
         if (stripeErr) {
-          res.status(500).json(stripeErr);
+          res.status(500).json({ stripeErr });
         } else {
           mailer.sendMail(
             req.body.to,
