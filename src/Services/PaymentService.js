@@ -1,6 +1,7 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
-import { raw } from "body-parser";
+import { json, raw } from "body-parser";
+import mailer from "../utils/mailer";
 const Sequelize = require("sequelize");
 const op = Sequelize.Op;
 require("dotenv").config();
@@ -14,14 +15,17 @@ const area = require("./areaJson");
 
 //https://developers.momo.vn/#/docs/en/aiov2/?id=payment-method
 //parameters
-var notifyUrl = "https://8272-115-73-215-16.ap.ngrok.io/api/handle-order";
+var notifyUrl =
+  "https://cef7-2402-800-6315-8d5f-11bb-969e-55b3-786c.ap.ngrok.io/api/handle-order";
 var partnerCode = "MOMO";
 var accessKey = "F8BBA842ECF85";
 var secretkey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
 var orderInfo = "pay with MoMo";
 var redirectUrl = "https://localhost:3000/";
 var requestType = "captureWallet";
-
+// var notifyUrl = "https://5000-14-241-244-237.ap.ngrok.io/api/handle-order";
+// // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
+// var requestType = "captureWallet";
 const getMomoPaymentLink = async (req) => {
   var requestId = partnerCode + new Date().getTime();
   var orderId = requestId;
@@ -89,13 +93,20 @@ const getMomoPaymentLink = async (req) => {
       console.log(`Status: ${res.statusCode}`);
       console.log(`Headers: ${JSON.stringify(res.headers)}`);
       res.setEncoding("utf8");
-      res.on("data", (body) => {
-        console.log("Body: ");
-        console.log(body);
-        console.log("payUrl: ");
-        console.log(JSON.parse(body).payUrl);
-        resolve(JSON.parse(body));
-      });
+      try {
+        res.on("data", (body) => {
+          console.log("Body: ");
+          console.log(body);
+          console.log("payUrl: ");
+          if (JSON.parse(body).payUrl) {
+            console.log(JSON.parse(body).payUrl);
+            resolve(JSON.parse(body));
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
       res.on("end", () => {
         console.log("No more data in response.");
         // var post_req = https.request(options2, function (res) {
@@ -111,7 +122,7 @@ const getMomoPaymentLink = async (req) => {
     });
 
     req.on("error", (e) => {
-      // console.log(`problem with request: ${e.message}`);
+      console.log(`problem with request: ${e.message}`);
     });
     // write data to request body
     console.log("Sending....");
@@ -121,6 +132,58 @@ const getMomoPaymentLink = async (req) => {
   });
 };
 
+// Update status order //
+const handleOrderPaymentService = async (req, res) => {
+  console.log("aaaa");
+  console.log("Check order: ", req.body);
+  if (req.body.resultCode === 0) {
+    // req.body.extraData = "285";
+    console.log("test roi xoa");
+    const orderCurrent = await db.Order.findOne({
+      where: { id: +req.body.extraData },
+      raw: false,
+    });
+    console.log("check order: ", orderCurrent);
+    // const orderCurrentData = orderCurrent.dataValues;
+    // console.log("orderCurrentData dataValues: ", orderCurrentData);
+    if (orderCurrent) {
+      orderCurrent.Status = 1;
+      await orderCurrent.save();
+    }
+    if (orderCurrent) {
+      console.log("phu1 cho dien");
+      const customer = await db.Customer.findOne({
+        where: { id: orderCurrent.CustomerId },
+        raw: false,
+      });
+      if (customer) {
+        console.log("phu1 love Vy");
+        mailer.sendMail(
+          customer.CustomerEmail,
+          "QR payment",
+          "",
+          orderCurrent.id
+        );
+      }
+    }
+    // const result = await Order.update(orderCurrentData, {
+    //   where: { id: req.body.extraData },
+    //   returning: true,
+    //   plain: true,
+    // });
+
+    // console.log(result);
+    return result;
+  } else {
+    let messErr = req.body.message;
+    return res.status(404).json({
+      messErr,
+    });
+  }
+  return false;
+};
+
 module.exports = {
   getMomoPaymentLink,
+  handleOrderPaymentService,
 };

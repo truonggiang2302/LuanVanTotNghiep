@@ -123,6 +123,7 @@ let initWebRoutes = (app) => {
     "/api/admin/de-active-center",
     CenterController.handleDeactiveCenter
   );
+  router.get("/api/get-test", TimeWorkingController.getAll);
   //booking
   router.get("/api/get-all-booking", BookingController.handleGetAllBooking);
   //get booking follow pi id
@@ -367,6 +368,7 @@ let initWebRoutes = (app) => {
     "/api/get-momo-payment-link",
     PaymentController.getMomoPaymentLink
   );
+  router.post("/api/handle-order", PaymentController.handleOrderPayment);
 
   // router.post('/api/user-login', UserController.handleLogin);
   // router.post('/api/user-login-social', UserController.handleLoginSocial);

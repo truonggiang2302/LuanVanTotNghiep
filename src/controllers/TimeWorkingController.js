@@ -59,7 +59,14 @@ let handleDeleteTimeWorking = async (req, res) => {
   // let messageDeleteAccount = await UserService.deleteAccount(req.body.id);
   return res.status(200).json({ message });
 };
+const getAll = async (req, res) => {
+  return res.status(200).json({
+    errCode: 1,
+    errMessage: "Missing id",
+  });
+};
 module.exports = {
+  getAll,
   handleGetAllTimeWorking,
   handleGetTimeWorkingById,
   handleCreateTimeWorking,
