@@ -1,5 +1,6 @@
 import express from "express";
 const multer = require("multer");
+import db from "../models/index";
 import UserController from "../controllers/UserControler";
 import StaffController from "../controllers/StaffController";
 import CustomerController from "../controllers/CustomerController";
@@ -17,6 +18,7 @@ import BlogController from "../controllers/BlogController";
 import DiscountController from "../controllers/DiscountController";
 import emailController from "../controllers/emailController";
 import OrderService from "../Services/OrderService";
+
 const mailer = require("../utils/mailer");
 
 const QRCode = require("qrcode");
@@ -126,7 +128,11 @@ let initWebRoutes = (app) => {
   router.get("/api/get-test", TimeWorkingController.getAll);
   //booking
   router.get("/api/get-all-booking", BookingController.handleGetAllBooking);
-  //get booking follow pi id
+  router.get(
+    "/api/get-detail-booking-by-bookingId",
+    BookingController.handleGetDetailBookingByBookingId
+  );
+  //get booking follow pt id
   router.get(
     "/api/get-booking-detail",
     BookingController.handleGetDetailBookingOfPT
@@ -327,7 +333,17 @@ let initWebRoutes = (app) => {
   //order
   router.get("/api/admin/get-all-order", OrderController.handleGetAllOrder);
   router.get("/api/get-detail-order", OrderController.handleGetDetailOrder);
+  router.get(
+    "/api/get-detail-order-by-order-id",
+    OrderController.handleGetDetailOrderByOrderId
+  );
   router.post("/api/create-new-order", OrderController.handleCreateNewOrder);
+  //create schedule of staff follow cutomer
+  router.post(
+    "/api/create-new-schedule-customer-staff",
+    BookingController.handleCreateNewScheduleStaffCustomer
+  );
+
   //stripe
   router.post("/payment-stripe", (req, res) => {
     stripe.charges.create(
@@ -336,7 +352,7 @@ let initWebRoutes = (app) => {
         amount: req.body.amount,
         currency: "VND",
       },
-      (stripeErr, stripeRes) => {
+      async (stripeErr, stripeRes) => {
         if (stripeErr) {
           res.status(500).json({ stripeErr });
         } else {
@@ -347,12 +363,60 @@ let initWebRoutes = (app) => {
             req.body.orderId
           );
           let id = req.body.orderId;
-          OrderService.updateStatusPaidOrder(id);
+          await OrderService.updateStatusPaidOrder(id);
+
+          let order = await db.Order.findOne({
+            where: { id: id },
+            raw: false,
+          });
+          console.log("check order: ", order);
+          if (order) {
+            console.log("vao dc tim booking");
+            let booking = await db.Booking.findOne({
+              where: { id: order.ReservationId },
+              raw: false,
+            });
+            console.log("check booking tim dc: ", booking);
+            if (booking) {
+              console.log("vao dc tim schedule work");
+              let scheduleWork = await db.ScheduleWorking.findOne({
+                where: {
+                  id: booking.ScheduleId,
+                },
+                raw: false,
+              });
+              console.log("check schedule work");
+              if (scheduleWork) {
+                console.log("vao dc tao schedule staff cus-book: ", booking);
+                console.log(
+                  "vao dc tao schedule staff cus-schedule: ",
+                  scheduleWork
+                );
+                await db.ScheduleStaffCustomer.create({
+                  ServiceId: booking.ServiceId,
+                  CustomerId: booking.CustomerId,
+                  StaffId: booking.StaffId,
+                  StartTime: booking.StartTime,
+                  EndTime: booking.EndTime,
+                  TimeId: scheduleWork.TimeId,
+                  // Status: "PENDING",
+                  // idDiscount: data.IdDisCount,
+                  // price: data.Price,
+                });
+              }
+            }
+          }
+
           res.status(200).json({ stripeRes });
         }
       }
     );
   });
+  //diem danh hoc vien
+  router.post(
+    "/api/create-day-excercise-of-customer",
+    CustomerController.handleCreateNewDayExcercise
+  );
   //QR code
   router.get("/api/get-QR-code", async (req, res) => {
     let img = "";
@@ -369,85 +433,6 @@ let initWebRoutes = (app) => {
     PaymentController.getMomoPaymentLink
   );
   router.post("/api/handle-order", PaymentController.handleOrderPayment);
-
-  // router.post('/api/user-login', UserController.handleLogin);
-  // router.post('/api/user-login-social', UserController.handleLoginSocial);
-
-  // // CRUD User //
-  // router.get('/api/get-roles', UserController.getAllRoles);
-  // router.post('/api/sign-up-new-user', UserController.handleSignUpNewUser);
-  // router.get('/api/get-all-user', UserController.handleGetAllUser);
-  // router.get('/api/get-edit-user', UserController.getEditUser);
-  // router.put('/api/edit-user', UserController.handleEditUser);
-  // router.delete('/api/delete-user', UserController.handleDeleteUser);
-
-  // // CRUD Genres //
-  // router.post('/api/create-new-genres', GenresController.handleCreateNewGenres);
-  // router.get('/api/get-all-genres', GenresController.handleGetAllGenres);
-  // router.get('/api/get-edit-genres', GenresController.getEditGenres);
-  // router.put('/api/edit-genres', GenresController.handleEditGenres);
-  // router.delete('/api/delete-genres', GenresController.handleDeleteGenres);
-
-  // // CRUD Artists //
-  // router.get('/api/get-all-country', ArtistsController.getAllCountry);
-  // router.post('/api/create-new-artists', ArtistsController.handleCreateNewArtists);
-  // router.get('/api/get-all-artists', ArtistsController.handleGetAllArtists);
-  // router.get('/api/get-edit-artists', ArtistsController.getEditArtists);
-  // router.put('/api/edit-artists', ArtistsController.handleEditArtists);
-  // router.delete('/api/delete-artists', ArtistsController.handleDeleteArtists);
-  // router.get('/api/get-detail-artists', ArtistsController.getDetailArtists);
-
-  // // CRUD Song //
-  // let upload = multer();
-  // router.post('/api/create-new-song', upload.single('fileSong'), SongController.handleCreateNewSongs);
-  // router.get('/api/get-all-songs', SongController.getAllSongs);
-  // router.get('/api/get-random-songs', SongController.getRandomSongs);
-  // router.get('/api/get-edit-song', SongController.getEditSong);
-  // router.get('/api/get-detail-song', SongController.getDetailSong);
-  // router.get('/api/get-song-by-keyword', SongController.getSongByKeyword);
-  // router.put('/api/edit-song', upload.single('fileSong'), SongController.handleEditSong);
-  // router.delete('/api/delete-song', SongController.handleDeleteSong);
-  // router.get('/api/get-song-current', SongController.getSongCurrent);
-  // router.get('/api/get-song-by-name', SongController.getSongByName);
-  // router.put('/api/edit-song-count', SongController.handleEditSongCount);
-
-  // //history
-  // router.put('/api/save-song-history', HistorySong.handleSaveHistorySong);
-  // router.get('/api/get-song-history-by-idUser', HistorySong.getSongHistoryByIDUser);
-  // //like song
-  // router.put('/api/save-song-like', LikeSongController.handleSaveLikeSong);
-  // router.get('/api/get-song-like-by-idUser', LikeSongController.getSongLikeByIDUser);
-
-  // // CRUD Albums //
-  // router.get('/api/get-all-songs-by-artists', SongController.getAllSongsByArtists);
-  // router.get('/api/get-all-songs-by-artists-genres', SongController.getAllSongsByArtistsGenres);
-  // router.get('/api/get-all-songs-by-genres', SongController.getAllSongsByGenres);
-
-  // router.post('/api/create-new-albums', AlbumController.handleCreateNewAlbum);
-  // router.get('/api/get-all-albums', AlbumController.getAllAlbums);
-  // router.delete('/api/delete-song-in-album', AlbumController.handleDeleteSongInAlbum);
-  // router.post('/api/create-new-song-in-albums', AlbumController.handleCreateNewSongInAlbum);
-  // router.get('/api/get-edit-album', AlbumController.getEditAlbum);
-  // router.get('/api/get-detail-album', AlbumController.getDetailAlbum);
-  // router.put('/api/edit-album', AlbumController.handleEditAlbum);
-  // router.delete('/api/delete-album', AlbumController.handleDeleteAlbum);
-
-  // // Playlist //
-  // router.post('/api/create-new-playlist', PlaylistControler.handleCreateNewPlaylist);
-  // router.post('/api/create-new-playlist-user', PlaylistControler.handleCreateNewPlaylistUser);
-  // router.get('/api/get-all-playlist', PlaylistControler.getAllPlaylist);
-  // router.get('/api/get-all-playlist-by-userId', PlaylistControler.getAllPlaylistByUserId);
-  // router.get('/api/get-playlist-by-keyword', PlaylistControler.getPlaylistByKeyword);
-  // router.get('/api/get-playlist-by-genres', PlaylistControler.getPlaylistByGenres);
-  // router.get('/api/get-random-playlist', PlaylistControler.getRandomPlaylist);
-  // router.post('/api/create-new-song-in-playlist', PlaylistControler.handleCreateNewSongInPlaylist);
-  // router.post('/api/create-new-song-in-playlist-for-user', PlaylistControler.handleCreateNewSongInPlaylistForUser);
-  // router.delete('/api/delete-song-in-playlist', PlaylistControler.handleDeleteSongInPlaylist);
-  // router.delete('/api/delete-song-in-playlist-for-user', PlaylistControler.handleDeleteSongInPlaylistForUser);
-  // router.get('/api/get-edit-playlist', PlaylistControler.getEditPlaylist);
-  // router.get('/api/get-detail-playlist', PlaylistControler.getDetailPlaylist);
-  // router.put('/api/edit-playlist', PlaylistControler.handleEditPlaylist);
-  // router.delete('/api/delete-playlist', PlaylistControler.handleDeletePlaylist);
 
   return app.use("/", router);
 };

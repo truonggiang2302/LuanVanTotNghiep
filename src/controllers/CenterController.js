@@ -31,7 +31,7 @@ const handleGetDetailCenter = async (req, res) => {
   });
 };
 let handleCreateNewCenter = async (req, res) => {
-  console.log("check body: ", req.body);
+  // console.log("check body: ", req.body);
   let message = await CenterService.createNewCenter(req.body);
   // let messageCreateAccount = await UserService.createNewUser(req.body);
   return res.status(200).json({

@@ -31,7 +31,22 @@ const getAllOrder = async (payloadReq) => {
     }
   });
 };
+const getDetailOrderByOrderId = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let order = await db.Order.findOne({
+        where: { id: id },
 
+        raw: false,
+        nest: true,
+      });
+
+      resolve(order);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getDetailOrder = (bookingId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -146,4 +161,5 @@ module.exports = {
   getAllOrder,
   getDetailOrder,
   updateStatusPaidOrder,
+  getDetailOrderByOrderId,
 };

@@ -3,7 +3,7 @@ import db from "../models/index";
 import OrderService from "../Services/OrderService";
 
 let handleCreateNewOrder = async (req, res) => {
-  console.log("check body: ", req.body);
+  // console.log("check body: ", req.body);
 
   let messageCreateOrder = await OrderService.createNewOrder(req.body);
   return res.status(200).json({
@@ -18,6 +18,15 @@ const handleGetAllOrder = async (req, res) => {
     errMessage: "get all orders is success",
     order,
     totalPage: Math.ceil(order.count / 10),
+  });
+};
+
+const handleGetDetailOrderByOrderId = async (req, res) => {
+  let order = await OrderService.getDetailOrderByOrderId(req.query.id);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get detail order is success",
+    order,
   });
 };
 const handleGetDetailOrder = async (req, res) => {
@@ -72,4 +81,5 @@ module.exports = {
   handleGetAllOrder,
   handleGetDetailOrder,
   handleUpdateOrder,
+  handleGetDetailOrderByOrderId,
 };

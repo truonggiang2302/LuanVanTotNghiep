@@ -15,8 +15,7 @@ const area = require("./areaJson");
 
 //https://developers.momo.vn/#/docs/en/aiov2/?id=payment-method
 //parameters
-var notifyUrl =
-  "https://cef7-2402-800-6315-8d5f-11bb-969e-55b3-786c.ap.ngrok.io/api/handle-order";
+var notifyUrl = "https://000a-112-197-14-130.ap.ngrok.io/api/handle-order";
 var partnerCode = "MOMO";
 var accessKey = "F8BBA842ECF85";
 var secretkey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";

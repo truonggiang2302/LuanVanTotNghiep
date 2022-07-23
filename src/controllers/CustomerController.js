@@ -58,6 +58,12 @@ const handleGetDetailCustomerByExternalId = async (req, res) => {
     cusDetail,
   });
 };
+let handleCreateNewDayExcercise = async (req, res) => {
+  let message = await CustomerService.createNewExcercise(req.body);
+  return res.status(200).json({
+    message,
+  });
+};
 let handleCreateNewCustomer = async (req, res) => {
   console.log("check body: ", req.body);
   let message = await CustomerService.createNewCustomer(req.body);
@@ -81,4 +87,5 @@ module.exports = {
   handleGetDetailCustomer,
   handleUpdateCustomer,
   handleGetDetailCustomerByExternalId,
+  handleCreateNewDayExcercise,
 };

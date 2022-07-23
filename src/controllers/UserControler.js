@@ -40,7 +40,7 @@ const handleAuthEmailExist = async (req, res) => {
   });
 };
 const handleLogin = async (req, res) => {
-  console.log("check data from: ", req.body);
+  // console.log("check data from: ", req.body);
 
   let email = req.body.email;
   let password = req.body.password;
@@ -51,7 +51,7 @@ const handleLogin = async (req, res) => {
       message: "Missing inputs parameter!",
     });
   }
-  console.log("check data from: ", req.body);
+  // console.log("check data from: ", req.body);
   let userData = await UserService.handleUserLogin(email, password);
 
   return res.status(200).json({

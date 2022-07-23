@@ -211,6 +211,25 @@ const getDetailBookingOfPT = (id) => {
     }
   });
 };
+const getDetailBookingByBookingId = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let booking = await db.Booking.findOne({
+        where: { id: id },
+        // include: [
+        //     { model: db.Artists, as: 'SongOfArtists' },
+        //     { model: db.Genres, as: 'GenresSong', attributes: ['id', 'genresName'] },
+        // ],
+        raw: false,
+        nest: true,
+      });
+
+      resolve(booking);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const getDetailBookingOfCustomer = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -339,6 +358,30 @@ const updateStatusBooking = (data) => {
     }
   });
 };
+
+let createNewScheduleStaffCustomer = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.ScheduleStaffCustomer.create({
+        ServiceId: data.ServiceId,
+        CustomerId: data.CustomerId,
+        StaffId: data.StaffId,
+        StartTime: data.StartTime,
+        EndTime: data.EndTime,
+        TimeId: data.TimeId,
+        // Status: "PENDING",
+        // idDiscount: data.IdDisCount,
+        // price: data.Price,
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "create schedule of staff following customer is success",
+      }); // return
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 let createNewBooking = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -366,6 +409,7 @@ let createNewBooking = (data) => {
   });
 };
 module.exports = {
+  getDetailBookingByBookingId,
   getAllBooking,
   getDetailBookingOfPT,
   getDetailBookingOfCenter,
@@ -378,4 +422,5 @@ module.exports = {
   getAllBookingOfCenterIn30Day,
   getBookingPending,
   getDetailBookingOfCustomer,
+  createNewScheduleStaffCustomer,
 };

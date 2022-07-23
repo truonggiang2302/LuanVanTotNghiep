@@ -15,7 +15,7 @@ const handleGetAllBooking = async (req, res) => {
 const handleGetDetailBookingOfPT = async (req, res) => {
   // console.log("check id: ", req.query);
   const bookingDetail = await BookingService.getDetailBookingOfPT(
-    req.params.PTId
+    req.query.PTId
   );
 
   return res.status(200).json({
@@ -24,8 +24,20 @@ const handleGetDetailBookingOfPT = async (req, res) => {
     bookingDetail,
   });
 };
+const handleGetDetailBookingByBookingId = async (req, res) => {
+  // console.log("check id: ", req.query);
+  const bookingDetail = await BookingService.getDetailBookingByBookingId(
+    req.query.id
+  );
+
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get detail booking is success",
+    bookingDetail,
+  });
+};
 const handleGetDetailBookingOfCustomer = async (req, res) => {
-  console.log("check id: ", req.params);
+  // console.log("check id: ", req.params);
   const bookingDetail = await BookingService.getDetailBookingOfCustomer(
     req.params.CustomerId
   );
@@ -149,6 +161,15 @@ let handleCreateNewBooking = async (req, res) => {
   });
 };
 
+let handleCreateNewScheduleStaffCustomer = async (req, res) => {
+  console.log("check body: ", req.body);
+  let message = await BookingService.createNewScheduleStaffCustomer(req.body);
+  // let messageCreateOrder = await OrderService.createNewOrder(req.body);
+  return res.status(200).json({
+    message,
+    // messageCreateOrder,
+  });
+};
 module.exports = {
   handleGetAllBooking,
   handleGetDetailBookingOfPT,
@@ -165,4 +186,6 @@ module.exports = {
   handleGetBookingCancel,
   handleGetBookingSchedule,
   handleGetDetailBookingOfCustomer,
+  handleCreateNewScheduleStaffCustomer,
+  handleGetDetailBookingByBookingId,
 };

@@ -200,6 +200,24 @@ const updateCustomer = (data) => {
     }
   });
 };
+const createNewExcercise = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.DayExcerciseOfCustomer.create({
+        ServiceId: data.ServiceId,
+        CustomerId: data.CustomerId,
+        StaffId: data.StaffId,
+        TimeCheck: data.TimeCheck,
+      });
+      resolve({
+        errCode: 0,
+        errMessage: "create day excercise of customer is success",
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 const getDetailCustomer = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -250,4 +268,5 @@ module.exports = {
   getDetailCustomer,
   getDetailCustomerByExternalId,
   updateCustomer,
+  createNewExcercise,
 };
