@@ -469,6 +469,7 @@ let createNewUser = (data) => {
             CenterId: data.centerId,
             SalaryId: data.salaryId,
             ExternalId: data.ExternalId,
+            Description: data.Description,
             // isActive: true,
             // userName: data.userName,
           });
@@ -586,7 +587,7 @@ const updateAccount = (data) => {
             staff.DayOfBirth = data.dob;
             staff.CenterId = data.centerId;
             staff.SalaryId = data.salaryId;
-
+            staff.Description = data.Description;
             await staff.save();
           }
         }

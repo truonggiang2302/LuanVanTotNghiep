@@ -230,65 +230,63 @@ const getAllScheduleWorkOfPT = async (req) => {
     }
   });
 };
-
+const formatDate = (date) => {
+  return moment(
+    new Intl.DateTimeFormat("en-Us", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }).format(date)
+  ).format("DD-MM-YYYY");
+};
 let createNewSchedule = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // if(data.TimeId){
-      //   let scheduleCurr=await db.ScheduleStaffCustomer.findOne({
-      //     where:{TimeId:data.TimeId},
-      //     raw:false
-      //   })
-      //   if(scheduleCurr){
-      //     startOfWeek = moment(scheduleCurr.StartTime).format("DD-MM-YYYY");
-      //     startOfWeek = startOfWeek.split("-");
-      //     startOfWeek = new Date(
-      //       startOfWeek[2],
-      //       startOfWeek[1] - 1,
-      //       startOfWeek[0]
-      //     );
-      //     startOfWeek = startOfWeek.getTime();
-      //     console.log("startOfWeek: ", startOfWeek);
+      // console.log("check data time daywork: ", data.DayWork);
+      let timePost = Intl.DateTimeFormat("en-Us", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }).format(data.DayWork);
+      let newTimePost = moment(timePost).format("YYYY-MM-DD");
+      // console.log("timePost: ", newTimePost);
+      // let start = moment(timePost).subtract(7, "days");
+      // let end = moment(timePost + 7);
+      // console.log("check start-end: ", start, end);
 
-      //     endOfWeek = moment(scheduleCurr.EndTime).format("DD-MM-YYYY");
-      //     endOfWeek = endOfWeek.split("-");
-      //     endOfWeek = new Date(endOfWeek[2], endOfWeek[1] - 1, endOfWeek[0]);
-      //     endOfWeek = endOfWeek.getTime();
-      //     console.log("endOfWeek: ", endOfWeek);
-      //     let scheduleDuringTime=await db.ScheduleStaffCustomer.findOne({
-      //   //    where: {
-      //   //   DayWork: {
-      //   //     [Op.gte]: startOfWeek.toString(),
-      //   //     [Op.lte]: endOfWeek.toString(),
-      //   //   },
-      //   // },
-      //     })
-      //   }
+      if (data.TimeId) {
+        let scheduleCurr = await db.ScheduleStaffCustomer.findOne({
+          where: {
+            TimeId: data.TimeId,
+            StartTime: {
+              [Op.lte]: moment(newTimePost),
+            },
+            EndTime: {
+              [Op.gte]: moment(newTimePost),
+            },
+          },
+          raw: false,
+        });
+        // console.log("check schedule curr: ", scheduleCurr);
 
-      //   if(!scheduleCurr){
-      //     await db.ScheduleWorking.create({
-      //       DayWork: data.DayWork,
-      //       StaffId: data.StaffId,
-      //       TimeId: data.TimeId,
-      //     });
-      //     resolve({
-      //       errCode: 0,
-      //       errMessage: "create schedule is success",
-      //     }); // return
-      //   }
-      //   if(scheduleCurr){
-
-      //   }
-      // }
-      await db.ScheduleWorking.create({
-        DayWork: data.DayWork,
-        StaffId: data.StaffId,
-        TimeId: data.TimeId,
-      });
-      resolve({
-        errCode: 0,
-        errMessage: "create schedule is success",
-      }); // return
+        if (!scheduleCurr) {
+          await db.ScheduleWorking.create({
+            DayWork: data.DayWork,
+            StaffId: data.StaffId,
+            TimeId: data.TimeId,
+          });
+          resolve({
+            errCode: 0,
+            errMessage: "create schedule is success",
+          }); // return
+        }
+        if (scheduleCurr) {
+          resolve({
+            errCode: 12,
+            errMessage: "you have a other schedule in this time",
+          }); // return
+        }
+      }
     } catch (e) {
       reject(e);
     }

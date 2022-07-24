@@ -253,6 +253,7 @@ let createNewStaff = (data) => {
           StaffEmail: data.email,
           CenterId: data.centerId,
           SalaryId: data.salaryId,
+          Description: data.Description,
           // isActive: true,
           // userName: data.userName,
         });
@@ -291,7 +292,7 @@ const updateStaff = (data) => {
         staff.StaffImage = data.avatar;
         staff.CenterId = data.centerId;
         staff.SalaryId = data.salaryId;
-
+        staff.Description = data.Description;
         await staff.save();
 
         resolve({
