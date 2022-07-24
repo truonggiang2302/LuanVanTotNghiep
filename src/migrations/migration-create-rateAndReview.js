@@ -23,6 +23,10 @@ module.exports = {
       CustomerId: {
         type: Sequelize.INTEGER,
       },
+      StaffId: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+      },
       CenterId: {
         type: Sequelize.INTEGER,
       },

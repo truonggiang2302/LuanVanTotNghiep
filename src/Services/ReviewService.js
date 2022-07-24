@@ -65,10 +65,17 @@ const get5ReviewOfCenter = async (req) => {
 let createNewReview = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
+      let staffId = "";
+      if (data.StaffId) {
+        staffId = data.StaffId;
+      } else {
+        staffId = null;
+      }
       await db.rateAndReview.create({
         ratingPoint: data.ratingPoint,
         reviewContent: data.reviewContent,
         CustomerId: data.CustomerId,
+        StaffId: staffId,
         CenterId: data.CenterId,
         Status: data.Status,
       });
