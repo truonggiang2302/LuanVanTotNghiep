@@ -31,6 +31,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      CourseRoute: {
+        type: Sequelize.TEXT,
+      },
       idDiscount: {
         type: Sequelize.INTEGER,
       },

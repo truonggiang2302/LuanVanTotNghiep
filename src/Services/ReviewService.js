@@ -38,6 +38,30 @@ const getAllReviewOfCenter = async (req) => {
     }
   });
 };
+const getAllReviewOfPT = async (req) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const skip = (req.query.page - 1) * 10;
+      let bookings = await db.rateAndReview.findAndCountAll({
+        where: {
+          StaffId: req.query.StaffId,
+        },
+        // attributes: {
+        //   exclude: ["password"],
+        // },
+        limit: 10,
+        offset: skip,
+
+        raw: true,
+        nest: true,
+      });
+
+      resolve(bookings);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const get5ReviewOfCenter = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -191,4 +215,5 @@ module.exports = {
   deleteReview,
   hideShowReview,
   get5ReviewOfCenter,
+  getAllReviewOfPT,
 };

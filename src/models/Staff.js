@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       CenterId: DataTypes.INTEGER,
       SalaryId: DataTypes.INTEGER,
       ExternalId: DataTypes.INTEGER,
+      Description: DataTypes.TEXT,
     },
     {
       sequelize,

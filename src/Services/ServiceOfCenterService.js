@@ -152,6 +152,8 @@ let createNewService = (data) => {
         Price: data.Price,
         ServiceImage: result && result.secure_url ? result.secure_url : avatar,
         public_id_image: data.fileName,
+        CourseRoute: data.CourseRoute,
+        idDiscount: data.idDiscount,
       });
       resolve({
         errCode: 0,
@@ -193,6 +195,8 @@ const updateService = (data) => {
         service.ServiceImage =
           result && result.secure_url ? result.secure_url : avatar;
         service.public_id_image = data.fileName;
+        service.CourseRoute = data.CourseRoute;
+        service.idDiscount = data.idDiscount;
         // service.fileName = data.fileName;
         await service.save();
 

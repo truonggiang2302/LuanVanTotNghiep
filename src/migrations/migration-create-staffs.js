@@ -50,6 +50,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
+      Description: {
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE,

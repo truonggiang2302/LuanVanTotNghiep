@@ -12,6 +12,15 @@ const handleGetReviewOfCenter = async (req, res) => {
     totalPage: Math.ceil(reviewOfCenter.count / 10),
   });
 };
+const handleGetReviewOfPT = async (req, res) => {
+  const reviewOfPT = await ReviewService.getAllReviewOfPT(req);
+  return res.status(200).json({
+    errCode: 0,
+    errMessage: "get all review of pt is success",
+    reviewOfPT,
+    totalPage: Math.ceil(reviewOfPT.count / 10),
+  });
+};
 
 const handleGet5ReviewNewest = async (req, res) => {
   const fiveReviewOfCenter = await ReviewService.get5ReviewOfCenter(req);
@@ -60,4 +69,5 @@ module.exports = {
   handleDeleteReview,
   handleHideReview,
   handleGet5ReviewNewest,
+  handleGetReviewOfPT,
 };

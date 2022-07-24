@@ -234,6 +234,52 @@ const getAllScheduleWorkOfPT = async (req) => {
 let createNewSchedule = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
+      // if(data.TimeId){
+      //   let scheduleCurr=await db.ScheduleStaffCustomer.findOne({
+      //     where:{TimeId:data.TimeId},
+      //     raw:false
+      //   })
+      //   if(scheduleCurr){
+      //     startOfWeek = moment(scheduleCurr.StartTime).format("DD-MM-YYYY");
+      //     startOfWeek = startOfWeek.split("-");
+      //     startOfWeek = new Date(
+      //       startOfWeek[2],
+      //       startOfWeek[1] - 1,
+      //       startOfWeek[0]
+      //     );
+      //     startOfWeek = startOfWeek.getTime();
+      //     console.log("startOfWeek: ", startOfWeek);
+
+      //     endOfWeek = moment(scheduleCurr.EndTime).format("DD-MM-YYYY");
+      //     endOfWeek = endOfWeek.split("-");
+      //     endOfWeek = new Date(endOfWeek[2], endOfWeek[1] - 1, endOfWeek[0]);
+      //     endOfWeek = endOfWeek.getTime();
+      //     console.log("endOfWeek: ", endOfWeek);
+      //     let scheduleDuringTime=await db.ScheduleStaffCustomer.findOne({
+      //   //    where: {
+      //   //   DayWork: {
+      //   //     [Op.gte]: startOfWeek.toString(),
+      //   //     [Op.lte]: endOfWeek.toString(),
+      //   //   },
+      //   // },
+      //     })
+      //   }
+
+      //   if(!scheduleCurr){
+      //     await db.ScheduleWorking.create({
+      //       DayWork: data.DayWork,
+      //       StaffId: data.StaffId,
+      //       TimeId: data.TimeId,
+      //     });
+      //     resolve({
+      //       errCode: 0,
+      //       errMessage: "create schedule is success",
+      //     }); // return
+      //   }
+      //   if(scheduleCurr){
+
+      //   }
+      // }
       await db.ScheduleWorking.create({
         DayWork: data.DayWork,
         StaffId: data.StaffId,

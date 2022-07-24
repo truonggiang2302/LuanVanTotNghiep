@@ -310,6 +310,10 @@ let initWebRoutes = (app) => {
     ReviewController.handleGetReviewOfCenter
   );
   router.get(
+    "/api/admin/get-review-of-pt",
+    ReviewController.handleGetReviewOfPT
+  );
+  router.get(
     "/api/admin/get-5-review-newest",
     ReviewController.handleGet5ReviewNewest
   );
